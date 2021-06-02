@@ -996,19 +996,24 @@
                     </li>
                 </ul>
             </div>
-            <div class="map">
-                <span class="map"></span>
-                <div class="mapinfo" style="font: 18px/24px Arial;">Терновка, ул. Харьковская 5 Маяк, второй этаж, Клякса</div>
+            <div id="shopInfo1">
+                <div class="map">
+                    <span class="map"></span>
+                    <div class="mapinfo" style="font: 18px/24px Arial;">Терновка, ул. Харьковская 5 Маяк, второй этаж, Клякса</div>
+                </div>
+                <br />
+                <div class="time">
+                    <div class="timetitle" uk="ГРАФІК РОБОТИ:">ГРАФИК РАБОТЫ:</div>
+                    <div class="timedesc">Ежедневно с 8:30 до 19:30</div>
+                </div>
+                <br />
+                <div class="phoneinfo">
+                    <div class="phonetitle">ТЕЛЕФОН:</div>
+                    <div class="phonedesc"></div>
+                </div>
             </div>
-            <br />
-            <div class="time">
-                <div class="timetitle" uk="ГРАФІК РОБОТИ:">ГРАФИК РАБОТЫ:</div>
-                <div class="timedesc">Ежедневно с 8:30 до 19:30</div>
-            </div>
-            <br />
-            <div class="phoneinfo">
-                <div class="phonetitle">ТЕЛЕФОН:</div>
-                <div class="phonedesc"></div>
+            <div id="shopInfo2" style="font: 18px/24px Arial; display: none">
+               Товари магазинів мережі Клякса.in.ua ретельно перевірені лічильниками Гейгера-Мюллера (датчик СБМ-20-01) та мають безпечний для дитини рівень випромінювання < 0.2 мікрозіверт в годину
             </div>
             <br />
         </div>
@@ -2443,9 +2448,18 @@
         }
 
         loadingHide();
+        $("#shopInfo1").show();
+        $("#shopInfo2").hide();
         $("#about").center();
         $("#about").show();
     }
+
+    $(".Radio").click(function () {
+        $("#shopInfo2").show();
+        $("#shopInfo1").hide();
+        $("#about").center();
+        $("#about").show();
+    })
 
     $("#about span.close").click(function () {
         $("#about").hide();
