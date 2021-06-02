@@ -1012,8 +1012,8 @@
                     <div class="phonedesc"></div>
                 </div>
             </div>
-            <div id="shopInfo2" style="font: 18px/24px Arial; display: none">
-               Товари магазинів мережі Клякса.in.ua ретельно перевірені лічильниками Гейгера-Мюллера (датчик СБМ-20-01) та мають безпечний для дитини рівень випромінювання < 0.2 мікрозіверт в годину
+            <div id="shopInfo2" style="font: 18px/24px Arial; display: none; padding-left: 10px; padding-right: 10px;">
+               Товари магазинів мережі Клякса ретельно перевірені лічильниками Гейгера-Мюллера (датчик СБМ-20-01) та мають безпечний для дитини рівень випромінювання < 0.2 мікрозіверт в годину
             </div>
             <br />
         </div>
@@ -1022,8 +1022,8 @@
             <div class="mainheader" style="padding-top: 29px;">
                 <div style="width: auto; margin: auto;">
                     <div style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
-                        <div class="Radio"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>
                         <div class="Alert" style="display: none"><span class="AlertSpan" uk="Поскаржитися на обслуговування">Пожаловаться на обслуживание</span></div>
+                        <div class="Radio"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>    
                         <div class="head2">
                         </div>
 
@@ -2456,6 +2456,7 @@
     }
 
     $(".Radio").click(function () {
+        $("#splash").show();
         $("#shopInfo2").show();
         $("#shopInfo1").hide();
         $("#about").center();
