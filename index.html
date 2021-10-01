@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://xpool.pro/source/js/dist/jquery.inputmask.js"></script>
     <script type="text/javascript" src="https://xpool.pro/source/js/jquery-qrcode-0.17.0.min.js"></script>
     <script type="text/javascript" src="https://xpool.pro/source/js/printThis.js"></script>
-    <link id="TargetStyleSheet" rel="Stylesheet" href="https://xpool.pro/web/source/style_blot/css/main.css" />
+    <link id="TargetStyleSheet" rel="Stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -683,8 +683,8 @@
     <div id="splash2"></div>
     <div id="splash3"></div>
     <div id="splash4"></div>
-    <div id="loading" uk="Завантаження">Загрузка</div>
-    <div id="loading2" uk="Завантаження">Загрузка</div>
+    <div id="loading" uk="Завантаження" style="display: none;">Загрузка</div>
+    <div id="loading2" uk="Завантаження" style="display: none;">Загрузка</div>
     <div id="AddictedView" style="text-align: center; z-index: 9999999999; display: none; position: absolute; width: 400px; left: 50%; background-color: none; overflow-y: hidden; overflow-x: no-display;">
         <table id="AddictedTable" width="100%" style="table-layout: fixed; margin: 0px; border-collapse: collapse; font-family: Arial; font-size: 11px; color: #333333; background-color: #333333;" align="center"></table>
     </div>
@@ -1215,12 +1215,12 @@
         <div class="xpool"><a target="_blank" href="https://xpool.pro" style="color: white; margin-left: 5px; text-decoration: none; display: inline-block; margin-top: 0px;"><span style="color: #ff8f8f; padding-right: 3px;">x</span>Pool.</a><a target="_blank" href="https://xpool.pro" style="color: black; background-color: #efefef; text-decoration: none; display: inline-block; margin-top: 3px; border: 1px solid #efefef; border-radius: 5px; padding: 2px; font: 14px Arial">PRO</a><span class="phone"></span></div>
         <div class="mainheader" style="padding-top: 29px;">
             <div style="width: auto; margin: auto;">
-                <!--<div style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
+                <div style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
                     <div class="Alert" style="display: none"><span class="AlertSpan" uk="Поскаржитися на обслуговування">Пожаловаться на обслуживание</span></div>
-                    <div class="Radio"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>
+                    <div class="Radio" style="display: none;"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>
                     <div class="head2">
                     </div>
-                </div>-->
+                </div>
                 <div style="height: 50px; padding-bottom: 8px;">
                     <div id="MenuDIV" style="width: 100%; overflow-y: hidden; overflow-x: no-display; position: absolute; display: block; background-color: #8e8e8e; z-index: 9990;">
                         <div class="menu" style="margin: 0 auto;">
@@ -4743,9 +4743,9 @@
             loading2Show();
             $("#EmptyDiv").hide();
 
-            //if ($("#MBM1").attr("v9") == "клякса") {
-            //    $("#BlotInfo").show();
-            //}
+            if ($("#MBM1").attr("v9") == "клякса") {
+                $(".Radio").show();
+            }
 
             if ($("#MBM1").attr("v7") == "On") {
                 if ($("#MBM1").attr("v9") != "") {
@@ -4754,6 +4754,7 @@
                     $(".head2").html($("#MBM1").attr("v9"));
                     document.title = $("#MBM1").attr("v9");
 
+                   
                     $(".head2").show();
                 }
             }
@@ -4826,8 +4827,10 @@
                 $(".mcartcount").html(count);
             }
 
-            menu_offset = $("#MenuDIV").offset().top - 29;
-           
+            if ($("#Alert").css("display") != "none")
+                menu_offset = $("#MenuDIV").offset().top - 50 + 100;
+
+          
             $(".head2").css({ "color": "#494949" }).animate({ "color": "#FFFFFF" }, 1000);
 
             if ($.cookie("c_client") != undefined && $.cookie("c_client") != null && $.cookie("c_client") != '') {
