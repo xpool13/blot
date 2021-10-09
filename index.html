@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>...</title>
-    <meta name="google-site-verification" content="5aXs_V1RAM8aIPgjrq5XWPOER1dyy3nRtn95doM2Mfo" />
+    <!--<meta name="google-site-verification" content="5aXs_V1RAM8aIPgjrq5XWPOER1dyy3nRtn95doM2Mfo" />
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="клякса.in.ua">
     <meta property="og:title" content="клякса.in.ua">
@@ -12,7 +12,7 @@
     <meta property="og:locale" content="ru_RU">
     <meta id="imgmeta" runat="server" property="og:image" content="https://xpool.pro/web/source/style_blot/img/blot_preview.png">
     <meta property="og:image:width" content="968">
-    <meta property="og:image:height" content="794">
+    <meta property="og:image:height" content="794">-->
 
     <meta id="MetaTitle" runat="server" name="title" content="Бизнес Конструктор, Складской учет, Автоматизация магазина, Программный РРО" />
     <meta id="MetaDesc" runat="server" name="description" content="Универсальная среда для автоматизации ведения бизнеса любой сложности. Удобный доступ к панели управления из любой точки мира. Онлайн кассы, Интернет-витрины, программный РРО" />
@@ -1001,6 +1001,23 @@
                 </td>
             </tr>
             <tr>
+                <td>НИЗ: <span id="DownPrice">-</span></td>
+            </tr>
+            <tr>
+                <td>Статус:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td style="width: 35px; background-color: lightgray; text-align: center; font: normal 18px arial; cursor: pointer" id="DecStatus"><</td>
+                            <td style="width: 80px; background-color: white; text-align: center; font: normal 18px arial;" id="StatusValue">0</td>
+                            <td style="width: 35px; background-color: lightgray; text-align: center; font: normal 18px arial; cursor: pointer" id="IncStatus">></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
                 <td>Рейтинг:</td>
             </tr>
             <tr>
@@ -1057,7 +1074,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="text-align: center"><br/><span id="RejectSpan" style="background-color: lightgray; font: normal 18px arial; display: block; width: 100%; cursor: pointer" uk="Скинути">Сбросить</span></td>
+                <td style="text-align: center"><br /><span id="RejectSpan" style="background-color: lightgray; font: normal 18px arial; display: block; width: 100%; cursor: pointer" uk="Скинути">Сбросить</span></td>
             </tr>
             <tr>
                 <td style="text-align: center"><span id="SetSpan" style="background-color: lightgray; font: normal 18px arial; display: block; width: 100%; cursor: pointer" uk="Застосувати">Применить</span></td>
@@ -3573,9 +3590,85 @@
         }, 500);
     });
 
+    function bindInitEdit(data) {
+        if (data.d.edit > 0) {
+            $("#EditImage1").show();
+            $("#EditImage2").show();
+
+            if (data.d.edit == 2) {
+                $("#DownPrice").html(selected.attr("stp"));
+            }
+
+            $("#StatusValue").val(selected.attr("status"));
+
+            $("#CategoriesSelect").append("<option cat='0'>" + ($("#MBM1").attr("v16") == "1" ? "Усе" : "Все") + "</option>");
+            var cur_drop = '';
+            var drop = '';
+            var cur_item_parts = null;
+
+
+            for (var i = 0; i < data.d.cats.length; i++) {
+
+                var parts = data.d.cats[i].Name.split("/");
+
+                drop = '';
+
+                if (parts.length > 1) {
+                    for (var j = 1; j < parts.length; j++) {
+                        drop = drop + "\xA0\xA0\xA0\xA0\xA0";
+                    }
+                }
+
+                if ((drop.length < cur_drop.length) && cur_drop != '') {
+                    var another_path = '';
+
+                    if (cur_item_parts != null) {
+                        for (var j = 0; j < cur_item_parts.length - 1; j++) {
+                            another_path += cur_item_parts[j] + "/";
+                        }
+                    }
+
+                    $("#CategoriesSelect").append("<option cat='-1' full='" + another_path + "Прочее" + "'>" + cur_drop + ($("#MBM1").attr("v16") == "1" ? "Інше" : "Прочее") + "</option>");
+                }
+
+                cur_item_parts = parts;
+                cur_drop = drop;
+
+                $("#CategoriesSelect").append("<option cat='" + data.d.cats[i].ID + "' full='" + data.d.cats[i].Name + "'>" + drop + parts[parts.length - 1] + "</option>");
+            }
+
+            drop = '';
+
+            if ((drop.length < cur_drop.length) && cur_drop != '') {
+                var another_path = '';
+
+                for (var j = 0; j < cur_item_parts.length - 1; j++) {
+                    another_path += cur_item_parts[j] + "/";
+                }
+
+                $("#CategoriesSelect").append("<option cat='-1' full='" + another_path + "Прочее" + "'>" + cur_drop + "Прочее" + "</option>");
+            }
+
+            $("#CategoriesSelect").append("<option cat='-1'>" + ($("#MBM1").attr("v16") == "1" ? "Інше" : "Прочее") + "</option>");
+        }
+        else {
+            $("#EditImage1").hide();
+            $("#EditImage2").hide();
+        }
+    };
 
 
     $("#ProductsListView").delegate('.img', 'click', function (evt) {
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "https://xpool.pro/web/webform.aspx/InitEdit",
+            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + sid_v + ", \"key\":'" + ($.cookie("key") == undefined ? "" : $.cookie("key").replace(/ /g, '+')) + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: bindInitEdit
+        });
+
 
         if (selected != undefined && selected.find("img").attr("index") != $(this).closest('.product').find("img").attr("index")) {
             selected.css({ "border-color": "#FFFFFF", "background-color": "#FFFFFF" });
@@ -4336,6 +4429,18 @@
         $("#RatingValue").html(value + 1);
     });
 
+    $("#DecStatus").click(function () {
+        var value = parseInt($("#StatusValue").html());
+
+        if (value > 0)
+            $("#StatusValue").html(value - 1);
+    });
+
+    $("#IncStatus").click(function () {
+        var value = parseInt($("#StatusValue").html());
+        $("#StatusValue").html(value + 1);
+    });
+
     //var dropbox = document.getElementById('TargetURL');
 
     //dropbox.addEventListener('dragenter', noopHandler, false);
@@ -4651,7 +4756,7 @@
             async: true,
             type: "POST",
             url: "https://xpool.pro/web/webform.aspx/InitPage",
-            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + sid_v + ", \"host\":'" + extractHostname(window.location.origin) + "'}",
+            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + sid_v + " }",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: bindInit
@@ -4662,6 +4767,8 @@
 
     var uid_v = 48;//edit
     var sid_v = 638;//edit
+
+
 
     function bindInit(data) {
 
@@ -4713,69 +4820,6 @@
         //}
         //else
         {
-
-            if (data.d.edit == 1) {
-                $("#EditImage1").show();
-                $("#EditImage2").show();
-            }
-
-             $("#CategoriesSelect").append("<option cat='0'>" + ($("#MBM1").attr("v16") == "1" ? "Усе" : "Все") + "</option>");
-                    var cur_drop = '';
-                    var drop = '';
-                    var cur_item_parts = null;
-
-                    
-
-                    for (var i = 0; i < data.d.cats.length; i++)
-                    {
-
-                        var parts = data.d.cats[i].Name.split("/");
-
-                        drop = '';
-
-                        if (parts.length > 1)
-                        {
-                            for (var j = 1; j < parts.length; j++)
-                            {
-                                drop = drop + "\xA0\xA0\xA0\xA0\xA0";
-                            }
-                        }
-
-                        if ((drop.length < cur_drop.length) && cur_drop != '') {
-                            var another_path = '';
-
-                            if (cur_item_parts != null) {
-                                for (var j = 0; j < cur_item_parts.length - 1; j++) {
-                                    another_path += cur_item_parts[j] + "/";
-                                }
-                            }
-
-                            $("#CategoriesSelect").append("<option cat='-1' full='" + another_path + "Прочее" + "'>" + cur_drop + ($("#MBM1").attr("v16") == "1" ? "Інше" : "Прочее") + "</option>");
-                        }
-
-                        cur_item_parts = parts;
-                        cur_drop = drop;
-
-                        $("#CategoriesSelect").append("<option cat='" + data.d.cats[i].ID + "' full='" + data.d.cats[i].Name + "'>" + drop + parts[parts.length - 1] + "</option>");
-                    }
-
-                    drop = '';
-
-                    if ((drop.length < cur_drop.length) && cur_drop != '')
-                    {
-                        var another_path = '';
-
-                        for (var j = 0; j < cur_item_parts.length - 1; j++)
-                        {
-                            another_path += cur_item_parts[j] + "/";
-                        }
-
-                        $("#CategoriesSelect").append("<option cat='-1' full='" + another_path + "Прочее" + "'>" + cur_drop + "Прочее" + "</option>");
-                    }
-
-            $("#CategoriesSelect").append("<option cat='-1'>" + ($("#MBM1").attr("v16") == "1" ? "Інше" : "Прочее") + "</option>");
-                
-
             $("#datepicker1,#datepicker2").datepicker({
                 showAnim: '',
                 beforeShow: function () {
@@ -5878,12 +5922,12 @@
         return res;
     }
 
-    function GetCartView(disable_trade, id, status, price, sid, count, trade_info) {
+    function GetCartView(disable_trade, id, status, price, sid, count, trade_info, status) {
         var res = '';
 
         if (disable_trade == 0 && count > 0) {
             if ($.cookie("c_view") == "list") {
-                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1) {
+                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1 && status == 0) {
                     res = '<div class="pickup" style="width: 190px; margin-left: 0px">' + ($("#MBM1").attr("v16") == "1" ? "Самовивіз" : "Самовывоз") + '</div>';
                 }
                 else {
@@ -5894,7 +5938,7 @@
                 }
             }
             else {
-                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1) {
+                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1 && status == 0) {
                     res = '<div class="pickup">' + ($("#MBM1").attr("v16") == "1" ? "Самовивіз" : "Самовывоз") + '</div>';
                 }
                 else {
@@ -6546,8 +6590,8 @@
                     var curDate = day + "." + month;
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "відправка: " : "отправка: ") + curDate + "</div>";
                 }
-            
-                col.append('<div class="product" ' + max_count + ' style="display: none" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + GetRate(addicted_dataRows[i][0]) + '<div class="img">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div ><a class="name">' + dataRows[i].Name + '</a><div class="options"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9]) + '</div > ');
+
+                col.append('<div class="product" ' + max_count + ' style="display: none" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + GetRate(addicted_dataRows[i][0]) + '<div class="img">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div ><a class="name">' + dataRows[i].Name + '</a><div class="options"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div > ');
 
                 if (timesel != '') {
                     SetTimeViewPrice($("#ProductsListView").find('[dataid="' + dataRows[i].ID + '"]').find(".timeselect"), dataRows[i].ID, 0, dataRows[i].Count);
@@ -6576,7 +6620,7 @@
                     img_val = '<img index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)"></img>';
                 }
 
-                var delivery_status = "<div class='dready'>готов к отправке</div>";
+                var delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "готовий до відправки" : "готов к отправке") + "</div>";
 
                 if ((addicted_dataRows[i][9] == "1" || (sid_v == 3692 && dataRows[i].Price > 1200) || dataRows[i].Price > 10000) && dataRows[i].Count == 1) {
                     delivery_status = '';
@@ -6608,7 +6652,7 @@
                     delivery_status = "<div class='dready'>отправка: " + curDate + "</div>";
                 }
 
-                col.append('<div class="product" ' + max_count + ' style="display: none; width: 915px;" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '"><table class="pt" style="background-color: white; width: 100%"><tr><td class="pt_img" style="width: 309px; vertical-align:top">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + '<div class="img" style="padding-top: 3px;">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + GetRate(addicted_dataRows[i][0]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div></td><td class="last_td" style="width: 100%;"; position: relative;"><a class="name" style="font: 16px/20px arial; text-align: left; display: inline-block; top: 2px; position: absolute; height: 100px;">' + dataRows[i].Name + '</a><div class="options" style="height: 40px; margin-top: 65px;"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + '</ul></div><div class="options"><ul>' + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9]) + '</div></td></tr>');
+                col.append('<div class="product" ' + max_count + ' style="display: none; width: 915px;" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '"  price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '"><table class="pt" style="background-color: white; width: 100%"><tr><td class="pt_img" style="width: 309px; vertical-align:top">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + '<div class="img" style="padding-top: 3px;">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + GetRate(addicted_dataRows[i][0]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div></td><td class="last_td" style="width: 100%;"; position: relative;"><a class="name" style="font: 16px/20px arial; text-align: left; display: inline-block; top: 2px; position: absolute; height: 100px;">' + dataRows[i].Name + '</a><div class="options" style="height: 40px; margin-top: 65px;"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + '</ul></div><div class="options"><ul>' + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div></td></tr>');
 
                 if (timesel != '') {
                     SetTimeViewPrice($("#ProductsListView").find('[dataid="' + dataRows[i].ID + '"]').find(".timeselect"), dataRows[i].ID, 0, dataRows[i].Count);
