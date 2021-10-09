@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Вход</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" type="text/css" href="https:///source/css/pool.css" />
+    <script type="text/jscript" src="https://xpool.pro/web/source/js/jquery.js"></script>
+    <script type="text/jscript" src="https://xpool.pro/web/source/js/jquery.cookie.js"></script>
+    <script type="text/jscript" src="https://xpool.pro/web/source/js/jquery-ui.min.js"></script>
+    <style type="text/css">
+        td.Button {
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 0px;
+            font: normal 18px/40px arial;
+            background-color: #dedede;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            height: 40px;
+        }
+
+        td.Button:hover {
+            background-color: #9dfff0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="splash2"></div>
+        <div id="preparation">Обработка...</div>
+        <div id="LoginView" class="EditView">
+            <table id="LoginTable" width="100%" style="table-layout: fixed; margin: 0px; border-collapse: collapse; font-family: Arial; font-size: 11px; color: #333333; background-color: #333333;" align="center">
+                <tr>
+                    <td class="Head2" width="50%">Логин</td>
+                    <td class="Head2" width="50%">Пароль</td>
+                </tr>
+                <tr>
+                    <td class="Head1" width="50%">
+                        <input class="inputText" id="Login" type="text" value="" />
+                    </td>
+                    <td class="Head1" width="50%">
+                        <input class="inputText" id="Password" type="password" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="Button" width="50%" id="Enter">Войти</td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        $("#Enter").click(function () {
+
+            $("#splash2").show();
+            $("#preparation").show();
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/start.aspx/Login",
+                data: "{ \"name\":'" + $("#Login").val() + "', \"password\":'" + $("#Password").val() + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindSubmitEnter
+            });
+        });
+
+        function bindSubmitEnter(data) {
+            window.setTimeout(function () {
+                if (data.d != '') {
+                    var date = new Date();
+                    var minutes = 60;
+                    var hours = 24;
+                    var days = 365;
+                    date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+                    $.cookie("key", data.d, { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+
+                    window.top.close();
+                }
+                else {
+                    $("#preparation").hide();
+                    $("#splash2").hide();
+                }
+            }, 1000);
+        }
+    });
+</script>
