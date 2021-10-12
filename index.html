@@ -29,11 +29,71 @@
     <script type="text/javascript" src="https://xpool.pro/source/js/dist/jquery.inputmask.js"></script>
     <script type="text/javascript" src="https://xpool.pro/source/js/jquery-qrcode-0.17.0.min.js"></script>
     <script type="text/javascript" src="https://xpool.pro/source/js/printThis.js"></script>
+    <script src="https://xpool.pro/web/source/js/jquery.star-rating-svg.js"></script>
+    <link rel="stylesheet" href="https://xpool.pro/web/source/css/star-rating-svg.css">
     <link id="TargetStyleSheet" rel="Stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style type="text/css">
+
+        #HideRate {
+            text-align: center;
+            font: 20px/30px Arial;
+            background-color: #3cf8ff;
+            color: #000;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        #AddRate {
+            text-align: center;
+            font: 20px/30px Arial;
+            background-color: #084a05;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #AddRate:hover {
+            background-color: #1c7613;
+        }
+
+
+        .AddRateSpan {
+            cursor: pointer;
+            color: #02007c;
+            padding-bottom: 10px;
+        }
+
+        .AddRateSpan2 {
+            cursor: pointer;
+            color: #02007c;
+            padding-bottom: 10px;
+        }
+
+        .RateTitle {
+            margin-top: 5px;
+            text-align: center;
+            font: 16px/30px Arial;
+            background-color: #fff;
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .RateContent {
+            text-align: center;
+            font: 16px/20px Arial;
+            background-color: #fff;
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        input.Def {
+            width: 120px;
+            text-align: center;
+            margin-right: auto;
+            font: 18px/20px Arial;
+        }
 
         .dready {
             background-color: greenyellow;
@@ -61,10 +121,10 @@
             cursor: pointer;
         }
 
-        td.GoPay:hover {
-            background-color: #ff0000;
-            color: #fff;
-        }
+            td.GoPay:hover {
+                background-color: #ff0000;
+                color: #fff;
+            }
 
         td.GoCabinet {
             white-space: nowrap;
@@ -77,10 +137,10 @@
             cursor: pointer;
         }
 
-        td.GoCabinet:hover {
-            background-color: #ff0000;
-            color: #fff;
-        }
+            td.GoCabinet:hover {
+                background-color: #ff0000;
+                color: #fff;
+            }
 
         td.Head1 {
             overflow: hidden;
@@ -90,38 +150,35 @@
             color: white;
             text-align: left;
             vertical-align: middle;
-   
             height: 40px;
         }
 
-        td.Head1 select {   
-            border-style: none;
-            margin: 0px;
-            font: normal 18px/42px arial;
-            text-align: left;
-            padding-left: 3px;
-            width: 130px;
-            height: 42px;
-            background-color: white;
-        }
+            td.Head1 select {
+                border-style: none;
+                margin: 0px;
+                font: normal 18px/42px arial;
+                text-align: left;
+                padding-left: 3px;
+                width: 130px;
+                height: 42px;
+                background-color: white;
+            }
 
-        td.Head1 .inputText {
-            border-style: none;
-            margin: 0px;
-            height: 42px;
-            width: 100%;
-            font: normal 18px/40px arial;
-            text-align: left;
-            padding-left: 3px;
-
-            box-sizing: border-box;
-
-            -webkit-user-select: text;
-            -khtml-user-select: text;
-            -moz-user-select: text;
-            -o-user-select: text;
-            user-select: text;
-        }
+            td.Head1 .inputText {
+                border-style: none;
+                margin: 0px;
+                height: 42px;
+                width: 100%;
+                font: normal 18px/40px arial;
+                text-align: left;
+                padding-left: 3px;
+                box-sizing: border-box;
+                -webkit-user-select: text;
+                -khtml-user-select: text;
+                -moz-user-select: text;
+                -o-user-select: text;
+                user-select: text;
+            }
 
         td.Head2 {
             white-space: nowrap;
@@ -132,7 +189,6 @@
             color: white;
             text-align: left;
             vertical-align: middle;
-  
             height: 30px;
         }
 
@@ -143,10 +199,10 @@
             padding: 3px;
         }
 
-        span.PayCard:hover {
-            background-color: #000000;
-            cursor: pointer;
-        }
+            span.PayCard:hover {
+                background-color: #000000;
+                cursor: pointer;
+            }
 
         span.PayBonuses {
             background-color: none;
@@ -155,10 +211,10 @@
             padding: 3px;
         }
 
-        span.PayBonuses:hover {
-            background-color: #000000;
-            cursor: pointer;
-        }
+            span.PayBonuses:hover {
+                background-color: #000000;
+                cursor: pointer;
+            }
 
         div.SpecInfo {
             background-color: red;
@@ -166,17 +222,17 @@
             padding: 4px;
         }
 
-        div.SpecInfo span.SpecInfoSpan {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            height: 50px;
-            background: url(https://xpool.pro/web/source/style_blot/img/alert.svg) no-repeat left center;
-            margin-right: 2px;
-            font: 28px/50px Arial;
-            color: white;
-            background-size: contain;
-        }
+            div.SpecInfo span.SpecInfoSpan {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+                height: 50px;
+                background: url(https://xpool.pro/web/source/style_blot/img/alert.svg) no-repeat left center;
+                margin-right: 2px;
+                font: 28px/50px Arial;
+                color: white;
+                background-size: contain;
+            }
 
 
         .logselect {
@@ -226,26 +282,66 @@
             cursor: pointer;
         }
 
-        div.shareinfo:hover {
-            background-color: #222222;
-        }
+            div.shareinfo:hover {
+                background-color: #222222;
+            }
 
 
         #viewer:after {
             display: none;
             content: url(https://xpool.pro/web/source/img/closex1.svg) url(https://xpool.pro/web/source/img/closex2.svg) url(https://xpool.pro/web/source/img/arrowleft1.svg) url(https://xpool.pro/web/source/img/arrowleft2.svg) url(https://xpool.pro/web/source/img/arrowright1.svg) url(https://xpool.pro/web/source/img/arrowright2.svg);
-        }    
-
-        #splash { display: none; left: 0px; top: 0px; bottom: 0px; z-index: 9998; position: fixed; height: 100%; width: 100%; background-color: black; opacity: 0.6;
         }
 
-        #splash2 { display: none; left: 0px; top: 0px; bottom: 0px; z-index: 999999; position: fixed; height: 100%; width: 100%; background-color: black; opacity: 0.6;
+        #splash {
+            display: none;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 9998;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
         }
 
-        #splash3 { display: none; left: 0px; top: 0px; bottom: 0px; z-index: 99999999; position: fixed; height: 100%; width: 100%; background-color: black; opacity: 0.6;
+        #splash2 {
+            display: none;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 999999;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
         }
 
-        #splash4 { display: none; left: 0px; top: 0px; bottom: 0px; z-index: 999999999; position: fixed; height: 100%; width: 100%; background-color: black; opacity: 0.6;
+        #splash3 {
+            display: none;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 99999999;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
+        }
+
+        #splash4 {
+            display: none;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 999999999;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
         }
 
         {
@@ -299,16 +395,16 @@
             padding-bottom: 5px;
         }
 
-        #fulloptions ul {
-            list-style: none;
-            display: table-row;
-        }
+            #fulloptions ul {
+                list-style: none;
+                display: table-row;
+            }
 
-        #fulloptions ul li {
-            display: table-cell;
-            vertical-align: bottom;
-            padding-right: 0px;
-        }
+                #fulloptions ul li {
+                    display: table-cell;
+                    vertical-align: bottom;
+                    padding-right: 0px;
+                }
 
         #fullimage {
             position: fixed;
@@ -424,10 +520,10 @@
             background-size: contain;
         }
 
-        #viewer span.leftscroll:hover {
-            background: url("https://xpool.pro/web/source/img/arrowleft2.svg") no-repeat right top;
-            background-size: contain;
-        }
+            #viewer span.leftscroll:hover {
+                background: url("https://xpool.pro/web/source/img/arrowleft2.svg") no-repeat right top;
+                background-size: contain;
+            }
 
         #viewer span.rightscroll {
             cursor: pointer;
@@ -442,10 +538,10 @@
             background-size: contain;
         }
 
-        #viewer span.rightscroll:hover {
-            background: url("https://xpool.pro/web/source/img/arrowright2.svg") no-repeat right top;
-            background-size: contain;
-        }
+            #viewer span.rightscroll:hover {
+                background: url("https://xpool.pro/web/source/img/arrowright2.svg") no-repeat right top;
+                background-size: contain;
+            }
 
         #viewer span.desc {
             cursor: pointer;
@@ -485,18 +581,18 @@
             top: 10px;
         }
 
-        #videoframe span.closex {
-            z-index: 5;
-            cursor: pointer;
-            position: fixed;
-            display: block;
-            right: 2px;
-            top: 2px;
-            width: 67px;
-            height: 70px;
-            background: url("https://xpool.pro/web/source/img/closex2.svg") no-repeat right top;
-            background-size: contain;
-        }
+            #videoframe span.closex {
+                z-index: 5;
+                cursor: pointer;
+                position: fixed;
+                display: block;
+                right: 2px;
+                top: 2px;
+                width: 67px;
+                height: 70px;
+                background: url("https://xpool.pro/web/source/img/closex2.svg") no-repeat right top;
+                background-size: contain;
+            }
 
         /*#videoframe span.closex:hover {
             background: url("source/img/closex2.svg") no-repeat right top;
@@ -592,15 +688,15 @@
             background-color: #CCCCCC;
         }
 
-        td.category1:hover{
+        td.category1:hover {
             background-color: #fdff63;
         }
 
-        td.category2:hover{
+        td.category2:hover {
             background-color: #fdff63;
         }
 
-        td.category3:hover{
+        td.category3:hover {
             background-color: #fdff63;
         }
 
@@ -615,9 +711,9 @@
             color: #000;
         }
 
-        td.order:hover {
-            background-color: #FFFF00;
-        }
+            td.order:hover {
+                background-color: #FFFF00;
+            }
 
         td.order2 {
             height: 42px;
@@ -630,9 +726,9 @@
             color: #000;
         }
 
-        td.order2:hover {
-            background-color: #FFFF00;
-        }
+            td.order2:hover {
+                background-color: #FFFF00;
+            }
 
         span.QR {
             cursor: pointer;
@@ -752,7 +848,7 @@
                     <span class="menu"></span>
                 </li>
                 <li>
-                    <span class="title" uk="Оцінити покупку">Оценить покупку</span>
+                    <span class="title" uk="Додати відгук">Добавить отзыв</span>
                 </li>
                 <li>
                     <span id="RateFormClose" class="rateformclose"></span>
@@ -761,22 +857,41 @@
         </div>
         <div class="tools">
             <table>
-                <tr>
+                <tr id="R1">
                     <td class="tdleft" uk="Обслуговування:">Обслуживание:</td>
                     <td class="tdright">
                         <input type="button" class="incdec" id="R1Dec" value="<" /><span id="R1Count" class="val">0</span><input type="button" class="incdec" id="R1Inc" value=">" />
                     </td>
                 </tr>
-                <tr>
+                <tr id="R2">
                     <td class="tdleft" uk="Якість товару:">Качество товара:</td>
                     <td class="tdright">
                         <input type="button" class="incdec" id="R2Dec" value="<" /><span id="R2Count" class="val">0</span><input type="button" class="incdec" id="R2Inc" value=">" />
                     </td>
                 </tr>
-                <tr>
+                <tr id="R3">
                     <td class="tdleft" uk="Ціна:">Цена:</td>
                     <td class="tdright">
                         <input type="button" class="incdec" id="R3Dec" value="<" /><span id="R3Count" class="val">0</span><input type="button" class="incdec" id="R3Inc" value=">" />
+                    </td>
+                </tr>
+                <tr id="RateDate1" style="display: none;">     
+                    <td class="tdleft" colspan="2" style="padding-right: 15px">
+                        <input type="button" class="incdec" id="DateDec2" value="<" /><span id="DateCount2" class="val2"></span><input type="button" class="incdec" id="DateInc2" value=">" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdleft" uk="Ім'я:">Имя:</td>
+                    <td class="tdright">
+                        <input type="text" class="Def" id="RName" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdright" style="padding-left: 10px" colspan="2" uk="Коментар:">Коментарий:</td>
+                </tr>
+                <tr>
+                    <td class="tdleft" colspan="2">
+                        <textarea id="RCommentInfo" maxlength="500" rows="3" cols="30" style="width: 290px; font: normal 18px arial; display: block; margin-left: auto; margin-right: auto; margin-top: 5px;"></textarea>
                     </td>
                 </tr>
             </table>
@@ -1306,6 +1421,7 @@
             </div>
             <div id="EmptyDiv" uk="Порожньо" style="display: none; text-align: center; padding: 10px">Пусто</div>
             <div id="CreateOrder" class="CreateOrderDiv" uk="Оформити замовлення">Оформить заказ</div>
+            <div id="RatesDiv"></div>
         </div>
     </div>
 </body>
@@ -3591,6 +3707,12 @@
     });
 
     function bindInitEdit(data) {
+
+        if (selected.find('div.altimg').first().html() == undefined) {
+            if ($("#fullimage").attr("src").indexOf("nophoto2.png") != -1 || $(".EditImageClass").css("display") != "none")
+                $('<span class="findPhoto2">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($("#fullimage"));
+        }
+
         if (data.d.edit > 0) {
             $("#EditImage1").show();
             $("#EditImage2").show();
@@ -3601,6 +3723,7 @@
 
             $("#StatusValue").val(selected.attr("status"));
 
+            $("#CategoriesSelect").children().remove();
             $("#CategoriesSelect").append("<option cat='0'>" + ($("#MBM1").attr("v16") == "1" ? "Усе" : "Все") + "</option>");
             var cur_drop = '';
             var drop = '';
@@ -3650,6 +3773,8 @@
             }
 
             $("#CategoriesSelect").append("<option cat='-1'>" + ($("#MBM1").attr("v16") == "1" ? "Інше" : "Прочее") + "</option>");
+
+            $("#CategoriesSelect").val($("#CategoriesSelect").find('option[cat="' + selected.attr("catid") + '"]').val());
         }
         else {
             $("#EditImage1").hide();
@@ -3659,17 +3784,7 @@
 
 
     $("#ProductsListView").delegate('.img', 'click', function (evt) {
-        $.ajax({
-            async: true,
-            type: "POST",
-            url: "https://xpool.pro/web/webform.aspx/InitEdit",
-            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + sid_v + ", \"key\":'" + ($.cookie("key") == undefined ? "" : $.cookie("key").replace(/ /g, '+')) + "'}",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: bindInitEdit
-        });
-
-
+       
         if (selected != undefined && selected.find("img").attr("index") != $(this).closest('.product').find("img").attr("index")) {
             selected.css({ "border-color": "#FFFFFF", "background-color": "#FFFFFF" });
             selected.find(".imgcount2").hide();
@@ -3677,6 +3792,16 @@
 
         selected = $(this).closest('.product');
         selected.css({ "border-color": "green" });
+
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "https://xpool.pro/web/webform.aspx/InitEdit",
+            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + $(selected).attr("shopid") + ", \"key\":'" + ($.cookie("key") == undefined ? "" : $.cookie("key").replace(/ /g, '+')) + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: bindInitEdit
+        });
 
         if (selected.find(".imgcount2").css("display") != "none") {
 
@@ -3763,10 +3888,7 @@
                     $("#fullimg").find("#AltImgDiv").remove();
                     $("#fullimage").show();
                     $("#fullimage").attr("src", GetFullImage($(this).children('img').first().attr("src")));
-                    urls = selected.find('img').first().attr("res").split("||");
-
-                    if ($("#fullimage").attr("src").indexOf("nophoto2.png") != -1 || $(".EditImageClass").css("display") != "none")
-                        $('<span class="findPhoto2">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($("#fullimage"));
+                    urls = selected.find('img').first().attr("res").split("||");           
                 }
                 else {
                     $(".leftscroll").hide();
@@ -3837,8 +3959,6 @@
                 $("#DiscountValue").val(selected.attr("discount"));
                 $("#RatingValue").html(selected.attr("rating"));
                 $("#Price2Value").val(selected.attr("price2_inet"));
-
-                $("#CategoriesSelect").val($("#CategoriesSelect").find('option[cat="' + selected.attr("catid") + '"]').text());
 
                 if (selected.attr("delivery") == 'null')
                     $("#DeliverySelect").val($("#DeliverySelect option[ru='По умолчанию']").text());
@@ -4082,7 +4202,7 @@
                 async: true,
                 type: "POST",
                 url: "https://xpool.pro/web/webform.aspx/SaveImageURL",
-                data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(selected).attr("shopid") + ", \"id\":" + $(selected).attr("dataid") + ", \"url\":'" + $("#TargetURL1").val() + "||" + $("#TargetURL2").val() + "||" + $("#TargetURL3").val() + "||" + $("#TargetURL4").val() + "||" + $("#TargetURL5").val() + "', \"vfurl\":'" + $("#TargetVFrameURL").val() + "', \"rating\":" + $("#RatingValue").html() + ", \"discount\":'" + $("#DiscountValue").val() + "', \"delivery\":'" + $("#DeliverySelect option:selected").attr("ru") + "', \"time\":" + $("#TimeSelect option:selected")[0].getAttribute("v") + ", \"catid\":" + $("#CategoriesSelect option:selected")[0].getAttribute("cat") + ", \"price2_inet\":'" + $("#Price2Value").val() + "' }",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(selected).attr("shopid") + ", \"id\":" + $(selected).attr("dataid") + ", \"url\":'" + $("#TargetURL1").val() + "||" + $("#TargetURL2").val() + "||" + $("#TargetURL3").val() + "||" + $("#TargetURL4").val() + "||" + $("#TargetURL5").val() + "', \"vfurl\":'" + $("#TargetVFrameURL").val() + "', \"rating\":" + $("#RatingValue").html() + ", \"discount\":'" + $("#DiscountValue").val() + "', \"delivery\":'" + $("#DeliverySelect option:selected").attr("ru") + "', \"time\":" + $("#TimeSelect option:selected")[0].getAttribute("v") + ", \"catid\":" + $("#CategoriesSelect option:selected")[0].getAttribute("cat") + ", \"price2_inet\":'" + $("#Price2Value").val() + "', \"status\":'" + $("#StatusValue").html() + "' }",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: bindSaveImageURL
@@ -4107,7 +4227,7 @@
                 async: true,
                 type: "POST",
                 url: "https://xpool.pro/web/webform.aspx/SaveImageURL",
-                data: "{ \"uid\":" +uid_v + ", \"sid\":" + $(selected).attr("shopid") + ", \"id\":" + $(selected).attr("dataid") + ", \"url\":'" + $("#TargetURL1").val() + "||" + $("#TargetURL2").val() + "||" + $("#TargetURL3").val() + "||" + $("#TargetURL4").val() + "||" + $("#TargetURL5").val() + "', \"vfurl\":'" + $("#TargetVFrameURL").val() + "', \"rating\":" + $("#RatingValue").html() + ", \"discount\":'" + $("#DiscountValue").val() + "', \"delivery\":'" + $("#DeliverySelect option:selected").attr("ru") + "', \"time\":" + $("#TimeSelect option:selected")[0].getAttribute("v") + ", \"catid\":" + $("#CategoriesSelect option:selected")[0].getAttribute("cat") + ", \"price2_inet\":'" + $("#Price2Value").val() + "' }",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(selected).attr("shopid") + ", \"id\":" + $(selected).attr("dataid") + ", \"url\":'" + $("#TargetURL1").val() + "||" + $("#TargetURL2").val() + "||" + $("#TargetURL3").val() + "||" + $("#TargetURL4").val() + "||" + $("#TargetURL5").val() + "', \"vfurl\":'" + $("#TargetVFrameURL").val() + "', \"rating\":" + $("#RatingValue").html() + ", \"discount\":'" + $("#DiscountValue").val() + "', \"delivery\":'" + $("#DeliverySelect option:selected").attr("ru") + "', \"time\":" + $("#TimeSelect option:selected")[0].getAttribute("v") + ", \"catid\":" + $("#CategoriesSelect option:selected")[0].getAttribute("cat") + ", \"price2_inet\":'" + $("#Price2Value").val() + "', \"status\":'" + $("#StatusValue").html() + "' }",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: bindSaveCategory
@@ -4166,6 +4286,12 @@
         $(selected).attr("rating", $("#RatingValue").html());
         $(selected).attr("discount", $("#DiscountValue").val());
         $(selected).attr("price2_inet", $("#Price2Value").val());
+        $(selected).attr("price", $("#Price2Value").val());
+        $(selected).attr("status", $("#StatusValue").val());
+
+        if ($("#StatusValue").val() == 1) {
+            $(selected).find('.pickup').remove();
+        }
 
         $(selected).attr("catid", $("#CategoriesSelect option:selected")[0].getAttribute("cat"));
 
@@ -4590,11 +4716,29 @@
 
     $("#CabinetTable").delegate('span.stats', 'click', function () {
 
+        $("#R1").show();
+        $("#R2").show();
+        $("#R3").show();
+
         cur_stats = $(this);
         cur_log_id = $(this).attr("logid");
         $("#R1Count").html(($(this).attr("r1") == -1) ? "0" : $(this).attr("r1"));
         $("#R2Count").html(($(this).attr("r2") == -1) ? "0" : $(this).attr("r2"));
         $("#R3Count").html(($(this).attr("r3") == -1) ? "0" : $(this).attr("r3"));
+
+        cur_date = new Date();
+
+        var month = cur_date.getMonth() + 1;
+        var day = cur_date.getDate();
+
+        var output = (day < 10 ? '0' : '') + day + ' / ' + (month < 10 ? '0' : '') + month + ' / ' + cur_date.getFullYear();
+
+        $("#DateCount2").html(output);
+
+        if ($.cookie("key") != undefined && $.cookie("key") != '' && $.cookie("key") != null) {
+            $("#RateDate1").show();
+            $("#rateform").css("height", "450px");
+        }
 
         $("#rateform").center();
         $("#rateform").show();
@@ -4653,11 +4797,27 @@
     $("#SubmitRate").click(function () {
         if ($("#RateFormClose").attr("class") == "rateformclose") {
             $("#RateFormClose").attr("class", "loadingrate");
+
+            var did = 0;
+
+            if (cur_log_id == 0) {
+                did = $(selected).attr("dataid");
+            }
+
+            var client_id = 0;
+
+            if ($("#MainBalance").attr("client_id") == undefined) {
+                client_id = 0
+            }
+            else {
+                client_id = $("#MainBalance").attr("client_id")
+            }
+
             $.ajax({
                 async: true,
                 type: "POST",
                 url: "https://xpool.pro/web/webform.aspx/RateTrade",
-                data: "{ \"uid\":" +uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + $("#MainBalance").attr("client_id") + ", \"log_id\":'" + cur_log_id + "', \"rate1\":" + $("#R1Count").html() + ", \"rate2\":" + $("#R2Count").html() + ", \"rate3\":" + $("#R3Count").html() + " }",
+                data: "{ \"uid\":" + uid_v + ", \"client_id\":" + client_id + ", \"log_id\":'" + cur_log_id + "', \"rate1\":" + $("#R1Count").html() + ", \"rate2\":" + $("#R2Count").html() + ", \"rate3\":" + $("#R3Count").html() + ", \"rname\":'" + $("#RName").val() + "', \"rcomment\":'" + $("#RCommentInfo").val() + "', \"date\":'" + $("#DateCount2").html() + "', \"did\":" + did + " }",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: bindSubmitRate
@@ -4669,9 +4829,40 @@
         window.setTimeout(function () {
             $("#RateFormClose").attr("class", "rateformclose");
             $("#CreateOrder").hide();
-            cur_stats.attr("r1", $("#R1Count").html());
-            cur_stats.attr("r2", $("#R2Count").html());
-            cur_stats.attr("r3", $("#R3Count").html());
+            if (cur_log_id != 0) {
+                cur_stats.attr("r1", $("#R1Count").html());
+                cur_stats.attr("r2", $("#R2Count").html());
+                cur_stats.attr("r3", $("#R3Count").html());
+            }
+            else {
+                loadingShow();
+                $("#splash").show();
+                $("#EmptyDiv").hide();
+                $("#CreateOrder").hide();
+
+
+              
+
+                //startRecord = 0;
+                //sort = 0;
+                //currentEvent = "clientlog";
+
+
+
+                //data_status = 10;
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetRatesLog",
+                    data: "{ \"did\":" + $(selected).attr("dataid") + ", \"startRecord\":0 }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetRatesLog
+                });
+            }
+
+            cur_log_id = 0;
             $("#rateform").hide();
             $("#splash").hide();
         });
@@ -5922,12 +6113,12 @@
         return res;
     }
 
-    function GetCartView(disable_trade, id, status, price, sid, count, trade_info, status) {
+    function GetCartView(disable_trade, id, status, price, sid, count, trade_info, _status) {
         var res = '';
 
         if (disable_trade == 0 && count > 0) {
             if ($.cookie("c_view") == "list") {
-                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1 && status == 0) {
+                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1 && _status == 0) {
                     res = '<div class="pickup" style="width: 190px; margin-left: 0px">' + ($("#MBM1").attr("v16") == "1" ? "Самовивіз" : "Самовывоз") + '</div>';
                 }
                 else {
@@ -5938,7 +6129,7 @@
                 }
             }
             else {
-                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1 && status == 0) {
+                if ((trade_info == "1" || (sid == 3692 && price > 1200)) && count == 1 && _status == 0) {
                     res = '<div class="pickup">' + ($("#MBM1").attr("v16") == "1" ? "Самовивіз" : "Самовывоз") + '</div>';
                 }
                 else {
@@ -6559,6 +6750,23 @@
                     img_val = '<img index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)"></img>';
                 }
 
+                var rate_info = '<span class="AddRateSpan2">' + ($("#MBM1").attr("v16") == "1" ? "Залишити відгук" : "Оставить отзыв") + '</span>';
+
+                if (addicted_dataRows[i][10] > 0) {
+
+                    if(addicted_dataRows[i][10] == 1)
+                        rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгук" : " отзыв") + "</span>";
+                    else
+                        rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуків" : "отзывов") + "</span>";
+
+                    if (addicted_dataRows[i][9] > 0)
+                        rate_info = "<span class='" + dataRows[i].ID + "' v='" + addicted_dataRows[i][9] / 3 + "'></span> " + rate_info;
+                }
+
+
+                rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
+                
+
                 var delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "готовий до відправки" : "готов к отправке") + "</div>";
 
                 if ((addicted_dataRows[i][9] == "1" || (sid_v == 3692 && dataRows[i].Price > 1200)) && dataRows[i].Count == 1) {
@@ -6591,11 +6799,22 @@
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "відправка: " : "отправка: ") + curDate + "</div>";
                 }
 
-                col.append('<div class="product" ' + max_count + ' style="display: none" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + GetRate(addicted_dataRows[i][0]) + '<div class="img">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div ><a class="name">' + dataRows[i].Name + '</a><div class="options"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div > ');
+                col.append('<div class="product" ' + max_count + ' style="display: none" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + GetRate(addicted_dataRows[i][0]) + '<div class="img">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div >' + rate_info + '<a class="name">' + dataRows[i].Name + '</a><div class="options"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div > ');
 
                 if (timesel != '') {
                     SetTimeViewPrice($("#ProductsListView").find('[dataid="' + dataRows[i].ID + '"]').find(".timeselect"), dataRows[i].ID, 0, dataRows[i].Count);
                 }
+
+                $('.' + dataRows[i].ID).starRating({
+
+                    initialRating: $('.' + dataRows[i].ID).attr("v"),
+                    strokeColor: '#894A00',
+                    strokeWidth: 10,
+                    starSize: 15,
+                    readOnly: true,
+
+                   
+                });
             }
             else {
                 col = $('#col1');
@@ -6619,6 +6838,22 @@
                 else {
                     img_val = '<img index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)"></img>';
                 }
+
+                var rate_info = '<span class="AddRateSpan2">' + ($("#MBM1").attr("v16") == "1" ? "Залишити відгук" : "Оставить отзыв") + '</span>';
+
+                if (addicted_dataRows[i][10] > 0) {
+
+                    if (addicted_dataRows[i][10] == 1)
+                        rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгук" : " отзыв") + "</span>";
+                    else
+                        rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуків" : "отзывов") + "</span>";
+
+                    if (addicted_dataRows[i][9] > 0)
+                        rate_info = "<span class='" + dataRows[i].ID + "' v='" + addicted_dataRows[i][9] / 3 + "'></span> " + rate_info;
+                }
+
+
+                rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
 
                 var delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "готовий до відправки" : "готов к отправке") + "</div>";
 
@@ -6652,11 +6887,20 @@
                     delivery_status = "<div class='dready'>отправка: " + curDate + "</div>";
                 }
 
-                col.append('<div class="product" ' + max_count + ' style="display: none; width: 915px;" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '"  price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '"><table class="pt" style="background-color: white; width: 100%"><tr><td class="pt_img" style="width: 309px; vertical-align:top">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + '<div class="img" style="padding-top: 3px;">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + GetRate(addicted_dataRows[i][0]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div></td><td class="last_td" style="width: 100%;"; position: relative;"><a class="name" style="font: 16px/20px arial; text-align: left; display: inline-block; top: 2px; position: absolute; height: 100px;">' + dataRows[i].Name + '</a><div class="options" style="height: 40px; margin-top: 65px;"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + '</ul></div><div class="options"><ul>' + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div></td></tr>');
+                col.append('<div class="product" ' + max_count + ' style="display: none; width: 915px;" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '"  price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '"><table class="pt" style="background-color: white; width: 100%"><tr><td class="pt_img" style="width: 309px; vertical-align:top">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + '<div class="img" style="padding-top: 3px;">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + GetRate(addicted_dataRows[i][0]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div>' + rate_info + '</td><td class="last_td" style="width: 100%;"; position: relative;"><a class="name" style="font: 16px/20px arial; text-align: left; display: inline-block; top: 2px; position: absolute; height: 100px;">' + dataRows[i].Name + '</a><div class="options" style="height: 40px; margin-top: 65px;"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + '</ul></div><div class="options"><ul>' + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div></td></tr>');
 
                 if (timesel != '') {
                     SetTimeViewPrice($("#ProductsListView").find('[dataid="' + dataRows[i].ID + '"]').find(".timeselect"), dataRows[i].ID, 0, dataRows[i].Count);
                 }
+
+                $('.' + dataRows[i].ID).starRating({
+
+                    initialRating: $('.' + dataRows[i].ID).attr("v"),
+                    strokeColor: '#894A00',
+                    strokeWidth: 10,
+                    starSize: 15,
+                    readOnly: true,
+                });
             }
 
             var p_price;
@@ -7035,6 +7279,34 @@
             $("#alertaccepted").show();
         }, 1000);
     }
+
+    $("#DateDec2").click(function () {
+        $("#DateCount2").html(function () {
+            cur_date.setDate(cur_date.getDate() - 1);
+
+            var month = cur_date.getMonth() + 1;
+            var day = cur_date.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + ' / ' + (month < 10 ? '0' : '') + month + ' / ' + cur_date.getFullYear();
+
+
+
+            return output;
+        });
+    });
+
+    $("#DateInc2").click(function () {
+        $("#DateCount2").html(function () {
+            cur_date.setDate(cur_date.getDate() + 1);
+
+            var month = cur_date.getMonth() + 1;
+            var day = cur_date.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + ' / ' + (month < 10 ? '0' : '') + month + ' / ' + cur_date.getFullYear();
+
+            return output;
+        });
+    });
 
     $("#DateDec").click(function () {
         $("#DateCount").html(function () {
@@ -7441,5 +7713,134 @@
         $("#splash").hide();
         loadingHide();
     }
+
+    $("#ProductsListView").delegate(".RateDiv", "click", function () {
+        loadingShow();
+        $("#splash").show();
+        $("#EmptyDiv").hide();
+        $("#CreateOrder").hide();
+
+
+        if (selected != undefined) {
+            selected.css({ "border-color": "#FFFFFF" });
+        }
+
+        selected = $(this).closest('.product');
+        selected.css({ "border-color": "green" });
+
+        //startRecord = 0;
+        //sort = 0;
+        //currentEvent = "clientlog";
+
+       
+
+        //data_status = 10;
+
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "https://xpool.pro/web/webform.aspx/GetRatesLog",
+            data: "{ \"did\":" + $(this).attr("v") + ", \"startRecord\":0 }",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: bindGetRatesLog
+        });
+    })
+
+
+
+    function bindGetRatesLog(data) {
+        $(".mainheader").hide();
+        $("#ProductsListView").hide();
+
+        $("#TitleInfo").hide();
+
+        $("#RatesDiv").children().remove();
+
+        $("#RatesDiv").append("<div id='HideRate' style='margin-top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
+        $("#RatesDiv").append("<div id='AddRate'>" + ($("#MBM1").attr("v16") == "1" ? "Додати відгук" : "Добавить отзыв") + "</div>")
+
+        for (var i = 0; i < data.d.length; i++) {
+
+            var milli = data.d[i].Date.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+
+            $("#RatesDiv").append("<div><div class='RateTitle'>" + (data.d[i].Name == null ? "" : data.d[i].Name) + " " + formatDate(d) + " </div><div class='RateContent'><div id='rate" + data.d[i].ID + "' v='" + ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3) + "'></div>" + (data.d[i].Comment == null ? "" : data.d[i].Comment) + "</div></div>");
+
+            $('#rate' + data.d[i].ID).starRating({
+
+                initialRating: $('#rate' + data.d[i].ID).attr("v"),
+                strokeColor: '#894A00',
+                strokeWidth: 10,
+                starSize: 15,
+                readOnly: true,
+            });
+        }
+
+       
+
+        //startRecord = startRecord + data.d.length;
+
+        fillLangContent();
+
+        $("#RatesDiv").show();
+        loadingHide();
+
+        $("#splash").hide();
+
+        loading2Hide();
+    }
+
+    $("#RatesDiv").delegate("#HideRate", "click", function () {
+        $(".mainheader").show();
+        $("#ProductsListView").show();
+        $("#TitleInfo").show();
+        $("#RatesDiv").hide();
+    });
+
+    $("#RatesDiv").delegate("#AddRate", "click", function () {
+       
+
+        if ($.cookie("key") != undefined && $.cookie("key") != '' && $.cookie("key") != null) {
+            $("#R1").show();
+            $("#R2").show();
+            $("#R3").show();
+            $("#RateDate1").show();
+            $("#rateform").css("height", "450px");
+        }
+        else {
+            $("#R1").hide();
+            $("#R2").hide();
+            $("#R3").hide();
+            $("#rateform").css("height", "250px");
+        }
+
+        cur_date = new Date();
+
+        var month = cur_date.getMonth() + 1;
+        var day = cur_date.getDate();
+
+        var output = (day < 10 ? '0' : '') + day + ' / ' + (month < 10 ? '0' : '') + month + ' / ' + cur_date.getFullYear();
+
+        $("#DateCount2").html(output);
+
+        $("#rateform").center();
+        $("#rateform").show();
+        $("#splash").show();
+    });
+
+    function formatDate(d) {
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [day, month, year].join('.');
+    }
+
 </script>
 
