@@ -95,10 +95,12 @@
         }
 
         input.Def {
-            width: 120px;
+            width: 260px;
             text-align: center;
-            margin-right: auto;
+            margin: auto;
             font: 18px/20px Arial;
+            display: block;
+
         }
 
         .dready {
@@ -887,13 +889,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="tdleft" uk="Ім'я:">Имя:</td>
-                    <td class="tdright"  style="padding-right: 8px">
+                    <td class="tdright" colspan="2" style="padding-left: 10px" uk="Ім'я:">Имя:</td>
+                </tr>
+                <tr>
+                    <td class="tdLeft" colspan="2">
                         <input type="text" class="Def" id="RName" value="" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="tdright" style="padding-left: 10px" colspan="2" uk="Коментар:">Коментарий:</td>
+                    <td class="tdright" colspan="2" style="padding-left: 10px" uk="Коментар:">Коментарий:</td>
                 </tr>
                 <tr>
                     <td class="tdleft" colspan="2">
@@ -7771,16 +7775,23 @@
             var milli = data.d[i].Date.replace(/\/Date\((-?\d+)\)\//, '$1');
             var d = new Date(parseInt(milli));
 
-            $("#RatesDiv").append("<div><div class='RateTitle'>" + (data.d[i].Name == null ? "" : data.d[i].Name) + " " + formatDate(d) + " </div><div class='RateContent'><div id='rate" + data.d[i].ID + "' v='" + ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3) + "'></div>" + (data.d[i].Comment == null ? "" : data.d[i].Comment) + "</div></div>");
+            var rate = "";
 
-            $('#rate' + data.d[i].ID).starRating({
+            if ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3 >= 1)
+                rate = "<div id='rate" + data.d[i].ID + "' v='" + ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3) + "'></div>";
 
-                initialRating: $('#rate' + data.d[i].ID).attr("v"),
-                strokeColor: '#894A00',
-                strokeWidth: 10,
-                starSize: 15,
-                readOnly: true,
-            });
+            $("#RatesDiv").append("<div><div class='RateTitle'>" + (data.d[i].Name == null ? "" : data.d[i].Name) + " " + formatDate(d) + " </div><div class='RateContent'>" + rate + (data.d[i].Comment == null ? "" : data.d[i].Comment) + "</div></div>");
+
+            if ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3 >= 1) {
+                $('#rate' + data.d[i].ID).starRating({
+
+                    initialRating: $('#rate' + data.d[i].ID).attr("v"),
+                    strokeColor: '#894A00',
+                    strokeWidth: 10,
+                    starSize: 15,
+                    readOnly: true,
+                });
+            }
         }
 
        
@@ -7815,13 +7826,13 @@
             $("#R2").show();
             $("#R3").show();
             $("#RateDate1").show();
-            $("#rateform").css("height", "450px");
+            $("#rateform").css("height", "480px");
         }
         else {
             $("#R1").hide();
             $("#R2").hide();
             $("#R3").hide();
-            $("#rateform").css("height", "280px");
+            $("#rateform").css("height", "310px");
         }
 
         cur_date = new Date();
