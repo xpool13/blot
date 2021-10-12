@@ -37,6 +37,12 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style type="text/css">
 
+        #AltImgDiv {
+            width: 300px;
+            margin: auto;
+            display: block;
+        }
+
         #HideRate {
             text-align: center;
             font: 20px/30px Arial;
@@ -882,7 +888,7 @@
                 </tr>
                 <tr>
                     <td class="tdleft" uk="Ім'я:">Имя:</td>
-                    <td class="tdright">
+                    <td class="tdright"  style="padding-right: 8px">
                         <input type="text" class="Def" id="RName" value="" />
                     </td>
                 </tr>
@@ -1353,7 +1359,7 @@
             <div style="width: auto; margin: auto;">
                 <div style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
                     <div class="Alert" style="display: none;"><span class="AlertSpan" uk="Поскаржитися на обслуговування">Пожаловаться на обслуживание</span></div>
-                    <div class="Radio" style="display: none;"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>
+                    <!--<div class="Radio" style="display: none;"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>-->
                     <div class="head2">
                     </div>
                 </div>
@@ -7796,6 +7802,9 @@
         $("#ProductsListView").show();
         $("#TitleInfo").show();
         $("#RatesDiv").hide();
+
+        var $target = $('html,body');
+        $target.animate({ scrollTop: selected.offset().top + $("#ProductsListView").offset().top - selected.outerHeight() / 2 - $(window).height() / 2 }, 0);
     });
 
     $("#RatesDiv").delegate("#AddRate", "click", function () {
@@ -7812,7 +7821,7 @@
             $("#R1").hide();
             $("#R2").hide();
             $("#R3").hide();
-            $("#rateform").css("height", "250px");
+            $("#rateform").css("height", "280px");
         }
 
         cur_date = new Date();
