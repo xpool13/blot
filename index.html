@@ -717,6 +717,7 @@
             padding: 5px;
             background-color: #fff;
             color: #000;
+            cursor: pointer;
         }
 
             td.order:hover {
@@ -732,6 +733,7 @@
             padding: 5px;
             background-color: #fff;
             color: #000;
+            cursor: pointer;
         }
 
             td.order2:hover {
@@ -1431,6 +1433,7 @@
             </div>
             <div id="EmptyDiv" uk="Порожньо" style="display: none; text-align: center; padding: 10px">Пусто</div>
             <div id="CreateOrder" class="CreateOrderDiv" uk="Оформити замовлення">Оформить заказ</div>
+            <table width="100%" id="PayOrder"></table>
             <div id="RatesDiv"></div>
         </div>
     </div>
@@ -2052,8 +2055,7 @@
 
     function loadingHide() {
         $("#loading").hide();
-        if(timer != null)
-        {      
+        if (timer != null) {
             clearInterval(timer);
         }
     }
@@ -2137,8 +2139,10 @@
     });
 
     function bindPayCard(data) {
+        $("#PayOrder").children().remove();
+        $("#PayOrder").hide();
         //alert(data.d[0]);
-        window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=" + $.cookie("c_client_phone") + "&sid=" + sid_v);
+        window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=&sid=" + sid_v);
     }
 
     $("#CabinetTable").delegate('.PayBonuses', 'click', function () {
@@ -2330,7 +2334,7 @@
                             else
                                 pl_price = parseFloat($(this).closest('.product').find(".price").attr("lp"));
 
-                            $(".cartsum").html((parseFloat($(".cartsum").html()) - parseFloat($(this).closest('.product').find(".val").text()) * pl_price).toString() + "<span>грн</span>");
+                            $(".cartsum").html((parseFloat($(".cartsum").html()) - parseFloat($(this).closest('.product').find(".val").text()) * pl_price).toFixed(2).toString() + "<span>грн</span>");
                         }
                     }
                 }
@@ -2397,7 +2401,7 @@
                             p_price = parseFloat($(this).closest('.product').find(".price").text());
 
                         if ($(".cartsum").html() != undefined)
-                            $(".cartsum").html((parseFloat($(".cartsum").html()) - parseFloat($(this).closest('.product').find(".val").text()) * p_price).toString() + "<span>грн</span>");
+                            $(".cartsum").html((parseFloat($(".cartsum").html()) - parseFloat($(this).closest('.product').find(".val").text()) * p_price).toFixed(2).toString() + "<span>грн</span>");
 
                         var c = $.cookie("c_cart");
 
@@ -3003,7 +3007,7 @@
                 var main_balance = balance - (balance % 1);
                 var coins = Math.round((balance % 1) * 100);
 
-                $("#MBM1").html("<span id=\"MainBalance\" client_id=\"" + data.d.ID + "\" class=\"mainbalance\" balance=\"" + balance.toFixed(2) + "\">" + main_balance + "</span><span class=\"coins\">" + coins + "</span><span class=\"mbcoins\"></span>");
+                $("#MBM1").html("<span id=\"MainBalance\" client_id=\"" + data.d.ID + "\" class=\"mainbalance\" balance=\"" + balance.toFixed(2) + "\">" + main_balance + "</span><span class=\"coins\">" + coins + "</span>");
                 $("#MBM1").attr("paramConditions", data.d.paramConditions);
 
                 $("#MValue1").html(main_balance);
@@ -3164,6 +3168,17 @@
                     success: bindGetSubCats
                 });
             }
+            else if (getUrlParameter("feed") == "google") {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetGoogleFeedData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetGoogleFeedData
+                });
+            }
             else if ($("#MBM1").attr("v6") == "0") {
 
                 data_status = 1;
@@ -3267,6 +3282,16 @@
 
             bindGrid(data);
         }
+    }
+
+    function bindGetGoogleFeedData(data) {
+        $("#TitleInfo").css("background-color", "#fff");
+        $('#TitleInfo').html(($("#MBM1").attr("v16") == "1" ? "Google Фід: " : "Google Фид: ") + "<span class='" + ($.cookie("c_client") == '' ? "ShareView" : "ShareView2") + "' ssource='https://www.xpool.pro/web/webform.aspx?uid=" + getUrlParameter('uid') + "&sid=" + getUrlParameter('sid') + "&sv=0&refer=" + $.cookie("c_client") + "&shop=" + shop_addr + "'></span><span class='SortView'></span><span class='ListView'></span><span class='TableView'></span>");
+        $("#CabinetInfo").hide();
+        $("#TitleInfo").show();
+        $(".SortView").show();
+
+        bindGrid(data);
     }
 
     $(".best").click(function () {
@@ -3555,6 +3580,7 @@
                     $("#DiscountValue").val(selected.attr("discount"));
                     $("#RatingValue").html(selected.attr("rating"));
                     $("#Price2Value").val(selected.attr("price2_inet"));
+                    $("#StatusValue").html(selected.attr("status2"));
 
                     $("#CategoriesSelect").val($("#CategoriesSelect").find('option[cat="' + selected.attr("catid") + '"]').text());
 
@@ -3682,6 +3708,7 @@
                     $("#DiscountValue").val(selected.attr("discount"));
                     $("#RatingValue").html(selected.attr("rating"));
                     $("#Price2Value").val(selected.attr("price2_inet"));
+                    $("#StatusValue").html(selected.attr("status2"));
 
                     $("#CategoriesSelect").val($("#CategoriesSelect").find('option[cat="' + selected.attr("catid") + '"]').text());
 
@@ -3731,7 +3758,7 @@
                 $("#DownPrice").html(selected.attr("stp"));
             }
 
-            $("#StatusValue").val(selected.attr("status"));
+            $("#StatusValue").html(selected.attr("status2"));
 
             $("#CategoriesSelect").children().remove();
             $("#CategoriesSelect").append("<option cat='0'>" + ($("#MBM1").attr("v16") == "1" ? "Усе" : "Все") + "</option>");
@@ -3970,6 +3997,8 @@
                 $("#RatingValue").html(selected.attr("rating"));
                 $("#Price2Value").val(selected.attr("price2_inet"));
 
+                $("#StatusValue").html(selected.attr("status2"));
+
                 if (selected.attr("delivery") == 'null')
                     $("#DeliverySelect").val($("#DeliverySelect option[ru='По умолчанию']").text());
                 else if (selected.attr("delivery") == 'true')
@@ -4116,7 +4145,7 @@
 
         pledge = (parseFloat(selected_ordered.attr("price")) * 0.1 * parseFloat($("#OrderCount").html()));
         var pledge_parts = pledge.toFixed(2).split('.');
-        res = '<span class="mainbalance">' + pledge_parts[0] + '</span><span class="coins">' + pledge_parts[1] + '</span><span class="mbcoins"></span>';
+        res = '<span class="mainbalance">' + pledge_parts[0] + '</span><span class="coins">' + pledge_parts[1] + '</span>';
 
         $("#PledgeAmount").html(res)
 
@@ -4136,7 +4165,7 @@
 
         pledge = (parseFloat(selected_ordered.attr("price")) * 0.1 * parseFloat($("#OrderCount").html()));
         var pledge_parts = pledge.toFixed(2).split('.');
-        res = '<span class="mainbalance">' + pledge_parts[0] + '</span><span class="coins">' + pledge_parts[1] + '</span><span class="mbcoins"></span>';
+        res = '<span class="mainbalance">' + pledge_parts[0] + '</span><span class="coins">' + pledge_parts[1] + '</span>';
 
         $("#PledgeAmount").html(res)
 
@@ -4297,9 +4326,9 @@
         $(selected).attr("discount", $("#DiscountValue").val());
         $(selected).attr("price2_inet", $("#Price2Value").val());
         $(selected).attr("price", $("#Price2Value").val());
-        $(selected).attr("status", $("#StatusValue").val());
+        $(selected).attr("status2", $("#StatusValue").html());
 
-        if ($("#StatusValue").val() == 1) {
+        if ($("#StatusValue").html() == 1) {
             $(selected).find('.pickup').remove();
         }
 
@@ -4532,7 +4561,7 @@
     }
 
      function bindUploadToFeed(data) {
-         
+
         $("#splash4").hide();
         $("#AddictedView").hide();
         $("#TargetURL1").val(data.d);
@@ -4747,6 +4776,9 @@
 
         if ($.cookie("key") != undefined && $.cookie("key") != '' && $.cookie("key") != null) {
             $("#RateDate1").show();
+            $("#rateform").css("height", "480px");
+        }
+        else {
             $("#rateform").css("height", "450px");
         }
 
@@ -4972,9 +5004,6 @@
 
 
     function bindInit(data) {
-
-        $(".mainheader").show();
-
         $("#MBM1").attr("v1", data.d.mbm[0]), $("#MBM1").attr("v2", data.d.mbm[1]), $("#MBM1").attr("v3", data.d.mbm[2]), $("#MBM1").attr("v4", data.d.mbm[3]);
         $("#MBM1").attr("v5", data.d.mbm[4]), $("#MBM1").attr("v6", data.d.mbm[5]), $("#MBM1").attr("v7", data.d.mbm[6]), $("#MBM1").attr("v8", data.d.mbm[7]);
         $("#MBM1").attr("v9", data.d.mbm[8]), $("#MBM1").attr("v10", data.d.mbm[9]), $("#MBM1").attr("v11", data.d.mbm[10]), $("#MBM1").attr("v12", data.d.mbm[11]);
@@ -4989,7 +5018,7 @@
         $("#TargetStyleSheet").attr("href", data.d.target_style_sheet_href);
         $("#TargetStyleSheet").attr("st", data.d.target_style_sheet_st);
 
-        $(".menu").show();
+        
 
        // $("#TargetStyleSheet").attr("href", "https://xpool.pro/web/source/style_blot/css/main.css");
        // $("#TargetStyleSheet").attr("st", "style_blot");
@@ -5015,11 +5044,13 @@
         //    var ssid = (getUrlParameter("ssid") != undefined && getUrlParameter("ssid") != '') ? ("&ssid=" + getUrlParameter("ssid")) : '';
         //    var sv = (getUrlParameter("sv") != undefined && getUrlParameter("sv") != '') ? ("&sv=" + getUrlParameter("sv")) : '';
 
+        $(".mainheader").show();
+        $(".menu").show();
 
-
-        //    window.location.replace(shop_addr + "?uid=" +uid_v + "&sid=" + sid_v + s + id + ids + cat + sv + ssid + minp + maxp + "&refer=" + getUrlParameter("refer"));
-        //}
-        //else
+        if (getUrlParameter("p") != undefined && getUrlParameter("p") != '') {
+            window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + getUrlParameter("uid") + "&id=" + getUrlParameter("id") + "&p=" + getUrlParameter("p"));
+        }
+        else
         {
             $("#datepicker1,#datepicker2").datepicker({
                 showAnim: '',
@@ -5400,6 +5431,17 @@
                         success: bindGetSubCats
                     });
                 }
+                else if (getUrlParameter("feed") == "google") {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "https://xpool.pro/web/webform.aspx/GetGoogleFeedData",
+                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "' }",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: bindGetGoogleFeedData
+                    });
+                }
                 else if (getUrlParameter("sv") == "0") {
                     data_status = 1;
                     currentEvent = "new";
@@ -5536,12 +5578,21 @@
 
 
     function DataSLoad() {
-        
-
         var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
 
-        if (data_status == 0) {
-            $("#loading2").css("display", "block");
+        if (getUrlParameter("feed") == "google") {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/GetGoogleFeedData",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetGoogleFeedData
+            });
+        }
+        else if (data_status == 0) {
+            loading2Show();
             var ss = $("#search input.searchtext").val();
 
             if ((ss == undefined || ss == '') && getUrlParameter("s") != '' && getUrlParameter("s") != undefined) {
@@ -5572,7 +5623,7 @@
             });
         }
         else if (data_status == 1) {
-            $("#loading2").css("display", "block");
+            loading2Show();
             currentEvent = "new";
             $.ajax({
                 async: true,
@@ -5585,7 +5636,7 @@
             });
         }
         else if (data_status == 2) {
-            $("#loading2").css("display", "block");
+            loading2Show();
             $.ajax({
                 async: true,
                 type: "POST",
@@ -5597,7 +5648,7 @@
             });
         }
         else if (data_status == 3) {
-            $("#loading2").css("display", "block");
+            loading2Show();
             $.ajax({
                 async: true,
                 type: "POST",
@@ -5609,7 +5660,7 @@
             });
         }
         else if (data_status == 4) {
-            $("#loading2").css("display", "block");
+            loading2Show();
             currentEvent = "best";
 
             $.ajax({
@@ -5623,7 +5674,7 @@
             });
         }
         else if (data_status == 5) {
-            $("#loading2").css("display", "block");
+            loading2Show();
             currentEvent = "discount";
 
             $.ajax({
@@ -5637,7 +5688,7 @@
             });
         }
         else if (data_status == 10) {
-            $("#loading2").css("display", "block");
+            loading2Show();
             currentEvent = "clientlog";
 
             $.ajax({
@@ -6202,21 +6253,19 @@
                     loadingHide();
                 }
                 else {
-
+                    $("#splash").hide();
                     loadingHide();
-                    $("#splash4").center();
-                    $("#splash4").show();
-                    $("#AddictedTable").css("width", "300px");
-                    $("#AddictedView").css("width", "300px");
-                    $("#AddictedTable").children().remove();
 
-                    $("#AddictedTable").append('<tr><td id="PayOnline" class="GoPay" width="100%" uk="Сплатити онлайн">Оплатить онлайн</td></tr>');
-                    $("#AddictedTable").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;" uk="Перейти в кабінет">Перейти в кабинет</td></tr>');
+                    $("#CabinetTable").hide();
 
-                    fillLangContent();
+                    $("#PayOrder").children().remove();
+                    $("#PayOrder").append('<tr class="ItemContainer"><td id="PayOnline" class="GoPay" width="100%">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + '</td></tr>');
+                    $("#PayOrder").append('<tr class="ItemContainer"><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити на пошті" : "Оплатить на почте") + '</td></tr>');
+                    //$("#CabinetTable").append('<tr class="ItemContainer"><td></td></tr>');
+                    $("#PayOrder").show();
 
-                    $("#AddictedView").center();
-                    $("#AddictedView").show();
+                    $("#CreateOrder").hide();
+                    //fillLangContent();
 
                     //window.history.pushState({}, '1pool.in.ua', '/web/webform.aspx?uid=' +uid_v + '&sid=' + sid_v);
 
@@ -6234,6 +6283,9 @@
                 $("#col3").children().remove();
                 $("#CabinetTable").children().remove();
 
+                $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
+                $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+
                 $("#CabinetTable").append('<tr id="d_tr1" class="ItemContainer"><td class="cheque" uk="Місто:">Город:</td></tr>');
                 $("#CabinetTable").append('<tr id="d_tr2" class="ItemContainer"><td class="cheque"><textarea id="CurrentCityTextBox" maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
                 $("#CabinetTable").append('<tr id="d_tr3" class="ItemContainer"><td class="cheque" uk="Доставка:">Доставка:</td></tr>');
@@ -6245,12 +6297,11 @@
                 $("#CabinetTable").append('<tr id="d_tr7" class="ItemContainer" v="2" style="display: none"><td class="cheque" id="AddressTD" uk="Адреса:">Адрес:</td></tr>');
                 $("#CabinetTable").append('<tr id="d_tr8" class="ItemContainer" v="2" style="display: none"><td class="cheque"><textarea id="AddressTextBox" maxlength="500" rows="3" cols="30" style="width: 294px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
 
-                $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr11" class="ItemContainer"><td class="cheque" id="SecondNameTD" uk="Прізвище:">Фамилия:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr12" class="ItemContainer"><td class="cheque"><input id="SecondNameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
                 $("#CabinetTable").append('<tr id="d_tr13" class="ItemContainer"><td class="cheque" id="NameTD" uk="Ім\'я:">Имя:</td></tr>');
                 $("#CabinetTable").append('<tr id="d_tr14" class="ItemContainer"><td class="cheque"><input id="NameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+                $("#CabinetTable").append('<tr id="d_tr11" class="ItemContainer"><td class="cheque" id="SecondNameTD" uk="Прізвище:">Фамилия:</td></tr>');
+                $("#CabinetTable").append('<tr id="d_tr12" class="ItemContainer"><td class="cheque"><input id="SecondNameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+               
                 $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Замовлені товари оглянуть на справність</td></tr>');
                 $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Вартість доставки: за тарифам Нової Пошти</td><tr>');
                
@@ -6264,7 +6315,6 @@
                 if ($("#MBM1").attr("v19") == "0") {
                     if ($.cookie("c_client_phone") != undefined && $.cookie("c_client_phone") != null && $.cookie("c_client_phone") != '') {
                         $("#PhoneTextBox").val($.cookie("c_client_phone"));
-
                     }
                 }
                 else if ($("#MBM1").attr("v19") == "1") {
@@ -6316,11 +6366,23 @@
         }  
     });
 
-    $("#AddictedTable").delegate("#PayOnline", "click", function () {
+    $("#CabinetTable").delegate('#PhoneTextBox', 'keyup', function () {
+        if ($('#PhoneTextBox').val().indexOf("_") == -1) {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/GetLastOrderInfo",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"phone\":'" + $("#PhoneTextBox").val() + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetLastOrderInfo
+            });
+        }
+    });
+
+    $("#PayOrder").delegate("#PayOnline", "click", function () {
 
         loadingShow();
-        $("#AddictedView").hide();
-        $("#AddictedTable").children().remove();
 
         var client_id = $("#MainBalance").attr("client_id");
 
@@ -6341,7 +6403,13 @@
     function bindCreateNewOrder2(data) {
 
         if (data.d[2] != "") {
-            alert(data.d[2]);
+
+            $.cookie("c_cart", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+            $.cookie("c_comments", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+            $("#c_ctime").val("");
+
+            $("div.menu span.mcartcount").html("0");
+
             $.ajax({
                 async: true,
                 type: "POST",
@@ -6360,12 +6428,9 @@
         }
     }
 
-    $("#AddictedTable").delegate("#GoToCabinet2", "click", function () {
+    $("#PayOrder").delegate("#GoToCabinet2", "click", function () {
 
         loadingShow();
-        $("#splash4").hide();
-        $("#AddictedView").hide();
-        $("#AddictedTable").children().remove();
 
         $("#splash").show();
         $(window).scrollTop(0);
@@ -6701,7 +6766,7 @@
             var escount = EnableSetCount(set_count, dataRows[i].ID);
             var comment = EnableSetComment(set_count, dataRows[i].ID, dataRows[i].ShopID);
 
-            if ($.cookie("c_view") == "table" || $.cookie("c_view") == '' || $.cookie("c_view") == undefined || $.cookie("c_view") == null) {
+            if ($.cookie("c_view") == "table") {
 
                 if (window.innerWidth <= 416) {
                     col = $('#col1');
@@ -6766,6 +6831,9 @@
 
                     if(addicted_dataRows[i][10] == 1)
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгук" : " отзыв") + "</span>";
+                    else if (addicted_dataRows[i][10] % 2 == 0 || addicted_dataRows[i][10] % 3 == 0 || addicted_dataRows[i][10] % 4 == 0) {
+                        rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуки" : " отзыва") + "</span>";
+                    }
                     else
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуків" : "отзывов") + "</span>";
 
@@ -6809,21 +6877,18 @@
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "відправка: " : "отправка: ") + curDate + "</div>";
                 }
 
-                col.append('<div class="product" ' + max_count + ' style="display: none" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + GetRate(addicted_dataRows[i][0]) + '<div class="img">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div >' + rate_info + '<a class="name">' + dataRows[i].Name + '</a><div class="options"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div > ');
+                col.append('<div class="product" ' + max_count + ' style="display: none" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status2="' + dataRows[i].Status + '" price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + GetRate(addicted_dataRows[i][0]) + '<div class="img">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div >' + rate_info + '<a class="name">' + dataRows[i].Name + '</a><div class="options"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div > ');
 
                 if (timesel != '') {
                     SetTimeViewPrice($("#ProductsListView").find('[dataid="' + dataRows[i].ID + '"]').find(".timeselect"), dataRows[i].ID, 0, dataRows[i].Count);
                 }
 
                 $('.' + dataRows[i].ID).starRating({
-
                     initialRating: $('.' + dataRows[i].ID).attr("v"),
                     strokeColor: '#894A00',
                     strokeWidth: 10,
                     starSize: 15,
-                    readOnly: true,
-
-                   
+                    readOnly: true,                
                 });
             }
             else {
@@ -6855,6 +6920,9 @@
 
                     if (addicted_dataRows[i][10] == 1)
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгук" : " отзыв") + "</span>";
+                    else if (addicted_dataRows[i][10] % 2 == 0 || addicted_dataRows[i][10] % 3 == 0 || addicted_dataRows[i][10] % 4 == 0) {
+                        rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуки" : " отзыва") + "</span>";
+                    }
                     else
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуків" : "отзывов") + "</span>";
 
@@ -6897,7 +6965,7 @@
                     delivery_status = "<div class='dready'>отправка: " + curDate + "</div>";
                 }
 
-                col.append('<div class="product" ' + max_count + ' style="display: none; width: 915px;" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status="' + dataRows[i].Status + '"  price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '"><table class="pt" style="background-color: white; width: 100%"><tr><td class="pt_img" style="width: 309px; vertical-align:top">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + '<div class="img" style="padding-top: 3px;">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + GetRate(addicted_dataRows[i][0]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div>' + rate_info + '</td><td class="last_td" style="width: 100%;"; position: relative;"><a class="name" style="font: 16px/20px arial; text-align: left; display: inline-block; top: 2px; position: absolute; height: 100px;">' + dataRows[i].Name + '</a><div class="options" style="height: 40px; margin-top: 65px;"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + '</ul></div><div class="options"><ul>' + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div></td></tr>');
+                col.append('<div class="product" ' + max_count + ' style="display: none; width: 915px;" status="new" shopid="' + dataRows[i].ShopID + '" dataid="' + dataRows[i].ID + '" price="' + dataRows[i].Price + '" stp="' + dataRows[i].StartPrice + '" status2="' + dataRows[i].Status + '"  price2_inet="' + dataRows[i].Price2 + '" ct="' + dataRows[i].Count + '" rating="' + addicted_dataRows[i][0] + '" discount="' + addicted_dataRows[i][1] + '" delivery="' + addicted_dataRows[i][4] + '" time="' + addicted_dataRows[i][6] + '" catid="' + dataRows[i].CategoryID + '"><table class="pt" style="background-color: white; width: 100%"><tr><td class="pt_img" style="width: 309px; vertical-align:top">' + GetDiscount(addicted_dataRows[i][1], dataRows[i].Price) + '<div class="img" style="padding-top: 3px;">' + FreeDelivery(free_delivery, addicted_dataRows[i][4]) + GetRate(addicted_dataRows[i][0]) + "<span class=\"imgcount2\">1 / 1</span>" + no_photo_url + img_val + delivery_status + '</div>' + rate_info + '</td><td class="last_td" style="width: 100%;"; position: relative;"><a class="name" style="font: 16px/20px arial; text-align: left; display: inline-block; top: 2px; position: absolute; height: 100px;">' + dataRows[i].Name + '</a><div class="options" style="height: 40px; margin-top: 65px;"><ul>' + GetPriceView(addicted_dataRows[i][1], dataRows[i].Price, dataRows[i].Count) + GetMoneybox(perc, dataRows[i].Price) + '</ul></div><div class="options"><ul>' + EnableShare(enable_share, dataRows[i].ID) + GetRateView(dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price) + '</ul></div>' + timesel + CreateVideoButton(addicted_dataRows[i][5]) + escount[0] + comment + GetCartView(disable_trade, dataRows[i].ID, addicted_dataRows[i][0], dataRows[i].Price, dataRows[i].ShopID, dataRows[i].Count, addicted_dataRows[i][9], dataRows[i].Status) + '</div></td></tr>');
 
                 if (timesel != '') {
                     SetTimeViewPrice($("#ProductsListView").find('[dataid="' + dataRows[i].ID + '"]').find(".timeselect"), dataRows[i].ID, 0, dataRows[i].Count);
@@ -6971,6 +7039,9 @@
     }
 
     function bindCreateNewOrder(data) {
+        $("#PayOrder").children().remove();
+        $("#PayOrder").hide();
+
         var client_id = $("#MainBalance").attr("client_id");
 
         var date = new Date();
@@ -6997,7 +7068,7 @@
                 var main_balance = balance - (balance % 1);
                 var coins = Math.round((balance % 1) * 100);
 
-                $("#MBM1").html("<span id=\"MainBalance\" client_id=\"" + data.d[1].ID + "\" class=\"mainbalance\" balance=\"" + balance.toFixed(2) + "\">" + main_balance + "</span><span class=\"coins\">" + coins + "</span><span class=\"mbcoins\"></span>");
+                $("#MBM1").html("<span id=\"MainBalance\" client_id=\"" + data.d[1].ID + "\" class=\"mainbalance\" balance=\"" + balance.toFixed(2) + "\">" + main_balance + "</span><span class=\"coins\">" + coins + "</span></span>");
                 $("#MBM1").attr("paramConditions", data.d[1].paramConditions);
                 $("#MValue1").html(main_balance);
                 $("#MValue12").html(coins);
@@ -7103,7 +7174,19 @@
 
         var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
 
-        if (data_status == 0) {
+
+        if (getUrlParameter("feed") == "google") {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/GetGoogleFeedData",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetGoogleFeedData
+            });
+        }
+        else if (data_status == 0) {
 
             var ssid = sid_v;
 
@@ -7794,8 +7877,6 @@
             }
         }
 
-       
-
         //startRecord = startRecord + data.d.length;
 
         fillLangContent();
@@ -7819,8 +7900,6 @@
     });
 
     $("#RatesDiv").delegate("#AddRate", "click", function () {
-       
-
         if ($.cookie("key") != undefined && $.cookie("key") != '' && $.cookie("key") != null) {
             $("#R1").show();
             $("#R2").show();
