@@ -6240,10 +6240,15 @@
 
                 var addr = "";
 
-                if ($("#DeliveryTypeSelect").val().indexOf("Адрес") > 0)
+                if (extractHostname(window.location.origin) == "клякса.in.ua") {
                     addr = $("#AdressTextBox").val();
-                else
-                    addr = warehouse;
+                }
+                else {
+                    if ($("#DeliveryTypeSelect").val().indexOf("Адрес") > 0)
+                        addr = $("#AdressTextBox").val();
+                    else
+                        addr = warehouse;
+                }
 
                 var client_id = $("#MainBalance").attr("client_id");
 
