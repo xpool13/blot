@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>...</title>
-    <!--<meta name="google-site-verification" content="5aXs_V1RAM8aIPgjrq5XWPOER1dyy3nRtn95doM2Mfo" />
+    <meta name="google-site-verification" content="5aXs_V1RAM8aIPgjrq5XWPOER1dyy3nRtn95doM2Mfo" />
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="клякса.in.ua">
     <meta property="og:title" content="клякса.in.ua">
@@ -12,7 +12,7 @@
     <meta property="og:locale" content="ru_RU">
     <meta id="imgmeta" runat="server" property="og:image" content="https://xpool.pro/web/source/style_blot/img/blot_preview.png">
     <meta property="og:image:width" content="968">
-    <meta property="og:image:height" content="794">-->
+    <meta property="og:image:height" content="794">
 
     <meta id="MetaTitle" runat="server" name="title" content="Бизнес Конструктор, Складской учет, Автоматизация магазина, Программный РРО" />
     <meta id="MetaDesc" runat="server" name="description" content="Универсальная среда для автоматизации ведения бизнеса любой сложности. Удобный доступ к панели управления из любой точки мира. Онлайн кассы, Интернет-витрины, программный РРО" />
@@ -1355,7 +1355,7 @@
             </div>
         </div>
         <div id="shopInfo2" style="font: 18px/24px Arial; display: none; padding-left: 10px; padding-right: 10px;">
-           Замовляйте товари не виходячи із дома, для клієнтів з м. Тернівка безкоштовна доставка до дверей 
+            Безкоштовна доставка до дверей, замовляйте товари не виходячи із дому
         </div>
         <br />
     </div>
@@ -6240,7 +6240,7 @@
 
                 var addr = "";
 
-                if (extractHostname(window.location.origin).indexOf("in.ua") != -1) {
+                if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
                     addr = $("#AdressTextBox").val();
                 }
                 else {
@@ -6291,7 +6291,7 @@
                 $("#col3").children().remove();
                 $("#CabinetTable").children().remove();
 
-                if (extractHostname(window.location.origin).indexOf("in.ua") != -1) {
+                if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
@@ -6410,7 +6410,7 @@
         if (client_id == undefined || client_id == '')
             client_id = 0;
 
-        if (extractHostname(window.location.origin) == "клякса.in.ua") {
+        if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
             $.ajax({
                 async: true,
                 type: "POST",
@@ -6480,7 +6480,7 @@
         if (client_id == undefined || client_id == '')
             client_id = 0;
 
-        if (extractHostname(window.location.origin) == "клякса.in.ua") {
+        if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
             $.ajax({
                 async: true,
                 type: "POST",
