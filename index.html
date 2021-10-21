@@ -1355,7 +1355,7 @@
             </div>
         </div>
         <div id="shopInfo2" style="font: 18px/24px Arial; display: none; padding-left: 10px; padding-right: 10px;">
-            Товари магазинів мережі Клякса ретельно перевірені лічильниками Гейгера-Мюллера (датчик СБМ-20-01) та мають безпечний для дитини рівень випромінювання < 0.2 мікрозіверт в годину
+           Замовляйте товари не виходячи із дома, для м. Тернівка діє безкоштовна доставка до дверей 
         </div>
         <br />
     </div>
@@ -1364,8 +1364,8 @@
         <div class="mainheader" style="display: none; padding-top: 29px;">
             <div style="width: auto; margin: auto;">
                 <div style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
-                    <div class="Alert" style="display: none;"><span class="AlertSpan" uk="Поскаржитися на обслуговування">Пожаловаться на обслуживание</span></div>
-                    <!--<div class="Radio" style="display: none;"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>-->
+                    <!--<div class="Alert" style="display: none;"><span class="AlertSpan" uk="Поскаржитися на обслуговування">Пожаловаться на обслуживание</span></div>-->
+                    <div class="Radio" style="display: none;"><span class="RadioSpan" uk="Радіологічний контроль">Радиологический контроль</span></div>
                     <div class="head2">
                     </div>
                 </div>
@@ -1514,7 +1514,7 @@
                 $(".AlertSpan").html($("#MBM1").attr("v16") == "1" ? "Поскаржитися на<br/>обслуговування" : "Пожаловаться на<br/>обслуживание");
 
                 $(".RadioSpan").css("font", "24px/24px Arial");
-                $(".RadioSpan").html($("#MBM1").attr("v16") == "1" ? "Радіологічний<br/>контроль" : "Радиологический<br/>контроль");
+                $(".RadioSpan").html($("#MBM1").attr("v16") == "1" ? "Безкоштовна доставка по м.Тернівка" : "Бесплатная доставка по г.Терновка");
 
                 $(".SpecInfoSpan").css("font", "24px/24px Arial");
                 $(".SpecInfoSpan").html("На сайте еще не<br/>все товары");
@@ -1524,7 +1524,7 @@
                 $(".AlertSpan").html($("#MBM1").attr("v16") == "1" ? "Поскаржитися на обслуговування" : "Пожаловаться на обслуживание");
 
                 $(".RadioSpan").css("font", "24px/50px Arial");
-                $(".RadioSpan").html($("#MBM1").attr("v16") == "1" ? "Радіологічний контроль" : "Радиологический контроль");
+                $(".RadioSpan").html($("#MBM1").attr("v16") == "1" ? "Безкоштовна доставка по м. Тернівка" : "Бесплатная доставка по г. Терновка");
 
                 $(".SpecInfoSpan").css("font", "24px/50px Arial");
                 $(".SpecInfoSpan").html("На сайте еще не все товары");
@@ -1675,7 +1675,7 @@
                 $(".AlertSpan").html($("#MBM1").attr("v16") == "1" ? "Поскаржитися на обслуговування" : "Пожаловаться на обслуживание");
 
                 $(".RadioSpan").css("font", "28px/50px Arial");
-                $(".RadioSpan").html($("#MBM1").attr("v16") == "1" ? "Радіологічний контроль" : "Радиологический контроль");
+                $(".RadioSpan").html($("#MBM1").attr("v16") == "1" ? "Безкоштовна доставка по м. Тернівка" : "Бесплатная доставка по г. Терновка");
 
                 $(".SpecInfoSpan").css("font", "28px/50px Arial");
                 $(".SpecInfoSpan").html("На сайте представлены еще не все товары");
@@ -2142,7 +2142,8 @@
         $("#PayOrder").children().remove();
         $("#PayOrder").hide();
         //alert(data.d[0]);
-        window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=&sid=" + sid_v);
+
+        window.open("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=&sid=" + sid_v, '_blank');
     }
 
     $("#CabinetTable").delegate('.PayBonuses', 'click', function () {
@@ -6259,8 +6260,8 @@
                     $("#CabinetTable").hide();
 
                     $("#PayOrder").children().remove();
-                    $("#PayOrder").append('<tr class="ItemContainer"><td id="PayOnline" class="GoPay" width="100%">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + '</td></tr>');
-                    $("#PayOrder").append('<tr class="ItemContainer"><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити на пошті" : "Оплатить на почте") + '</td></tr>');
+                    $("#PayOrder").append('<tr><td id="PayOnline" class="GoPay" width="100%">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + '</td></tr>');
+                    $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити на пошті" : "Оплатить на почте") + '</td></tr>');
                     //$("#CabinetTable").append('<tr class="ItemContainer"><td></td></tr>');
                     $("#PayOrder").show();
 
@@ -6283,29 +6284,41 @@
                 $("#col3").children().remove();
                 $("#CabinetTable").children().remove();
 
-                $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+                if (extractHostname(window.location.origin) == "клякса.in.ua") {
+                    $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
-                $("#CabinetTable").append('<tr id="d_tr1" class="ItemContainer"><td class="cheque" uk="Місто:">Город:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr2" class="ItemContainer"><td class="cheque"><textarea id="CurrentCityTextBox" maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr3" class="ItemContainer"><td class="cheque" uk="Доставка:">Доставка:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr4" class="ItemContainer"><td class="cheque"><select id="DeliveryTypeSelect" style="font: 20px/20px Arial; text-align: center; width: 284px"><option value="1" uk="До відділення">До отделения</option><option value="2" uk="Адресна">Адресная</option></select></td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr5" class="ItemContainer" v="1"><td class="cheque" uk="Відділення:">Отделение:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr7" class="ItemContainer" v="2" style="display: none"><td class="cheque" id="AddressTD" uk="Адреса:">Адрес:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr8" class="ItemContainer" v="2" style="display: none"><td class="cheque"><textarea id="AddressTextBox" maxlength="500" rows="3" cols="30" style="width: 294px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
 
-                $("#CabinetTable").append('<tr id="d_tr6" class="ItemContainer" v="1"><td class="cheque"><textarea id="CurrentWarehouseTextBox" readonly maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr13" class="ItemContainer"><td class="cheque" id="NameTD" uk="Ім\'я:">Имя:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr14" class="ItemContainer"><td class="cheque"><input id="NameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+                }
+                else {
+                    $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
-                $("#CabinetTable").append('<tr id="d_tr7" class="ItemContainer" v="2" style="display: none"><td class="cheque" id="AddressTD" uk="Адреса:">Адрес:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr8" class="ItemContainer" v="2" style="display: none"><td class="cheque"><textarea id="AddressTextBox" maxlength="500" rows="3" cols="30" style="width: 294px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr1" class="ItemContainer"><td class="cheque" uk="Місто:">Город:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr2" class="ItemContainer"><td class="cheque"><textarea id="CurrentCityTextBox" maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr3" class="ItemContainer"><td class="cheque" uk="Доставка:">Доставка:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr4" class="ItemContainer"><td class="cheque"><select id="DeliveryTypeSelect" style="font: 20px/20px Arial; text-align: center; width: 284px"><option value="1" uk="До відділення">До отделения</option><option value="2" uk="Адресна">Адресная</option></select></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr5" class="ItemContainer" v="1"><td class="cheque" uk="Відділення:">Отделение:</td></tr>');
 
-                $("#CabinetTable").append('<tr id="d_tr13" class="ItemContainer"><td class="cheque" id="NameTD" uk="Ім\'я:">Имя:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr14" class="ItemContainer"><td class="cheque"><input id="NameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr11" class="ItemContainer"><td class="cheque" id="SecondNameTD" uk="Прізвище:">Фамилия:</td></tr>');
-                $("#CabinetTable").append('<tr id="d_tr12" class="ItemContainer"><td class="cheque"><input id="SecondNameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
-               
-                $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Замовлені товари оглянуть на справність</td></tr>');
-                $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Вартість доставки: за тарифам Нової Пошти</td><tr>');
-               
-                $("#DeliveryTypeSelect").val("1");
+                    $("#CabinetTable").append('<tr id="d_tr6" class="ItemContainer" v="1"><td class="cheque"><textarea id="CurrentWarehouseTextBox" readonly maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
+
+                    $("#CabinetTable").append('<tr id="d_tr7" class="ItemContainer" v="2" style="display: none"><td class="cheque" id="AddressTD" uk="Адреса:">Адрес:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr8" class="ItemContainer" v="2" style="display: none"><td class="cheque"><textarea id="AddressTextBox" maxlength="500" rows="3" cols="30" style="width: 294px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
+
+                    $("#CabinetTable").append('<tr id="d_tr13" class="ItemContainer"><td class="cheque" id="NameTD" uk="Ім\'я:">Имя:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr14" class="ItemContainer"><td class="cheque"><input id="NameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr11" class="ItemContainer"><td class="cheque" id="SecondNameTD" uk="Прізвище:">Фамилия:</td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr12" class="ItemContainer"><td class="cheque"><input id="SecondNameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
+
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Замовлені товари оглянуть на справність</td></tr>');
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Вартість доставки: за тарифам Нової Пошти</td><tr>');
+
+                    $("#DeliveryTypeSelect").val("1");
+                }
 
                 fillLangContent();
 
@@ -6383,30 +6396,50 @@
     $("#PayOrder").delegate("#PayOnline", "click", function () {
 
         loadingShow();
+        $("#splash").show();
 
         var client_id = $("#MainBalance").attr("client_id");
 
         if (client_id == undefined || client_id == '')
             client_id = 0;
 
-        $.ajax({
-            async: true,
-            type: "POST",
-            url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
-            data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":" + $("#DeliveryTypeSelect").val() + ", \"warehouse\":'" + $("#CurrentWarehouseTextBox").val() + "', \"area\":'', \"city\":'" + $("#CurrentCityTextBox").val() + "', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'" + $("#SecondNameTextBox").val() + "', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + $("#c_ctime").val() + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "' }",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: bindCreateNewOrder2
-        });      
+        if (extractHostname(window.location.origin) == "клякса.in.ua") {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":'Адрес', \"warehouse\":'', \"area\":'', \"city\":'', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'', \"secondname\":'', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + (getUrlParameter("c_time") != undefined ? getUrlParameter("c_time") : '') + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindCreateNewOrder2
+            });
+        }
+        else {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":'" + $("#DeliveryTypeSelect").val() + "', \"warehouse\":'" + $("#CurrentWarehouseTextBox").val() + "', \"area\":'', \"city\":'" + $("#CurrentCityTextBox").val() + "', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'" + $("#SecondNameTextBox").val() + "', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + (getUrlParameter("c_time") != undefined ? getUrlParameter("c_time") : '') + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindCreateNewOrder2
+            });
+        }
     });
 
     function bindCreateNewOrder2(data) {
 
         if (data.d[2] != "") {
 
+            var date = new Date();
+            var minutes = 60;
+            var hours = 24;
+            var days = 365;
+            date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
             $.cookie("c_cart", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
             $.cookie("c_comments", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
-            $("#c_ctime").val("");
+            $.cookie("c_time", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
 
             $("div.menu span.mcartcount").html("0");
 
@@ -6440,15 +6473,28 @@
         if (client_id == undefined || client_id == '')
             client_id = 0;
 
-        $.ajax({
-            async: true,
-            type: "POST",
-            url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
-            data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":" + $("#DeliveryTypeSelect").val() + ", \"warehouse\":'" + $("#CurrentWarehouseTextBox").val() + "', \"area\":'', \"city\":'" + $("#CurrentCityTextBox").val() + "', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'" + $("#SecondNameTextBox").val() + "', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + $("#c_ctime").val() + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "' }",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: bindCreateNewOrder
-        });
+        if (extractHostname(window.location.origin) == "клякса.in.ua") {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":'Адрес', \"warehouse\":'', \"area\":'', \"city\":'', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'', \"secondname\":'', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + (getUrlParameter("c_time") != undefined ? getUrlParameter("c_time") : '') + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindCreateNewOrder
+            });
+        }
+        else {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":" + $("#DeliveryTypeSelect").val() + ", \"warehouse\":'" + $("#CurrentWarehouseTextBox").val() + "', \"area\":'', \"city\":'" + $("#CurrentCityTextBox").val() + "', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'" + $("#SecondNameTextBox").val() + "', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + $("#c_ctime").val() + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindCreateNewOrder
+            });
+        }
     });
 
     function bindGetLastOrderInfo(data) {
@@ -7092,7 +7138,7 @@
 
         $.cookie("c_cart", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
         $.cookie("c_comments", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
-        $("#c_ctime").val("");
+        $.cookie("c_time", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
 
         $("div.menu span.mcartcount").html("0");
 
