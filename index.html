@@ -6240,7 +6240,7 @@
 
                 var addr = "";
 
-                if (extractHostname(window.location.origin) == "клякса.in.ua") {
+                if (extractHostname(window.location.origin).indexOf("in.ua") != -1) {
                     addr = $("#AdressTextBox").val();
                 }
                 else {
