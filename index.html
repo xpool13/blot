@@ -6220,6 +6220,8 @@
     }
 
     $("#CreateOrder").click(function () {
+        
+
         if ($(".cartsum").text() != "0грн") {
 
             //alert($("#col1").children().c);
@@ -6284,7 +6286,7 @@
                 $("#col3").children().remove();
                 $("#CabinetTable").children().remove();
 
-                if (extractHostname(window.location.origin) == "клякса.in.ua") {
+                if (extractHostname(window.location.origin).indexOf("клякса") != -1) {
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
