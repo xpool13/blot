@@ -2127,6 +2127,9 @@
 
     $("#CabinetTable").delegate('.PayCard', 'click', function () {
 
+        $("#splash").show();
+        loadingShow();
+
         $.ajax({
             async: true,
             type: "POST",
@@ -2141,9 +2144,8 @@
     function bindPayCard(data) {
         $("#PayOrder").children().remove();
         $("#PayOrder").hide();
-        //alert(data.d[0]);
 
-        window.open("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=&sid=" + sid_v + "&host=" + extractHostname(window.location.origin), '_blank');
+        window.open("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=" + cur_phone + "&sid=" + sid_v + "&host=" + extractHostname(window.location.origin), '_blank');
     }
 
     $("#CabinetTable").delegate('.PayBonuses', 'click', function () {
@@ -6219,6 +6221,8 @@
         return res;
     }
 
+    var cur_phone = '';
+
     $("#CreateOrder").click(function () {
         
 
@@ -6263,6 +6267,8 @@
                 else {
                     $("#splash").hide();
                     loadingHide();
+
+                    cur_phone = $("#PhoneTextBox").val();
 
                     $("#CabinetTable").hide();
 
