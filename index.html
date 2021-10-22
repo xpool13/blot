@@ -2145,7 +2145,7 @@
         $("#PayOrder").children().remove();
         $("#PayOrder").hide();
 
-        window.open("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=" + cur_phone + "&sid=" + sid_v + "&host=" + extractHostname(window.location.origin), '_blank');
+        window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=" + cur_phone + "&sid=" + sid_v + "&host=" + extractHostname(window.location.origin));
     }
 
     $("#CabinetTable").delegate('.PayBonuses', 'click', function () {
@@ -3241,7 +3241,7 @@
         $.removeCookie("c_comments", { path: '/', domain: '.' + document.domain });
         $.removeCookie("c_ctime", { path: '/', domain: '.' + document.domain });
 
-        location.reload();
+        window.location.replace("https://" + extractHostname(window.location.origin));
     });
 
     $(".new").click(function () {
