@@ -31,7 +31,7 @@
     <script type="text/javascript" src="https://xpool.pro/source/js/printThis.js"></script>
     <script src="https://xpool.pro/web/source/js/jquery.star-rating-svg.js"></script>
     <link rel="stylesheet" href="https://xpool.pro/web/source/css/star-rating-svg.css">
-    <link id="TargetStyleSheet" rel="Stylesheet" href="https://xpool.pro/web/source/style_blot/css/main.css" st="style_blot" />
+    <link id="TargetStyleSheet" rel="Stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -60,9 +60,9 @@
             cursor: pointer;
         }
 
-            #AddRate:hover {
-                background-color: #1c7613;
-            }
+        #AddRate:hover {
+            background-color: #1c7613;
+        }
 
 
         .AddRateSpan {
@@ -100,6 +100,7 @@
             margin: auto;
             font: 18px/20px Arial;
             display: block;
+
         }
 
         .dready {
@@ -2144,12 +2145,20 @@
         $("#PayOrder").children().remove();
         $("#PayOrder").hide();
 
-        window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=" + cur_phone + "&sid=" + sid_v + "&host=" + extractHostname(window.location.origin));
+        if (data.d[2] == "1") {
+            window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&amount=" + data.d[0] + "&order_id=" + data.d[1] + "&client_phone=" + cur_phone + "&sid=" + sid_v + "&host=" + extractHostname(window.location.origin));
+        }
+        else {
+            $("#splash").hide();
+            loadingHide();
+            alert("Замовлення втратило актуальність");
+        }
     }
 
     $("#CabinetTable").delegate('.PayBonuses', 'click', function () {
 
-        //alert($(this).attr("ch"));
+        $("#splash").show();
+        loadingShow();
 
         $.ajax({
             async: true,
@@ -2175,7 +2184,12 @@
         else
             alert(data.d[2]);
 
+
+        $("#splash").hide();
+        loadingHide();
+
         $(".moneyboxm").click();
+
     }
 
     function bindGetRedirLog(data) {
@@ -5017,8 +5031,8 @@
 
         //alert(data.d.server_path);
 
-       // $("#TargetStyleSheet").attr("href", data.d.target_style_sheet_href);
-       // $("#TargetStyleSheet").attr("st", data.d.target_style_sheet_st);
+        $("#TargetStyleSheet").attr("href", data.d.target_style_sheet_href);
+        $("#TargetStyleSheet").attr("st", data.d.target_style_sheet_st);
 
         
 
@@ -5486,10 +5500,10 @@
                         success: bindGetTopDiscount
                     });
                 }
-                else if (getUrlParameter("sv") == "3") 
-                {
-                    $(".moneyboxm").click();
-                }
+                //else if (getUrlParameter("sv") == "3") 
+                //{
+                //    $(".moneyboxm").click();
+                //}
                 else if (getUrlParameter("sv") == "4") {
                     $("#CartCount").click();
                 }
