@@ -6282,12 +6282,18 @@
                     loadingHide();
 
                     cur_phone = $("#PhoneTextBox").val();
-
+                   
                     $("#CabinetTable").hide();
 
                     $("#PayOrder").children().remove();
                     $("#PayOrder").append('<tr><td id="PayOnline" class="GoPay" width="100%">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + '</td></tr>');
-                    $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити на пошті" : "Оплатить на почте") + '</td></tr>');
+
+                    if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
+                        $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
+                    }
+                    else {
+                        $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити на пошті" : "Оплатить на почте") + '</td></tr>');
+                    }
                     //$("#CabinetTable").append('<tr class="ItemContainer"><td></td></tr>');
                     $("#PayOrder").show();
 
@@ -7875,8 +7881,8 @@
     function bindRemoveOrder(data) {
         $(".moneyboxm").click();
 
-        $("#splash").hide();
-        loadingHide();
+        //$("#splash").hide();
+        //loadingHide();
     }
 
     $("#ProductsListView").delegate(".RateDiv", "click", function () {
