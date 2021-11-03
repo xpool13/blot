@@ -6655,7 +6655,7 @@
                 if ((addicted_dataRows[i][9] == "1" || (sid_v == 3692 && dataRows[i].Price > 1200) || dataRows[i].Price > 10000) && dataRows[i].Count == 1) {
                     delivery_status = '';
                 }
-                else if (dataRows[i].Price > 10000 || dataRows[i].Price < 10) {
+                else if (dataRows[i].Price > 100000 || dataRows[i].Price < 10) {
                     delivery_status = '';
                 }
                 else if (dataRows[i].ShopID == 8079)
@@ -6734,7 +6734,7 @@
                     var curDate = day + "." + month;
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? deliver_uk : deliver_ru) + curDate + "</div>";
                 }
-                else if (dataRows[i].Price > 1000) {
+                else if (dataRows[i].Price > 1000 && extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") == -1) {
                     var d = new Date();
 
                     d.setDate(d.getDate() + 1);
@@ -6859,7 +6859,7 @@
                 if ((addicted_dataRows[i][9] == "1" || (sid_v == 3692 && dataRows[i].Price > 1200) || dataRows[i].Price > 10000) && dataRows[i].Count == 1) {
                     delivery_status = '';
                 }
-                else if (dataRows[i].Price > 10000 || dataRows[i].Price < 10) {
+                else if (dataRows[i].Price > 100000 || dataRows[i].Price < 10) {
                     delivery_status = '';
                 }
                 else if (dataRows[i].ShopID == 8079) {
@@ -6936,7 +6936,7 @@
                     var curDate = day + "." + month;
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? deliver_uk : deliver_ru) + curDate + "</div>";
                 }
-                else if (dataRows[i].Price > 1000) {
+                else if (dataRows[i].Price > 1000 && extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") == -1) {
                     var d = new Date();
 
                     d.setDate(d.getDate() + 1);
@@ -7019,7 +7019,7 @@
             $(this).show();
         });
 
-        if ($("#createaccount").css("display") == "none")
+        if ($("#createaccount").css("display") == "none" && $('#about').css('display') == 'none')
             $("#splash").hide();
 
         if (data_status == 7) {
