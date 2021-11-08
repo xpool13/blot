@@ -20,7 +20,7 @@
 
     <link href="https://xpool.pro/web/source/img/shop-icon.png" rel="icon" type="image/x-icon" />
     <link href="https://xpool.pro/web/source/img/shop-icon.png" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=1" />
+    <meta id="vpo" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="https://xpool.pro/source/css/jquery-ui.css" />
     <script type="text/javascript" src="https://xpool.pro/source/js/jquery.js"></script>
     <script type="text/javascript" src="https://xpool.pro/source/js/jquery-ui.min.js"></script>
@@ -2729,6 +2729,8 @@
     });
 
     $("#viewer span.closey").click(function () {
+
+        $("#vpo").attr("content", "width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=1");
         $('.findPhoto2').remove();
 
         $("#fullimage").attr("src", "source/style_blot/img/loading.gif");
@@ -3597,7 +3599,9 @@
 
 
     $("#ProductsListView").delegate('.img', 'click', function (evt) {
-       
+
+        $("#vpo").attr("content", "width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=1");
+
         if (selected != undefined && selected.find("img").attr("index") != $(this).closest('.product').find("img").attr("index")) {
             selected.css({ "border": "2px solid #FFF", "background-color": "#FFFFFF" });
             selected.find(".imgcount2").hide();
@@ -5513,7 +5517,7 @@
         var res;
 
         if (img != null && img != undefined && img != '' && img.split("||")[0].indexOf('/img/nophoto2.png') == -1) {
-            res = source.split("||")[0];
+            res = "https://xpool.pro/imagefeeder.ashx?s=" + source.split("||")[0] + "&c=1";
         }
         else {
             res = 'https://xpool.pro/web/source/' + $("#TargetStyleSheet").attr("st") + '/img/nophoto.png';
