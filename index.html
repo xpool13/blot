@@ -2389,6 +2389,9 @@
         $("#splash").show();
         loadingShow();
 
+        var last_path = $("#CabinetTable").find('.ItemContainer').last().children().first().attr("path");
+        var cur_sid = $("#CabinetTable").find('.ItemContainer').last().children().first().attr("sid");
+     
         $("#CabinetTable").children().remove();
         $("#ProductsListView").hide();
 
@@ -2396,41 +2399,73 @@
 
         sort = 0;
         startRecord = 0;
+  
+        var last_path_parts = last_path.split("/");
 
-        if ($("#MBM1").attr("glue1") != getUrlParameter("sid") + "=") {
-            $("#ShopsMenu").children().eq(1).children().remove();
+        if (last_path_parts.length > 2) {
+           
+            currentEvent = "subcats";
 
-            var shop_ids = $("#MBM1").attr("glue1").split("=");
-            var shop_names = $("#MBM1").attr("glue2").split("=");
+            data_status = 2;
 
-            var new_line = '';
+            var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
 
-            for (var i = 0; i < shop_names.length - 1; i++) {
+            var last_part = last_path_parts[last_path_parts.length - 1];
 
-                $("#CabinetTable").append('<tr class="ItemContainer"><td class="category1" sid="' + shop_ids[i] + '">' + shop_names[i] + '</td></tr>');
-            }
+            var index = last_path.indexOf("/" + last_path_parts[last_path_parts.length - 2] + "/Прочее");
 
-            $("#TitleInfo").hide();
+            var path = last_path;
 
-            $("#CabinetTable").show();
+            if (index != 0)
+                path = last_path.slice(0, index);
 
-            loadingHide();
-            loading2Hide();
-            $("#splash").hide();
-            SetView();
-
-            window.history.pushState({}, "", "index.html?catalog=1");
-        }
-        else {
             $.ajax({
                 async: true,
                 type: "POST",
-                url: "https://xpool.pro/web/webform.aspx/GetMainCats",
-                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + " }",
+                url: "https://xpool.pro/web/webform.aspx/GetSubCats",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + cur_sid + ", \"path\":'" + path.replace(/_/g, " ") + "', \"status\":0, \"startRecord\":0, \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: bindGetMainCats
+                success: bindGetSubCats
             });
+        }
+        else {
+            if (last_path_parts.length == 2) {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetMainCats",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + cur_sid + " }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetMainCats
+                });
+            }
+            else if ($("#MBM1").attr("glue1") != getUrlParameter("sid") + "=") {
+                $("#ShopsMenu").children().eq(1).children().remove();
+
+                var shop_ids = $("#MBM1").attr("glue1").split("=");
+                var shop_names = $("#MBM1").attr("glue2").split("=");
+
+                var new_line = '';
+
+                for (var i = 0; i < shop_names.length - 1; i++) {
+
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category1" sid="' + shop_ids[i] + '">' + shop_names[i] + '</td></tr>');
+                }
+
+                $("#TitleInfo").hide();
+
+                $("#CabinetTable").show();
+
+                loadingHide();
+                loading2Hide();
+                $("#splash").hide();
+                SetView();
+
+                window.history.pushState({}, "", "index.html?catalog=1");
+            }
+           
         }
     });
 
@@ -2580,6 +2615,7 @@
         if (currentEvent == "subcats") {
             var dataRows = data.d[1];
 
+            selected_cat = getUrlParameter("cat") != undefined ? getUrlParameter("cat").replace(/_/g, " ") : '';
            
             window.history.pushState({}, "", "index.html?ssid=" + data.d[4] + "&cat=" + data.d[0].replace(/ /g, "_"));
 
@@ -2601,8 +2637,7 @@
                 $("#CabinetTable").append('<tr class="ItemContainer"><td class="category3">Назад</td></tr>');
 
                 for (var i = 0; i < dataRows.length; i++) {
-
-                    var selected_tr = (selected_cat == dataRows[i][0]) ? "style='background-color: #9999FF'" : "";
+                    var selected_tr = (selected_cat == dataRows[i][1]) ? "style='background-color: #9999FF'" : "";
 
                     if (dataRows[i][0] == "Все" && $("#MBM1").attr("v16") == "1") {
                         dataRows[i][0] = "Усе";
@@ -4695,10 +4730,6 @@
 
         $(".mainheader").show();
         $(".menu").show();
-
-        if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
-            $("div.menu span.info").click();
-        }
 
        
             $("#datepicker1,#datepicker2").datepicker({
