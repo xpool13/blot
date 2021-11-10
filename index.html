@@ -42,7 +42,7 @@
             margin: auto;
             width: 133px;
             height: 49px;
-            background: url("https://xpool.pro/source/img/Visa_Inc._logo.svg") no-repeat center center;
+            background: url("https://xpool.pro/web/source/style_blot/img/visa-logo.svg") no-repeat center center;
             background-size: contain;
         }
 
@@ -51,7 +51,7 @@
             margin: auto;
             width: 133px;
             height: 49px;
-            background: url("https://xpool.pro/source/img/MasterCard_Logo.svg") no-repeat center center;
+            background: url("https://xpool.pro/web/source/style_blot/img/mastercard-logo.svg") no-repeat center center;
             background-size: contain;
         }
 
@@ -157,8 +157,8 @@
             white-space: nowrap;
             overflow: hidden;
             padding: 0px;
-            font: normal 24px/80px arial;
-            background-color: #096400;
+            font: normal 22px/80px arial;
+            background-color: #074b04;
             text-align: center;
             vertical-align: middle;
             color: #fff;
@@ -166,7 +166,7 @@
         }
 
             td.GoPay:hover {
-                background-color: #069d00;
+                background-color: #ff0000;
             }
 
         td.GoCabinet {
@@ -190,8 +190,8 @@
             overflow: hidden;
             padding: 0px;
             height: 80px;
-            font: normal 24px/24px arial;
-            background-color: #096400;
+            font: normal 22px/22px arial;
+            background-color: #11570e;
             text-align: center;
             vertical-align: middle;
             color: #fff;
@@ -199,7 +199,7 @@
         }
 
             td.GoPrepay:hover {
-                background-color: #069d00;
+                background-color: #ff0000;
             }
 
         td.PayInfo {
@@ -1342,8 +1342,11 @@
             </div>
             <div id="TitleInfo" class="TitleDiv"></div>
             <div id="CabinetInfo" class="TitleDiv" style="display: none; width: 904px;"></div>
+            <div id="CreateOrder" class="CreateOrderDiv" uk="Створити замовлення  <img src='https://static.liqpay.ua/buttons/logo-small.png' name='btn_text' style='margin-right: 7px !important; vertical-align: middle !important;'/>">Создать заказ <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;" /></div>
+            <div style="padding: 1px;"><table width="100%" id="PayOrder"></table></div>
+            <div id="RatesDiv" style="display: none;"></div>
             <div>
-                <table id="ProductsListView" style="table-layout: fixed; border-collapse: collapse; margin: 2px;">
+                <table id="ProductsListView" style="table-layout: fixed; border-collapse: collapse; margin: 2px; margin-top: 0px">
                     <tr>
                         <td class="products" id="col1" style="padding-left: 0px"></td>
                         <td class="products" id="col2"></td>
@@ -1351,13 +1354,10 @@
                     </tr>
                 </table>
                 <div id="ContentDIV" style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
-                    <table id="CabinetTable" style="display: none; margin-left: auto; margin-right: auto; margin-top: 5px; color: #333333; background-color: transparent; border-radius: 8px; width: 926px; table-layout: fixed;" align="center"></table>
+                    <table id="CabinetTable" style="display: none; margin-left: auto; margin-right: auto; color: #333333; background-color: transparent; border-radius: 8px; width: 926px; table-layout: fixed;" align="center"></table>
                 </div>
             </div>
             <div id="EmptyDiv" uk="Порожньо" style="display: none; text-align: center; padding: 10px">Пусто</div>
-            <div id="CreateOrder" class="CreateOrderDiv" uk="Створити замовлення">Создать заказ</div>
-            <table width="100%" id="PayOrder"></table>
-            <div id="RatesDiv" style="display: none;"></div>
         </div>
     </div>
 </body>
@@ -1960,6 +1960,20 @@
         }
     }
 
+    function bindPayCard2(data) {
+        //$("#PayOrder").children().remove();
+        $("#PayOrder").hide();
+
+        if (data.d[2] == "1") {
+            window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + uid_v + "&id=" + data.d[1] + "&p=" + $("#PrepaySum").html().replace("грн", "") + "&host=" + extractHostname(window.location.origin));
+        }
+        else {
+            $("#splash").hide();
+            loadingHide();
+            alert("Замовлення втратило актуальність");
+        }
+    }
+
     $("#CabinetTable").delegate('.PayBonuses', 'click', function () {
 
         $("#splash").show();
@@ -2232,7 +2246,7 @@
             }
 
             $(this).children().first().attr("class", "cart1");
-            $(this).find(".tocart").html($("#MBM1").attr("v16") == "1" ? "У кошик" : "В корзину");
+            $(this).find(".tocart").html($("#MBM1").attr("v16") == "1" ? "Купити" : "Купить");
         }
     });
 
@@ -2277,15 +2291,54 @@
             $("#splash2").show();
             loadingShow();
 
-            $.ajax({
-                async: true,
-                type: "POST",
-                url: "https://xpool.pro/web/webform.aspx/GetMainCats",
-                data: "{ \"uid\":" + uid_v + ", \"sid\":" + getUrlParameter("ssid") + " }",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: bindGetMainCats
-            });
+            //alert(getUrlParameter("cat"));
+
+            if (getUrlParameter("cat").indexOf("/") == -1) {
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetMainCats",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + getUrlParameter("ssid") + " }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetMainCats
+                });
+
+            }
+            else {
+
+                startRecord = 0;
+                sort = 0;
+                currentEvent = "subcats";
+
+                data_status = 2;
+
+                var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
+
+                var p_info = getUrlParameter("cat").split("/");
+
+                var last_part = p_info[p_info.length - 1];
+
+                var index = getUrlParameter("cat").indexOf("/" + last_part);
+
+                var path = getUrlParameter("cat");
+
+                if (index != 0)
+                    path = getUrlParameter("cat").slice(0, index);
+
+                //alert(path);
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetSubCats",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + getUrlParameter("ssid") + ", \"path\":'" + path.replace(/_/g, " ") + "', \"status\":0, \"startRecord\":0, \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetSubCats
+                });
+            }
         }
         else {
             if ($("#MBM1").attr("glue1") != getUrlParameter("sid") + "=") {
@@ -2414,35 +2467,35 @@
             async: true,
             type: "POST",
             url: "https://xpool.pro/web/webform.aspx/GetSubCats",
-            data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(this).attr("sid") + ", \"path\":'" + $(this).attr("path") + "', \"status\":1, \"startRecord\":0, \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+            data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(this).attr("sid") + ", \"path\":'" + $(this).attr("path") + "', \"status\":0, \"startRecord\":0, \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: bindGetSubCats
         });
     })
 
-    $("#SubCatMenu, #TitleInfo").delegate('td.category2, span.TitleSubSpan', "click", function () {
-        $("#splash2").show();
-        loadingShow();
+    //$("#SubCatMenu, #TitleInfo").delegate('td.category2, span.TitleSubSpan', "click", function () {
+    //    $("#splash2").show();
+    //    loadingShow();
 
-        startRecord = 0;
-        sort = 0;
-        currentEvent = "subcats2";
+    //    startRecord = 0;
+    //    sort = 0;
+    //    currentEvent = "subcats2";
 
-        data_status = 3;
+    //    data_status = 3;
 
-        var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
+    //    var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
 
-        $.ajax({
-            async: true,
-            type: "POST",
-            url: "https://xpool.pro/web/webform.aspx/GetSubCats",
-            data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(this).attr("sid") + ", \"path\":'" + $(this).attr("path") + "', \"status\":1, \"startRecord\":0, \"sort\":" + sort + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: bindGetSubCats2
-        });
-    })
+    //    $.ajax({
+    //        async: true,
+    //        type: "POST",
+    //        url: "https://xpool.pro/web/webform.aspx/GetSubCats",
+    //        data: "{ \"uid\":" + uid_v + ", \"sid\":" + $(this).attr("sid") + ", \"path\":'" + $(this).attr("path") + "', \"status\":1, \"startRecord\":0, \"sort\":" + sort + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: bindGetSubCats2
+    //    });
+    //})
 
     $("body").delegate('span.close', "click", function () {
         if ($("#splash2").css('display') == 'none') {
@@ -2519,7 +2572,7 @@
 
         $("#MenuDIV").animate({ scrollLeft: 1000 }, 0);
         $("#MenuDIV").animate({ scrollLeft: $('.catalog').position().left - window.innerWidth / 2 + 25 }, 500);
-        // }
+       
     }
 
     function bindGetSubCats(data) {
@@ -2530,34 +2583,94 @@
            
             window.history.pushState({}, "", "index.html?ssid=" + data.d[4] + "&cat=" + data.d[0].replace(/ /g, "_"));
 
-            loading2Show();
-            $("#EmptyDiv").hide();
-            $('#MainCatMenu').hide();
-            $('#SubCatMenu').hide();
-            $('#splash2').hide();
+            if (data.d[1].length > 2) {
+                $("#CabinetTable").children().remove();
+                $("#ProductsListView").hide();
 
-            var title_cat = data.d[0];
+                $("#TitleInfo").hide();
 
-            if (title_cat == "Все" && $("#MBM1").attr("v16") == "1") {
-                title_cat = "Усе";
+                data_status = 11;
+
+                var dataRows = data.d[1];
+
+                window.history.pushState({}, "", "index.html?catsid=" + dataRows[0][2]);
+
+
+                $("#MainCatMenu").children().eq(1).children().remove();
+
+                $("#CabinetTable").append('<tr class="ItemContainer"><td class="category3">Назад</td></tr>');
+
+                for (var i = 0; i < dataRows.length; i++) {
+
+                    var selected_tr = (selected_cat == dataRows[i][0]) ? "style='background-color: #9999FF'" : "";
+
+                    if (dataRows[i][0] == "Все" && $("#MBM1").attr("v16") == "1") {
+                        dataRows[i][0] = "Усе";
+                    }
+                    else if (dataRows[i][0] == "Прочее" && $("#MBM1").attr("v16") == "1") {
+                        dataRows[i][0] = "Інше";
+                    }
+
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category2" ' + selected_tr + ' path="' + dataRows[i][1] + '" sid="' + dataRows[i][2] + '">' + dataRows[i][0] + '</td></tr>');
+                }
+
+                loadingHide();
+                $("#splash2").hide();
+                SetView();
+
+                //////////////////////////   
+
+                startRecord = 0;
+
+                fillLangContent();
+
+                $("#CabinetTable").show();
+                $("#createaccount").hide();
+                loadingHide();
+
+                if ($("#orderaccepted").css("display") == "none") {
+                    $("#splash").hide();
+                }
+
+                $("#splash2").hide();
+
+                loading2Hide();
+
+                $("#ContentDIV").animate({ scrollLeft: 1000 }, 0);
+                $("#ContentDIV").animate({ scrollLeft: 0 }, 500);
+
+                $("#MenuDIV").animate({ scrollLeft: 1000 }, 0);
+                $("#MenuDIV").animate({ scrollLeft: $('.catalog').position().left - window.innerWidth / 2 + 25 }, 500);
             }
-            else if (title_cat == "Прочее" && $("#MBM1").attr("v16") == "1") {
-                title_cat = "Інше";
+            else {
+                loading2Show();
+                $("#EmptyDiv").hide();
+                $('#MainCatMenu').hide();
+                $('#SubCatMenu').hide();
+                $('#splash2').hide();
+
+                var title_cat = data.d[0];
+
+                if (title_cat == "Все" && $("#MBM1").attr("v16") == "1") {
+                    title_cat = "Усе";
+                }
+                else if (title_cat == "Прочее" && $("#MBM1").attr("v16") == "1") {
+                    title_cat = "Інше";
+                }
+
+                $("#TitleInfo").css("background-color", "#fff");
+
+                var title_span = '<span class="TitleSpan" path="' + data.d[0] + '" sid="' + data.d[4] + '">' + title_cat + '</span>';
+
+                if (window.innerWidth < 500)
+                    title_span = '<span class="TitleSpan" style="width: 200px;" path="' + data.d[0] + '" sid="' + data.d[4] + '">' + title_cat + '</span>';
+
+                $('#TitleInfo').html(title_span + ':<span class="SortView"></span><span class="ListView"></span><span class="TableView"></span>');
+                $("#CabinetInfo").hide();
+                $("#TitleInfo").show();
+                $(".SortView").show();
+                bindGrid(data);
             }
-
-            $("#TitleInfo").css("background-color", "#fff");
-
-            var title_span = '<span class="TitleSpan" path="' + data.d[0] + '" sid="' + data.d[4] + '">' + title_cat + '</span>';
-
-            if (window.innerWidth < 500)
-                title_span = '<span class="TitleSpan" style="width: 200px;" path="' + data.d[0] + '" sid="' + data.d[4] + '">' + title_cat + '</span>';
-
-            $('#TitleInfo').html(title_span + ':<span class="SortView"></span><span class="ListView"></span><span class="TableView"></span>');
-            $("#CabinetInfo").hide();
-            $("#TitleInfo").show();
-            $(".SortView").show();
-            bindGrid(data);
-            //}
         }
     }
 
@@ -3213,6 +3326,27 @@
 
     function bindGetFavCount(data) {
         if (currentEvent == "favs") {
+
+            if (data.d[4].length > 0) {
+                $(".heartcount").html(parseInt($(".heartcount").html()) - data.d[4].length);
+
+                var date = new Date();
+                var minutes = 60;
+                var hours = 24;
+                var days = 365;
+                date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
+                var _c_favors = $.cookie("c_favors");
+
+                for (var i = 0; i < data.d[4].length; i++) {
+
+                    _c_favors = _c_cart.replace(":" + data.d[4] + ":", "");
+
+                }
+
+                $.cookie("c_favors", _c_favors, { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+            }
+
             $("#TitleInfo").css("background-color", "#fff");
             $('#TitleInfo').html(($("#MBM1").attr("v16") == "1" ? "Бажання" : "Желания") + ':<span class="ListView"></span><span class="TableView"></span>');
             $("#CabinetInfo").hide();
@@ -4516,17 +4650,6 @@
     var uid_v = 48;//edit
     var sid_v = 638;//edit
 
-    function bindPayCard2(data) {
-        if (data.d[2] == "1") {
-            window.location.replace("https://xpool.pro/payment/redirect.aspx?uid=" + getUrlParameter("uid") + "&id=" + getUrlParameter("id") + "&p=" + getUrlParameter("p") + "&host=" + extractHostname(window.location.origin));
-        }
-        else {
-            $("#splash").hide();
-            loadingHide();
-            alert("Замовлення втратило актуальність");
-        }
-    }
-
     var init_status = 1;
 
     function bindInit(data) {
@@ -4577,22 +4700,7 @@
             $("div.menu span.info").click();
         }
 
-        if (getUrlParameter("p") != undefined && getUrlParameter("p") != '') {
-            $("#splash").show();
-            loadingShow();
-
-            $.ajax({
-                async: true,
-                type: "POST",
-                url: "https://xpool.pro/web/webform.aspx/PayCard",
-                data: "{ \"uid\":" + getUrlParameter("uid") + ", \"cheque\":" + getUrlParameter("id") + " }",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: bindPayCard2
-            });
-        }
-        else
-        {
+       
             $("#datepicker1,#datepicker2").datepicker({
                 showAnim: '',
                 beforeShow: function () {
@@ -4737,332 +4845,331 @@
                 $(".mcartcount").html(count);
             }
 
-            if ($.cookie("c_client") != undefined && $.cookie("c_client") != null && $.cookie("c_client") != '') {
+        if ($.cookie("c_client") != undefined && $.cookie("c_client") != null && $.cookie("c_client") != '') {
 
-                currentEvent = "login";
+            currentEvent = "login";
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/GetClient",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"phone\":'', \"key\":'" + $.cookie("c_client") + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetClient
+            });
+        }
+        else if (getUrlParameter("catalog") != '' && getUrlParameter("catalog") != undefined) {
+            $("div.menu span.catalog").click();
+        }
+        else if (getUrlParameter("catsid") != '' && getUrlParameter("catsid") != undefined) {
+            $("#splash2").show();
+            loadingShow();
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/GetMainCats",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + getUrlParameter("catsid") + " }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetMainCats
+            });
+        }
+        else {
+            var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
+
+            if (getUrlParameter("s") != '' && getUrlParameter("s") != undefined) {
+
+                data_status = 0;
+                currentEvent = "search";
+
+                var ssid = sid_v;
+
+                //if (getUrlParameter("ssid") != '' && getUrlParameter("ssid") != undefined) {
+                //    ssid = getUrlParameter("ssid");
+                //}
+
+                var minp = $("#minp").val();
+
+                if (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') {
+                    minp = getUrlParameter("minp");
+                }
+
+
+                var maxp = $("#maxp").val();
+
+                if (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') {
+                    maxp = getUrlParameter("maxp");
+                }
+
+                var href1 = removeParam("minp", window.location.href);
+                href1 = removeParam("maxp", href1);
+                href1 = href1.replace("https://www.xpool.pro", '');
+
+                window.history.pushState({}, "https://www.xpool.pro", href1);
 
                 $.ajax({
                     async: true,
                     type: "POST",
-                    url: "https://xpool.pro/web/webform.aspx/GetClient",
-                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"phone\":'', \"key\":'" + $.cookie("c_client") + "' }",
+                    url: "https://xpool.pro/web/webform.aspx/GetData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"desc\":'" + getUrlParameter("s") + "', \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "',  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"minp\":" + minp + ", \"maxp\":" + maxp + ", \"host\":'" + extractHostname(window.location.origin) + "' }",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: bindGetClient
+                    success: bindGetData
                 });
             }
-            else if (getUrlParameter("catalog") != '' && getUrlParameter("catalog") != undefined) {
-                $("div.menu span.catalog").click();
+            else if (getUrlParameter("id") != '' && getUrlParameter("id") != undefined) {
+
+                data_status = 0;
+                currentEvent = "search";
+
+                var ssid = sid_v;
+
+                var minp = $("#minp").val();
+
+                if (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') {
+                    minp = getUrlParameter("minp");
+                }
+
+
+                var maxp = $("#maxp").val();
+
+                if (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') {
+                    maxp = getUrlParameter("maxp");
+                }
+
+                var id = getUrlParameter("id");
+
+                var href1 = removeParam("minp", window.location.href);
+                href1 = removeParam("maxp", href1);
+                href1 = removeParam("id", href1);
+                //href1 = href1.replace("https://www.xpool.pro", '');
+
+                //window.history.pushState({}, "https://www.xpool.pro", href1);
+
+                //if (getUrlParameter("cart") == "1") {
+                var date = new Date();
+                var minutes = 60;
+                var hours = 24;
+                var days = 365;
+                date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
+                $.cookie("c_cart", ":" + id + "#1#" + sid_v + ":", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+
+                if (window.innerWidth > 416) {
+                    date = new Date();
+                    var minutes = 60;
+                    var hours = 24;
+                    var days = 365;
+                    date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
+                    $.cookie("c_view", "list", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+                }
+
+                $(".cartsum").html("1");
+
+                $("#CartCount").click();
+                //}
+                //else {
+                //    $.ajax({
+                //        async: true,
+                //        type: "POST",
+                //        url: "https://xpool.pro/web/webform.aspx/GetData",
+                //        data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"desc\":'$" + id + "', \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "',  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"minp\":" + minp + ", \"maxp\":" + maxp + " }",
+                //        contentType: "application/json; charset=utf-8",
+                //        dataType: "json",
+                //        success: bindGetData
+                //    });
+                //}
             }
-            else if (getUrlParameter("catsid") != '' && getUrlParameter("catsid") != undefined) {
-                $("#splash2").show();
-                loadingShow();
+            else if (getUrlParameter("ids") != '' && getUrlParameter("ids") != undefined) {
 
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    url: "https://xpool.pro/web/webform.aspx/GetMainCats",
-                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + getUrlParameter("catsid") + " }",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: bindGetMainCats
-                });
-            }
-            else {
-                var datetime = $("#DateTimeInfo").css('display') == 'none' ? "" : $("#datepicker").val();
+                data_status = 0;
+                currentEvent = "search";
 
-                if (getUrlParameter("s") != '' && getUrlParameter("s") != undefined) {
+                var ssid = sid_v;
 
-                    data_status = 0;
-                    currentEvent = "search";
+                //if (getUrlParameter("ssid") != '' && getUrlParameter("ssid") != undefined) {
+                //    ssid = getUrlParameter("ssid");
+                //}
 
-                    var ssid = sid_v;
+                var minp = $("#minp").val();
 
-                    //if (getUrlParameter("ssid") != '' && getUrlParameter("ssid") != undefined) {
-                    //    ssid = getUrlParameter("ssid");
-                    //}
-
-                    var minp = $("#minp").val();
-
-                    if (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') {
-                        minp = getUrlParameter("minp");
-                    }
+                if (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') {
+                    minp = getUrlParameter("minp");
+                }
 
 
-                    var maxp = $("#maxp").val();
+                var maxp = $("#maxp").val();
 
-                    if (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') {
-                        maxp = getUrlParameter("maxp");
-                    }
+                if (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') {
+                    maxp = getUrlParameter("maxp");
+                }
 
-                    var href1 = removeParam("minp", window.location.href);
-                    href1 = removeParam("maxp", href1);
-                    href1 = href1.replace("https://www.xpool.pro", '');
+                var ids = getUrlParameter("ids");
 
-                    window.history.pushState({}, "https://www.xpool.pro", href1);
 
+                var href1 = removeParam("minp", window.location.href);
+                href1 = removeParam("maxp", href1);
+                href1 = removeParam("ids", href1);
+                href1 = href1.replace("https://www.xpool.pro", '');
+
+                window.history.pushState({}, "https://www.xpool.pro", href1);
+
+                if (getUrlParameter("cart") == "1") {
+                    var date = new Date();
+                    var minutes = 60;
+                    var hours = 24;
+                    var days = 365;
+                    date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
+                    $.cookie("c_cart", ids.replace(/\+/g, "#"), { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+
+                    $(".mcartcount").html(getUrlParameter("ccount") != undefined ? getUrlParameter("ccount") : "0");
+
+                    $("#CartCount").click();
+                }
+                else {
                     $.ajax({
                         async: true,
                         type: "POST",
                         url: "https://xpool.pro/web/webform.aspx/GetData",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"desc\":'" + getUrlParameter("s") + "', \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "',  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"minp\":" + minp + ", \"maxp\":" + maxp + ", \"host\":'" + extractHostname(window.location.origin) + "' }",
+                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"desc\":'" + ids + "', \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "',  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"minp\":" + minp + ", \"maxp\":" + maxp + ", \"host\":'" + extractHostname(window.location.origin) + "' }",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: bindGetData
                     });
                 }
-                else if (getUrlParameter("id") != '' && getUrlParameter("id") != undefined) {
+            }
+            else if (getUrlParameter("cat") != '' && getUrlParameter("cat") != undefined) {
 
-                    data_status = 0;
-                    currentEvent = "search";
+                data_status = 2;
+                currentEvent = "subcats";
 
-                    var ssid = sid_v;
+                var ssid = sid_v;
 
-                    var minp = $("#minp").val();
-
-                    if (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') {
-                        minp = getUrlParameter("minp");
-                    }
-
-
-                    var maxp = $("#maxp").val();
-
-                    if (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') {
-                        maxp = getUrlParameter("maxp");
-                    }
-
-                    var id = getUrlParameter("id");
-
-                    var href1 = removeParam("minp", window.location.href);
-                    href1 = removeParam("maxp", href1);
-                    href1 = removeParam("id", href1);
-                    //href1 = href1.replace("https://www.xpool.pro", '');
-
-                    //window.history.pushState({}, "https://www.xpool.pro", href1);
-
-                    //if (getUrlParameter("cart") == "1") {
-                        var date = new Date();
-                        var minutes = 60;
-                        var hours = 24;
-                        var days = 365;
-                        date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
-
-                        $.cookie("c_cart", ":" + id + "#1#" + sid_v + ":", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
-
-                    if (window.innerWidth > 416) {
-                        date = new Date();
-                        var minutes = 60;
-                        var hours = 24;
-                        var days = 365;
-                        date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
-
-                        $.cookie("c_view", "list", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
-                    }
-
-                        $(".cartsum").html("1");
-
-                        $("#CartCount").click();
-                    //}
-                    //else {
-                    //    $.ajax({
-                    //        async: true,
-                    //        type: "POST",
-                    //        url: "https://xpool.pro/web/webform.aspx/GetData",
-                    //        data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"desc\":'$" + id + "', \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "',  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"minp\":" + minp + ", \"maxp\":" + maxp + " }",
-                    //        contentType: "application/json; charset=utf-8",
-                    //        dataType: "json",
-                    //        success: bindGetData
-                    //    });
-                    //}
+                if (getUrlParameter("ssid") != '' && getUrlParameter("ssid") != undefined) {
+                    ssid = getUrlParameter("ssid");
                 }
-                else if (getUrlParameter("ids") != '' && getUrlParameter("ids") != undefined) {
 
-                    data_status = 0;
-                    currentEvent = "search";
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetSubCats",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"path\":'" + getUrlParameter("cat").replace(/_/g, " ") + "', \"status\":1, \"startRecord\":" + startRecord + ",  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetSubCats
+                });
+            }
+            else if (getUrlParameter("feed") == "google") {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetGoogleFeedData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetGoogleFeedData
+                });
+            }
+            else if (getUrlParameter("sv") == "0") {
+                data_status = 1;
+                currentEvent = "new";
 
-                    var ssid = sid_v;
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetNewData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetNewData
+                });
+            }
+            else if (getUrlParameter("sv") == "1") {
+                data_status = 4;
+                currentEvent = "best";
 
-                    //if (getUrlParameter("ssid") != '' && getUrlParameter("ssid") != undefined) {
-                    //    ssid = getUrlParameter("ssid");
-                    //}
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetTopRatedData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetTopRatedData
+                });
+            }
+            else if (getUrlParameter("sv") == "2") {
+                data_status = 5;
+                currentEvent = "discount";
 
-                    var minp = $("#minp").val();
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetTopDiscount",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetTopDiscount
+                });
+            }
+            //else if (getUrlParameter("sv") == "3") 
+            //{
+            //    $(".moneyboxm").click();
+            //}
+            else if (getUrlParameter("sv") == "4") {
+                $("#CartCount").click();
+            }
+            else if (getUrlParameter("sv") == "5") {
+                $("#FavCount").click();
+            }
+            else if ($("#MBM1").attr("v6") == "0") {
 
-                    if (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') {
-                        minp = getUrlParameter("minp");
-                    }
+                data_status = 1;
+                currentEvent = "new";
 
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetNewData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetNewData
+                });
+            }
+            else if ($("#MBM1").attr("v6") == "1") {
 
-                    var maxp = $("#maxp").val();
+                data_status = 4;
+                currentEvent = "best";
 
-                    if (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') {
-                        maxp = getUrlParameter("maxp");
-                    }
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetTopRatedData",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetTopRatedData
+                });
+            }
+            else if ($("#MBM1").attr("v6") == "2") {
 
-                    var ids = getUrlParameter("ids");
+                data_status = 5;
+                currentEvent = "discount";
 
-
-                    var href1 = removeParam("minp", window.location.href);
-                    href1 = removeParam("maxp", href1);
-                    href1 = removeParam("ids", href1);
-                    href1 = href1.replace("https://www.xpool.pro", '');
-
-                    window.history.pushState({}, "https://www.xpool.pro", href1);
-
-                    if (getUrlParameter("cart") == "1") {
-                        var date = new Date();
-                        var minutes = 60;
-                        var hours = 24;
-                        var days = 365;
-                        date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
-
-                        $.cookie("c_cart", ids.replace(/\+/g, "#"), { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
-
-                        $(".mcartcount").html(getUrlParameter("ccount") != undefined ? getUrlParameter("ccount") : "0");
-
-                        $("#CartCount").click();
-                    }
-                    else {
-                        $.ajax({
-                            async: true,
-                            type: "POST",
-                            url: "https://xpool.pro/web/webform.aspx/GetData",
-                            data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"desc\":'" + ids + "', \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "',  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"minp\":" + minp + ", \"maxp\":" + maxp + ", \"host\":'" + extractHostname(window.location.origin) + "' }",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: bindGetData
-                        });
-                    }
-                }
-                else if (getUrlParameter("cat") != '' && getUrlParameter("cat") != undefined) {
-
-                    data_status = 2;
-                    currentEvent = "subcats";
-
-                    var ssid = sid_v;
-
-                    if (getUrlParameter("ssid") != '' && getUrlParameter("ssid") != undefined) {
-                        ssid = getUrlParameter("ssid");
-                    }
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetSubCats",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + ssid + ", \"path\":'" + getUrlParameter("cat").replace(/_/g, " ") + "', \"status\":1, \"startRecord\":" + startRecord + ",  \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetSubCats
-                    });
-                }
-                else if (getUrlParameter("feed") == "google") {
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetGoogleFeedData",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetGoogleFeedData
-                    });
-                }
-                else if (getUrlParameter("sv") == "0") {
-                    data_status = 1;
-                    currentEvent = "new";
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetNewData",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetNewData
-                    });
-                }
-                else if (getUrlParameter("sv") == "1") {
-                    data_status = 4;
-                    currentEvent = "best";
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetTopRatedData",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetTopRatedData
-                    });
-                }
-                else if (getUrlParameter("sv") == "2") {
-                    data_status = 5;
-                    currentEvent = "discount";
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetTopDiscount",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetTopDiscount
-                    });
-                }
-                //else if (getUrlParameter("sv") == "3") 
-                //{
-                //    $(".moneyboxm").click();
-                //}
-                else if (getUrlParameter("sv") == "4") {
-                    $("#CartCount").click();
-                }
-                else if (getUrlParameter("sv") == "5") {
-                    $("#FavCount").click();
-                }
-                else if ($("#MBM1").attr("v6") == "0") {
-
-                    data_status = 1;
-                    currentEvent = "new";
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetNewData",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"sort\":" + sort + ", \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetNewData
-                    });
-                }
-                else if ($("#MBM1").attr("v6") == "1") {
-
-                    data_status = 4;
-                    currentEvent = "best";
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetTopRatedData",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetTopRatedData
-                    });
-                }
-                else if ($("#MBM1").attr("v6") == "2") {
-
-                    data_status = 5;
-                    currentEvent = "discount";
-
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "https://xpool.pro/web/webform.aspx/GetTopDiscount",
-                        data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: bindGetTopDiscount
-                    });
-                }
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "https://xpool.pro/web/webform.aspx/GetTopDiscount",
+                    data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"startRecord\":" + startRecord + ", \"glue\":'" + $("#MBM1").attr("glue1") + "', \"product_view\":" + $("#MBM1").attr("v20") + ", \"view_type\":" + $("#MBM1").attr("v21") + ", \"datetime\":'" + datetime + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetTopDiscount
+                });
             }
         }
     };
@@ -5672,7 +5779,7 @@
                     if ($.cookie("c_cart") != undefined && $.cookie("c_cart") != null && $.cookie("c_cart") != '' && (($.cookie("c_cart").indexOf(":" + id + "#") != -1 || $.cookie("c_cart").indexOf("%3A" + id + "#") != -1)))
                         res = '<div class="cart" style="width: 190px; margin-left: 0px"><span class="cart2" code="' + id + '" sid="' + sid + '"></span><span class="tocart" style="left:36px; -webkit-transform: translateX(0%);">' + ($("#MBM1").attr("v16") == "1" ? "Видалити" : "Убрать") + '</span></div>';
                     else
-                        res = '<div class="cart" style="width: 190px; margin-left: 0px"><span class="cart1" code="' + id + '" sid="' + sid + '"></span><span class="tocart" style="left:36px; -webkit-transform: translateX(0%);">' + ($("#MBM1").attr("v16") == "1" ? "У кошик" : "В корзину") + '</span></div>';
+                        res = '<div class="cart" style="width: 190px; margin-left: 0px"><span class="cart1" code="' + id + '" sid="' + sid + '"></span><span class="tocart" style="left:36px; -webkit-transform: translateX(0%);">' + ($("#MBM1").attr("v16") == "1" ? "Купити" : "Купить") + '</span></div>';
                 }
             }
             else {
@@ -5683,7 +5790,7 @@
                     if ($.cookie("c_cart") != undefined && $.cookie("c_cart") != null && $.cookie("c_cart") != '' && (($.cookie("c_cart").indexOf(":" + id + "#") != -1 || $.cookie("c_cart").indexOf("%3A" + id + "#") != -1)))
                         res = '<div class="cart"><span class="cart2" code="' + id + '" sid="' + sid + '"></span><span class="tocart">' + ($("#MBM1").attr("v16") == "1" ? "Видалити" : "Убрать") + '</span></div>';
                     else
-                        res = '<div class="cart"><span class="cart1" code="' + id + '" sid="' + sid + '"></span><span class="tocart">' + ($("#MBM1").attr("v16") == "1" ? "У кошик" : "В корзину") + '</span></div>';
+                        res = '<div class="cart"><span class="cart1" code="' + id + '" sid="' + sid + '"></span><span class="tocart">' + ($("#MBM1").attr("v16") == "1" ? "Купити" : "Купить") + '</span></div>';
                 }
             }
         }
@@ -5726,6 +5833,7 @@
                 var addr = "";
 
                 if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
+                    city = "Тернівка (місцевий)";
                     addr = $("#AdressTextBox").val();
                 }
                 else {
@@ -5743,8 +5851,28 @@
 
                 if (city == '' || addr == '' || $("#PhoneTextBox").val() == '' || $("#PhoneTextBox").val().indexOf("_") > 0 || $("#NameTextBox").val() == '' || $("#SecondNameTextBox").val() == '') {
                     alert("Перед відправкою необхідно заповнити всі поля");
+                    if ($("#PhoneTextBox").val().indexOf("_") != -1 && $("#PhoneTextBox").val() != '') {
+                        $("#PhoneTextBox").css("background-color", "#FF8888");
+                    }
+                    if (city == '') {
+                        $("#CurrentCityTextBox").css("background-color", "#FF8888");
+                    }
+                    if (addr == '') {
+                        if ($("#DeliveryTypeSelect").val() == 2)
+                            $("#AdressTextBox").css("background-color", "#FF8888");
+                        else
+                            $("#CurrentWarehouseTextBox").css("background-color", "#FF8888");
+                    }
+                    if ($("#NameTextBox").val() == '') {
+                        $("#NameTextBox").css("background-color", "#FF8888");
+                    }
+                    if ($("#SecondNameTextBox").val() == '') {
+                        $("#SecondNameTextBox").css("background-color", "#FF8888");
+                    }
                     $("#splash").hide();
                     loadingHide();
+                    var n = $(document).height();
+                    $('html, body').animate({ scrollTop: n }, 500);
                 }
                 else {
                     $("#splash").hide();
@@ -5759,9 +5887,7 @@
                         $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
                     }
                     else {
-                        
-                        $("#PayOrder").append('<tr><td id="PayOnline" class="GoPay" width="100%">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/></td></tr>');
-
+                       
                         var _sum = parseFloat($(".cartsum").html());
                         var prepay_sum = 100;
 
@@ -5774,9 +5900,12 @@
                             prepay_sum == 200;
 
                         if (_sum > 100)
-                            $("#PayOrder").append('<tr><td id="PayOnline2" class="GoPrepay" width="100%">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити передплату" : "Оплатить предоплату") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/><br/><span id="PrepaySum" style="font: normal 18px arial;">' + prepay_sum + ' грн</span></td></tr>');
+                            $("#PayOrder").append('<tr><td id="PayOnline2" class="GoPrepay" width="100%" style="width: ' + $("#CreateNewOrder").innerWidth() + 'px"">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити передплату" : "Оплатить предоплату") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/><br/><span id="PrepaySum" style="font: normal 18px arial;">' + prepay_sum + ' грн</span></td></tr>');
 
-                        $("#PayOrder").append('<tr><td class="PayInfo" width="100%"><div style="text-align: center; padding: 10px;"><span class= "Visa"></span><span class="MasterCard"></span><br/>ФОП Краснікова О.С. ІПН: 111111111</div></td></tr>');
+                        $("#PayOrder").append('<tr><td id="PayOnline" class="GoPay" width="100%" style="margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/></td></tr>');
+
+                        $("#PayOrder").append('<tr><td class="PayInfo" width="100%"><div style="text-align: center; padding: 10px; margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px""><span class= "Visa"></span><span class="MasterCard"></span><br/>ФОП Краснікова О.С. РНОКПП: 2374202227</div></td></tr>');
+
                     }
 
                     //$("#CabinetTable").append('<tr class="ItemContainer"><td></td></tr>');
@@ -5831,7 +5960,8 @@
                     $("#CabinetTable").append('<tr id="d_tr11" class="ItemContainer"><td class="cheque" id="SecondNameTD" uk="Прізвище:">Фамилия:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr12" class="ItemContainer"><td class="cheque"><input id="SecondNameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
-                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Замовлені товари оглянуть на справність</td></tr>');
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small;"><a href="">Гарантія</a> і <a href="https://xpool.pro/source/bgy6q-1g33z.html">Публічна оферта</a></td></tr>');
+
                     $("#CabinetTable").append('<tr class="ItemContainer"><td class="cheque" style="font-size: small">Вартість доставки: за тарифам Нової Пошти</td><tr>');
 
                     $("#DeliveryTypeSelect").val("1");
@@ -5944,6 +6074,28 @@
         }
     });
 
+    $("#PayOrder").delegate("#PayOnline2", "click", function () {
+
+        loadingShow();
+        $("#splash").show();
+
+        var client_id = $("#MainBalance").attr("client_id");
+
+        if (client_id == undefined || client_id == '')
+            client_id = 0;
+
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
+            data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + $("#PhoneTextBox").val() + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":'" + $("#DeliveryTypeSelect").val() + "', \"warehouse\":'" + $("#CurrentWarehouseTextBox").val() + "', \"area\":'', \"city\":'" + $("#CurrentCityTextBox").val() + "', \"address\":'" + $("#AddressTextBox").val() + "', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'" + $("#SecondNameTextBox").val() + "', \"patronymic\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + (getUrlParameter("c_time") != undefined ? getUrlParameter("c_time") : '') + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: bindCreateNewOrder3
+        });
+
+    });
+
     function bindCreateNewOrder2(data) {
 
         if (data.d[2] != "") {
@@ -5975,6 +6127,40 @@
             loadingHide();
 
             alert("Помилка");
+        }
+    }
+
+    function bindCreateNewOrder3(data) {
+
+        if (data.d[2] != "") {
+
+            var date = new Date();
+            var minutes = 60;
+            var hours = 24;
+            var days = 365;
+            date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
+            $.cookie("c_cart", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+            $.cookie("c_comments", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+            $.cookie("c_time", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+
+            $("div.menu span.mcartcount").html("0");
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/PayCard",
+                data: "{ \"uid\":" + uid_v + ", \"cheque\":" + data.d[2] + " }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindPayCard2
+            });
+        }
+        else {
+            $("#splash").hide();
+            loadingHide();
+
+            alert("Замовлення втратило актуальність");
         }
     }
 
@@ -6015,6 +6201,7 @@
     });
 
     function bindGetLastOrderInfo(data) {
+
 
         $('#CurrentCityTextBox').val(data.d.City);
 
@@ -6094,10 +6281,12 @@
 
     $("#CabinetTable").delegate('#DeliveryTypeSelect', 'change', function () {
         if ($(this).val() == "1") {
+            $("#CurrentCityTextBox").val('');
             $("#CabinetTable").find('[v="2"]').hide();
             $("#CabinetTable").find('[v="1"]').show();
         }
         else if ($(this).val() == "2") {
+            $("#CurrentCityTextBox").val('');
             $("#CabinetTable").find('[v="1"]').hide();
             $("#CabinetTable").find('[v="2"]').show();
         }
@@ -6783,9 +6972,15 @@
         }
         else if (currentEvent == "cart") {       
             $("#MenuDIV").animate({ scrollLeft: $('.mcart').position().left - window.innerWidth / 2 + 25 }, 500);
+            var n = $(document).height();
+            $('html, body').animate({ scrollTop: n }, 0);
+            $('html, body').animate({ scrollTop: 0 }, 500);
         }
         else if (currentEvent == "favs") {
             $("#MenuDIV").animate({ scrollLeft: $('.favorites').position().left - window.innerWidth / 2 + 25 }, 500);
+            var n = $(document).height();
+            $('html, body').animate({ scrollTop: n }, 0);
+            $('html, body').animate({ scrollTop: 0 }, 500);
         }
     }
 
@@ -7668,7 +7863,8 @@
             $("#CreateOrder").show();
 
         var $target = $('html,body');
-        $target.animate({ scrollTop: selected.offset().top + $("#ProductsListView").offset().top - selected.outerHeight() / 2 - $(window).height() / 2 }, 0);
+        $target.animate({ scrollTop: selected.offset().top + $("#ProductsListView").offset().top + selected.outerHeight() / 2 - 120 - $(window).height() / 2 }, 0);
+        selected.css({ "border": "solid 2px #FF0000" }).animate({ borderColor: "#000000" }, 1000);
     });
 
     $("#RatesDiv").delegate("#AddRate", "click", function () {
