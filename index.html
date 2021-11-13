@@ -5914,8 +5914,6 @@
                 $("#col3").children().remove();
                 $("#CabinetTable").children().remove();
 
-                alert("llool");
-
                 if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
@@ -5990,8 +5988,6 @@
                 $("#ContentDIV").animate({ scrollLeft: 1000 }, 0);
                 $("#ContentDIV").animate({ scrollLeft: 0 }, 500);
 
-                alert("frffr");
-
                 $.ajax({
                     async: true,
                     type: "POST",
@@ -6015,14 +6011,8 @@
     });
 
     $("#CabinetTable").delegate('#PhoneTextBox', 'keyup input', function () {
-
-        alert("test");
-        alert(ConvertPhone($("#PhoneTextBox").val()));
-
         if ($('#PhoneTextBox').val().indexOf("_") == -1) {
-
-           
-
+       
             $.ajax({
                 async: true,
                 type: "POST",
