@@ -1377,14 +1377,29 @@
         3692: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10"],
         5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10"],
         8547: ["1", "1", "1", "1", "1", "1", "1"],
-        8079: ["4", "3", "2", "8", "7", "6", "5"],
+        8079: ["5", "4", "3", "2", "8", "7", "6"],
         9170: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
-        9170: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
+       
         8071: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
         8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14"],
         9178: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
         9162: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
         8555: ["1", "1", "1", "1", "1", "1", "1"]
+    };
+
+    var delivery_time2 = {
+        638: ["", "", "", "", "", "", ""],
+        3692: ["", "", "", "", "", "", ""],
+        5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10"],
+        8547: ["<5", "<5", "<5", "<5", "<5", "<5", "<5"],
+        8079: ["5", "4", "3", "2", "8", "7", "6"],
+        9170: ["6", "5", "4", "3", "2", "8", "7"],
+       
+        8071: ["2", "4", "3", "2", "5", "4", "3"],
+        8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14"],
+        9178: ["5", "4", "3", "9", "8", "7", "6"],
+        9162: ["2", "4", "3", "2", "5", "4", "3"],
+        8555: ["<5", "<5", "<5", "<5", "<5", "<5", "<5"]
     };
 
     function SetView() {
@@ -3342,7 +3357,7 @@
             }
 
             $("#TitleInfo").css("background-color", "#fff");
-            $('#TitleInfo').html(($("#MBM1").attr("v16") == "1" ? "Бажання" : "Желания") + ':<span class="ListView"></span><span class="TableView"></span>');
+            $('#TitleInfo').html(($("#MBM1").attr("v16") == "1" ? "Бажання:" : "Желания:") + '<span class="ListView"></span><span class="TableView"></span>');
             $("#CabinetInfo").hide();
             $("#TitleInfo").show();
 
@@ -3407,7 +3422,7 @@
             }
 
             $("#TitleInfo").css("background-color", "#fff");
-            $('#TitleInfo').html(($("#MBM1").attr("v16") == "1" ? "Кошик" : "Корзина") + ":<span class='ListView'></span><span class='TableView'></span>");
+            $('#TitleInfo').html(($("#MBM1").attr("v16") == "1" ? "Кошик:" : "Корзина:") + "<span class='ListView'></span><span class='TableView'></span>");
             $("#CabinetInfo").hide();
             $("#TitleInfo").show();
 
@@ -6573,7 +6588,8 @@
 
                 var day_w = new Date().getDay();
 
-                var cur_time = delivery_time[dataRows[i].ShopID][day_w];
+                var cur_time = (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) ? delivery_time2[dataRows[i].ShopID][day_w] : delivery_time[dataRows[i].ShopID][day_w];
+
 
                 if ((disable_trade == "1" || (dataRows[i].ShopID == 3692 && dataRows[i].Price > 1200)) && dataRows[i].Count == 1 && dataRows[i].Status == 0) {
 
@@ -6609,7 +6625,7 @@
                         var curDate = " до " + day + "." + month;
                         delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? deliver_uk : deliver_ru) + curDate + "</div>";
                     }
-                    else {
+                    else if (cur_time != "") {
                         var d = new Date();
 
                         d.setDate(d.getDate() + parseInt(cur_time));
@@ -6770,7 +6786,7 @@
                         var curDate = " до " + day + "." + month;
                         delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? deliver_uk : deliver_ru) + curDate + "</div>";
                     }
-                    else {
+                    else if (cur_time != "") {
                         var d = new Date();
 
                         d.setDate(d.getDate() + parseInt(cur_time));
@@ -7674,7 +7690,7 @@
 
         $("#RatesDiv").append("<div id='HideRate' style='margin-top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
 
-        $("#RatesDiv").append("<div class='DescContent'>" + data.d + "</div>");
+        $("#RatesDiv").append("<div class='DescContent'>" + data.d[1] + "</br/><br/>" + data.d[0] + "</div>");
 
         fillLangContent();
 
