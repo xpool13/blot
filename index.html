@@ -6610,7 +6610,6 @@
 
                 var cur_time = (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) ? delivery_time2[dataRows[i].ShopID][day_w] : delivery_time[dataRows[i].ShopID][day_w];
 
-
                 if ((disable_trade == "1" || (dataRows[i].ShopID == 3692 && dataRows[i].Price > 1200)) && dataRows[i].Count == 1 && dataRows[i].Status == 0) {
 
                 }
@@ -6625,6 +6624,8 @@
                 }
                 else {
                     if (cur_time.indexOf("<") != -1) {
+                        var d = new Date();
+
                         d.setDate(d.getDate() + parseInt(cur_time.replace("<", "")));
 
                         day = d.getDate();
@@ -6788,6 +6789,7 @@
                 }
                 else {
                     if (cur_time.indexOf("<") != -1) {
+                        var d = new Date();
                         d.setDate(d.getDate() + parseInt(cur_time.replace("<", "")));
 
                         day = d.getDate();
