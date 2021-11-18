@@ -5880,10 +5880,10 @@
 
                 if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
                     city = "Тернівка (місцевий)";
-                    addr = $("#AddressTextBox").val();
+                    addr = "Клякса Маяк";
                 }
                 else {
-                 
+
                     if ($("#DeliveryTypeSelect").val() == 2) {
                         addr = $("#AddressTextBox").val();
                         if ($("#HouseTextBox").val() == '' || $("#FlatTextBox").val() == '')
@@ -5891,53 +5891,48 @@
                     }
                     else
                         addr = warehouse;
-                }
 
-                var client_id = $("#MainBalance").attr("client_id");
-
-                if (client_id == undefined || client_id == '')
-                    client_id = 0;
-
-                if (city == '' || addr == '' || $("#PhoneTextBox").val() == '' || $("#PhoneTextBox").val().indexOf("_") > 0 || $("#NameTextBox").val() == '' || $("#SecondNameTextBox").val() == '' || $("#PatronymicTextBox").val() == '') {
-                    alert("Перед відправкою необхідно заповнити всі поля");
-                    if ($("#PhoneTextBox").val().indexOf("_") != -1 || $("#PhoneTextBox").val() == '') {
-                        $("#PhoneTextBox").css("background-color", "#FF8888");
-                    }
-                    if (city == '') {
-                        $("#CurrentCityTextBox").css("background-color", "#FF8888");
-                    }
-                    if (addr == '') {
-                        if ($("#DeliveryTypeSelect").val() == 2) {
-
-                            if ($("#AddressTextBox").val() == '') {
-                                $("#AddressTextBox").css("background-color", "#FF8888");
-                            }
-
-                            if ($("#HouseTextBox").val() == '') {
-                                $("#HouseTextBox").css("background-color", "#FF8888");
-                            }
-
-                            if ($("#FlatTextBox").val() == '') {
-                                $("#FlatTextBox").css("background-color", "#FF8888");
-                            }
+                    if (city == '' || addr == '' || $("#PhoneTextBox").val() == '' || $("#PhoneTextBox").val().indexOf("_") > 0 || $("#NameTextBox").val() == '' || $("#SecondNameTextBox").val() == '' || $("#PatronymicTextBox").val() == '') {
+                        alert("Перед відправкою необхідно заповнити всі поля");
+                        if ($("#PhoneTextBox").val().indexOf("_") != -1 || $("#PhoneTextBox").val() == '') {
+                            $("#PhoneTextBox").css("background-color", "#FF8888");
                         }
-                        else
-                            $("#CurrentWarehouseTextBox").css("background-color", "#FF8888");
+                        if (city == '') {
+                            $("#CurrentCityTextBox").css("background-color", "#FF8888");
+                        }
+                        if (addr == '') {
+                            if ($("#DeliveryTypeSelect").val() == 2) {
+
+                                if ($("#AddressTextBox").val() == '') {
+                                    $("#AddressTextBox").css("background-color", "#FF8888");
+                                }
+
+                                if ($("#HouseTextBox").val() == '') {
+                                    $("#HouseTextBox").css("background-color", "#FF8888");
+                                }
+
+                                if ($("#FlatTextBox").val() == '') {
+                                    $("#FlatTextBox").css("background-color", "#FF8888");
+                                }
+                            }
+                            else
+                                $("#CurrentWarehouseTextBox").css("background-color", "#FF8888");
+                        }
+                        if ($("#NameTextBox").val() == '') {
+                            $("#NameTextBox").css("background-color", "#FF8888");
+                        }
+                        if ($("#SecondNameTextBox").val() == '') {
+                            $("#SecondNameTextBox").css("background-color", "#FF8888");
+                        }
+                        if ($("#PatronymicTextBox").val() == '') {
+                            $("#PatronymicTextBox").css("background-color", "#FF8888");
+                        }
+
+                        $("#splash").hide();
+                        loadingHide();
+                        var n = $(document).height();
+                        $('html, body').animate({ scrollTop: n }, 500);
                     }
-                    if ($("#NameTextBox").val() == '') {
-                        $("#NameTextBox").css("background-color", "#FF8888");
-                    }
-                    if ($("#SecondNameTextBox").val() == '') {
-                        $("#SecondNameTextBox").css("background-color", "#FF8888");
-                    }
-                    if ($("#PatronymicTextBox").val() == '') {
-                        $("#PatronymicTextBox").css("background-color", "#FF8888");
-                    }
-     
-                    $("#splash").hide();
-                    loadingHide();
-                    var n = $(document).height();
-                    $('html, body').animate({ scrollTop: n }, 500);
                 }
                 else {
                     $("#splash").hide();
@@ -5976,6 +5971,11 @@
                     $("#PayOrder").show();
                     $("#CreateOrder").hide();        
                 }
+
+                //var client_id = $("#MainBalance").attr("client_id");
+
+                //if (client_id == undefined || client_id == '')
+                //    client_id = 0;
             }
             else {
                 $("#col1").children().remove();
@@ -5986,9 +5986,6 @@
                 if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
-
-                    $("#CabinetTable").append('<tr id="d_tr7" class="ItemContainer" v="2"><td class="cheque" id="AddressTD" uk="Адреса:">Адрес:</td></tr>');
-                    $("#CabinetTable").append('<tr id="d_tr8" class="ItemContainer" v="2"><td class="cheque"><textarea id="AddressTextBox" maxlength="500" rows="3" cols="30" style="width: 294px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
 
                     $("#CabinetTable").append('<tr id="d_tr13" class="ItemContainer"><td class="cheque" id="NameTD" uk="Ім\'я:">Имя:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr14" class="ItemContainer"><td class="cheque"><input id="NameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
@@ -6241,7 +6238,7 @@
                 async: true,
                 type: "POST",
                 url: "https://xpool.pro/web/webform.aspx/CreateNewOrder",
-                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + ConvertPhone($("#PhoneTextBox").val()) + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":'" + $("#DeliveryTypeSelect").val() + "', \"warehouse\":'', \"area\":'', \"city\":'', \"address\":'" + $("#AddressTextBox").val() + "', \"house\":'', \"flat\":'', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'', \"patronymic\":'', \"city_ref\":'', \"warehouse_ref\":'', \"address_ref\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + (getUrlParameter("c_time") != undefined ? getUrlParameter("c_time") : '') + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
+                data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"client_id\":" + client_id + ", \"phone\":'" + ConvertPhone($("#PhoneTextBox").val()) + "', \"cartdata\":'" + $.cookie("c_cart") + "', \"delivery_type\":'" + $("#DeliveryTypeSelect").val() + "', \"warehouse\":'', \"area\":'', \"city\":'Тернівка', \"address\":'Клякса', \"house\":'', \"flat\":'', \"name\":'" + $("#NameTextBox").val() + "', \"secondname\":'', \"patronymic\":'', \"city_ref\":'', \"warehouse_ref\":'', \"address_ref\":'', \"comments\":'" + $.cookie("c_comments") + "', \"ctime\":'" + (getUrlParameter("c_time") != undefined ? getUrlParameter("c_time") : '') + "', \"refer\":'" + (getUrlParameter("refer") != undefined ? getUrlParameter("refer") : '') + "', \"host\":'" + extractHostname(window.location.origin) + "' }",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: bindCreateNewOrder
@@ -6423,6 +6420,7 @@
         $("#AddressTextBox").val($(this).html());
         $("#AddressTextBox").attr("address_id", $(this).attr("address_id"));
         $("#CurrentWarehouseTextBox").val("");
+        $("#CurrentWarehouseTextBox").removeAttr("warehouse_id");
         $("#DetailsDIV").hide();
         $("#DetailsTable").children().remove();
     });
@@ -6430,11 +6428,14 @@
     $("#CabinetTable").delegate('#DeliveryTypeSelect', 'change', function () {
         if ($(this).val() == "1") {
             $("#CurrentCityTextBox").val('');
+            $("#CurrentCityTextBox").removeAttr("city_id");
             $("#CabinetTable").find('[v="2"]').hide();
             $("#CabinetTable").find('[v="1"]').show();
+            
         }
         else if ($(this).val() == "2") {
             $("#CurrentCityTextBox").val('');
+            $("#CurrentCityTextBox").removeAttr("city_id");
             $("#CabinetTable").find('[v="1"]').hide();
             $("#CabinetTable").find('[v="2"]').show();
         }
@@ -6446,6 +6447,11 @@
         $("#CurrentCityTextBox").val($(this).html());
         $("#CurrentCityTextBox").attr("city_id", $(this).attr("city_id"));
         $("#CurrentWarehouseTextBox").val("");
+        $("#CurrentWarehouseTextBox").removeAttr("warehouse_id");
+        $("#AddressTextBox").val("");
+        $("#AddressTextBox").removeAttr("address_id");
+        $("#FlatTextBox").val("");
+        $("#HouseTextBox").val("");
         $("#DetailsDIV").hide();
         $("#DetailsTable").children().remove();
 
@@ -6458,6 +6464,10 @@
     $("#DetailsTable").delegate('td.order2', 'click', function () {
         $("#CurrentWarehouseTextBox").val($(this).html());
         $("#CurrentWarehouseTextBox").attr("warehouse_id", $(this).attr("warehouse_id"));
+        $("#AddressTextBox").val("");
+        $("#AddressTextBox").removeAttr("address_id");
+        $("#FlatTextBox").val("");
+        $("#HouseTextBox").val("");
         $("#DetailsDIV").hide();
         $("#DetailsTable").children().remove();
     });
