@@ -5882,72 +5882,72 @@
                     city = "Тернівка (місцевий)";
                     addr = "Клякса Маяк";
                 }
-                else {
 
-                    if ($("#DeliveryTypeSelect").val() == 2) {
-                        addr = $("#AddressTextBox").val();
-                        if ($("#HouseTextBox").val() == '' || $("#FlatTextBox").val() == '')
-                            addr = '';
+
+                if ($("#DeliveryTypeSelect").val() == 2) {
+                    addr = $("#AddressTextBox").val();
+                    if ($("#HouseTextBox").val() == '' || $("#FlatTextBox").val() == '')
+                        addr = '';
+                }
+                else
+                    addr = warehouse;
+
+                if (city == '' || addr == '' || $("#PhoneTextBox").val() == '' || $("#PhoneTextBox").val().indexOf("_") > 0 || $("#NameTextBox").val() == '' || ($("#SecondNameTextBox") != undefined && $("#SecondNameTextBox").val() == '') || ($("#PatronymicTextBox") != undefined && $("#PatronymicTextBox").val() == '')) {
+                    alert("Перед відправкою необхідно заповнити всі поля");
+                    if ($("#PhoneTextBox").val().indexOf("_") != -1 || $("#PhoneTextBox").val() == '') {
+                        $("#PhoneTextBox").css("background-color", "#FF8888");
                     }
-                    else
-                        addr = warehouse;
+                    if (city == '') {
+                        $("#CurrentCityTextBox").css("background-color", "#FF8888");
+                    }
+                    if (addr == '') {
+                        if ($("#DeliveryTypeSelect").val() == 2) {
 
-                    if (city == '' || addr == '' || $("#PhoneTextBox").val() == '' || $("#PhoneTextBox").val().indexOf("_") > 0 || $("#NameTextBox").val() == '' || $("#SecondNameTextBox").val() == '' || $("#PatronymicTextBox").val() == '') {
-                        alert("Перед відправкою необхідно заповнити всі поля");
-                        if ($("#PhoneTextBox").val().indexOf("_") != -1 || $("#PhoneTextBox").val() == '') {
-                            $("#PhoneTextBox").css("background-color", "#FF8888");
-                        }
-                        if (city == '') {
-                            $("#CurrentCityTextBox").css("background-color", "#FF8888");
-                        }
-                        if (addr == '') {
-                            if ($("#DeliveryTypeSelect").val() == 2) {
-
-                                if ($("#AddressTextBox").val() == '') {
-                                    $("#AddressTextBox").css("background-color", "#FF8888");
-                                }
-
-                                if ($("#HouseTextBox").val() == '') {
-                                    $("#HouseTextBox").css("background-color", "#FF8888");
-                                }
-
-                                if ($("#FlatTextBox").val() == '') {
-                                    $("#FlatTextBox").css("background-color", "#FF8888");
-                                }
+                            if ($("#AddressTextBox").val() == '') {
+                                $("#AddressTextBox").css("background-color", "#FF8888");
                             }
-                            else
-                                $("#CurrentWarehouseTextBox").css("background-color", "#FF8888");
-                        }
-                        if ($("#NameTextBox").val() == '') {
-                            $("#NameTextBox").css("background-color", "#FF8888");
-                        }
-                        if ($("#SecondNameTextBox").val() == '') {
-                            $("#SecondNameTextBox").css("background-color", "#FF8888");
-                        }
-                        if ($("#PatronymicTextBox").val() == '') {
-                            $("#PatronymicTextBox").css("background-color", "#FF8888");
-                        }
 
-                        $("#splash").hide();
-                        loadingHide();
-                        var n = $(document).height();
-                        $('html, body').animate({ scrollTop: n }, 500);
+                            if ($("#HouseTextBox").val() == '') {
+                                $("#HouseTextBox").css("background-color", "#FF8888");
+                            }
+
+                            if ($("#FlatTextBox").val() == '') {
+                                $("#FlatTextBox").css("background-color", "#FF8888");
+                            }
+                        }
+                        else
+                            $("#CurrentWarehouseTextBox").css("background-color", "#FF8888");
                     }
+                    if ($("#NameTextBox").val() == '') {
+                        $("#NameTextBox").css("background-color", "#FF8888");
+                    }
+                    if ($("#SecondNameTextBox").val() == '') {
+                        $("#SecondNameTextBox").css("background-color", "#FF8888");
+                    }
+                    if ($("#PatronymicTextBox").val() == '') {
+                        $("#PatronymicTextBox").css("background-color", "#FF8888");
+                    }
+
+                    $("#splash").hide();
+                    loadingHide();
+                    var n = $(document).height();
+                    $('html, body').animate({ scrollTop: n }, 500);
+
                 }
                 else {
                     $("#splash").hide();
                     loadingHide();
-                   
+
                     $("#CabinetTable").hide();
 
                     $("#PayOrder").children().remove();
-                    
+
 
                     //if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
-                        $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
+                    $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
                     //}
                     //else {
-                       
+
                     //    var _sum = parseFloat($(".cartsum").html());
                     //    var prepay_sum = 100;
 
@@ -5967,9 +5967,9 @@
                     //    $("#PayOrder").append('<tr><td class="PayInfo" width="100%"><div style="text-align: center; padding: 10px; margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px""><span class= "Visa"></span><span class="MasterCard"></span><br/>ФОП Краснікова О.С. РНОКПП: 2374202227</div></td></tr>');
 
                     //}
-                    
+
                     $("#PayOrder").show();
-                    $("#CreateOrder").hide();        
+                    $("#CreateOrder").hide();
                 }
 
                 //var client_id = $("#MainBalance").attr("client_id");
@@ -6072,14 +6072,14 @@
 
                 $("#splash").hide();
                 $("#splash2").hide();
-            }       
+            }
         }
         else {
             alert($("#MBM1").attr("v16") == "1" ? "кошик порожній" : "корзина пустая");
 
             $("#splash").hide();
             $("#splash2").hide();
-        }  
+        }
     });
 
     $("#CabinetTable").delegate('#PhoneTextBox', 'keyup input', function () {
