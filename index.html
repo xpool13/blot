@@ -37,6 +37,58 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style type="text/css">
 
+        .lds-ripple {
+            display: block;
+            position: relative;
+            left: 110px;
+            top: 62px;
+           
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-ripple div {
+            position: absolute;
+            border: 4px solid #000;
+            opacity: 1;
+            border-radius: 50%;
+            animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .lds-ripple div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+        @keyframes lds-ripple {
+            0% {
+                top: 36px;
+                left: 36px;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                top: 0px;
+                left: 0px;
+                width: 72px;
+                height: 72px;
+                opacity: 0;
+            }
+        }
+
+
+        div.splashdiv {
+            display: block;
+            vertical-align: middle;
+            text-align: center;
+            height: 204px;
+            width: 280px;
+            z-index: 5;
+            background-color: #fff;
+            color: #8e8e8e;
+        }
+
         span.Visa {
             display: inline-block;
             margin: auto;
@@ -1393,39 +1445,39 @@
     var old_width = window.innerWidth;
 
     var delivery_time = {
-        638: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10"],
-        3692: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10"],
-        5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10"],
-        8547: ["1", "1", "1", "1", "1", "1", "1"],
-        8079: ["5", "4", "3", "2", "8", "7", "6"],
-        9170: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
+        638: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10", ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10"]],
+        3692: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10", 0],
+        5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10", 0],
+        8547: ["1", "1", "1", "1", "1", "1", "1", 0],
+        8079: ["5", "4", "3", "2", "8", "7", "6", ["5", "4", "3", "2", "8", "7", "6"]],
+        9170: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["6", "5", "4", "3", "2", "8", "7"]],
        
-        8071: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
-        8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14"],
-        9178: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
-        9162: ["0-8", "0-12", "0-12", "0-12", "0-12", "0-12", "0-8"],
+        8071: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["2", "4", "3", "2", "5", "4", "3"]],
+        8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14", 0],
+        9178: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["5", "4", "3", "9", "8", "7", "6"]],
+        9162: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["2", "4", "3", "2", "5", "4", "3"]],
         8555: ["1", "1", "1", "1", "1", "1", "1"]
     };
 
     var delivery_time2 = {
-        638: ["", "", "", "", "", "", ""],
-        3692: ["", "", "", "", "", "", ""],
-        5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10"],
-        8547: ["<5", "<5", "<5", "<5", "<5", "<5", "<5"],
-        8079: ["5", "4", "3", "2", "8", "7", "6"],
-        9170: ["6", "5", "4", "3", "2", "8", "7"],
+        638: ["", "", "", "", "", "", "", 0],
+        3692: ["", "", "", "", "", "", "", 0],
+        5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10", 0],
+        8547: ["<5", "<5", "<5", "<5", "<5", "<5", "<5", 0],
+        8079: ["5", "4", "3", "2", "8", "7", "6", 0],
+        9170: ["6", "5", "4", "3", "2", "8", "7", 0],
        
-        8071: ["2", "4", "3", "2", "5", "4", "3"],
-        8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14"],
-        9178: ["5", "4", "3", "9", "8", "7", "6"],
-        9162: ["2", "4", "3", "2", "5", "4", "3"],
-        8555: ["<5", "<5", "<5", "<5", "<5", "<5", "<5"]
+        8071: ["2", "4", "3", "2", "5", "4", "3", 0],
+        8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14", 0],
+        9178: ["5", "4", "3", "9", "8", "7", "6", 0],
+        9162: ["2", "4", "3", "2", "5", "4", "3", 0],
+        8555: ["<5", "<5", "<5", "<5", "<5", "<5", "<5", 0]
     };
 
     var sklep = {
         638: "магазин клякса",
         3692: "магазин клякса",
-        5409: "склад кетр+",
+        5409: "магазин xPool",
         8547: "склад babyroom",
         8079: "склад beles",
         9170: "склад dendi",
@@ -2214,14 +2266,12 @@
                 var leftPos = $('#MenuDIV').scrollLeft();
                 $("#MenuDIV").animate({ scrollLeft: leftPos + 500 }, 300);
 
-               
+
 
                 $(".mcartcount").css({ "background-color": "#FFFF00", "border": "solid 2px #FFFF00" }).animate({ backgroundColor: "#FFFFFF", borderColor: "#FF9400" }, 1000);
             }
             else {
-                $("#cartover").center();
-                $("#cartover").show();
-                $("#splash").show();
+              
             }
         }
         else {
@@ -2360,7 +2410,10 @@
 
                 for (var i = 0; i < shop_names.length - 1; i++) {
 
-                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category1" sid="' + shop_ids[i] + '">' + shop_names[i] + '</td></tr>');
+                    var selected_shop = "";
+                        //(parseInt(shop_ids[i]) == sid_v && extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1) ? "style='background-color: #9999FF'" : "";
+
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category1" sid="' + shop_ids[i] + '"' + selected_shop  + '>' + shop_names[i] + '</td></tr>');
                 }
 
                 $("#TitleInfo").hide();
@@ -2460,7 +2513,10 @@
 
                 for (var i = 0; i < shop_names.length - 1; i++) {
 
-                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category1" sid="' + shop_ids[i] + '">' + shop_names[i] + '</td></tr>');
+                    var selected_shop = ""
+                        //(parseInt(shop_ids[i]) == sid_v && extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1) ? "style='background-color: #9999FF'" : "";
+
+                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category1" sid="' + shop_ids[i] + '"' + selected_shop + '>' + shop_names[i] + '</td></tr>');
                 }
 
                 $("#TitleInfo").hide();
@@ -2480,6 +2536,27 @@
 
 
     $("#CabinetTable").delegate('td.category1', "click", function () {
+
+        //if (extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1) {
+        //    sid_v = $(this).attr("sid");
+
+           
+        //    var cart = $.cookie("c_cart");
+
+        //    if (cart != undefined && cart != null && cart != "") {
+
+        //        var date = new Date();
+        //        var minutes = 60;
+        //        var hours = 24;
+        //        var days = 365;
+        //        date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
+
+        //        if (parseInt(cart.split(":")[0].split("#")[2]) != sid_v) {
+        //            $.cookie("c_cart", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
+        //            $(".mcartcount").html("0");
+        //        }
+        //    }
+        //}
 
         $("#splash2").show();
         loadingShow();
@@ -2579,14 +2656,16 @@
 
             var selected_tr = (selected_cat == dataRows[i][0]) ? "style='background-color: #9999FF'" : "";
 
-            if (dataRows[i][0] == "Все" && $("#MBM1").attr("v16") == "1") {
-                dataRows[i][0] = "Усе";
-            }
-            else if (dataRows[i][0] == "Прочее" && $("#MBM1").attr("v16") == "1") {
-                dataRows[i][0] = "Інше";
-            }
+            //if (dataRows[i][0] == "Все" && $("#MBM1").attr("v16") == "1") {
+            //    dataRows[i][0] = "Усе";
+            //}
+            //else if (dataRows[i][0] == "Прочее" && $("#MBM1").attr("v16") == "1") {
+            //    dataRows[i][0] = "Інше";
+            //}
 
-            $("#CabinetTable").append('<tr class="ItemContainer"><td class="category2" ' + selected_tr + ' path="' + dataRows[i][1] + '" sid="' + dataRows[i][2] + '">' + dataRows[i][0] + '</td></tr>');
+            if (dataRows[i][0] != "Все" && dataRows[i][0] != "Прочее") {
+                $("#CabinetTable").append('<tr class="ItemContainer"><td class="category2" ' + selected_tr + ' path="' + dataRows[i][1] + '" sid="' + dataRows[i][2] + '">' + dataRows[i][0] + '</td></tr>');
+            }
         }
 
         loadingHide();
@@ -2648,14 +2727,15 @@
                 for (var i = 0; i < dataRows.length; i++) {
                     var selected_tr = (selected_cat == dataRows[i][1]) ? "style='background-color: #9999FF'" : "";
 
-                    if (dataRows[i][0] == "Все" && $("#MBM1").attr("v16") == "1") {
-                        dataRows[i][0] = "Усе";
+                    //if (dataRows[i][0] == "Все" && $("#MBM1").attr("v16") == "1") {
+                    //    dataRows[i][0] = "Усе";
+                    //}
+                    //else if (dataRows[i][0] == "Прочее" && $("#MBM1").attr("v16") == "1") {
+                    //    dataRows[i][0] = "Інше";
+                    //}
+                    if (dataRows[i][0] != "Все" && dataRows[i][0] != "Прочее") {
+                        $("#CabinetTable").append('<tr class="ItemContainer"><td class="category2" ' + selected_tr + ' path="' + dataRows[i][1] + '" sid="' + dataRows[i][2] + '">' + dataRows[i][0] + '</td></tr>');
                     }
-                    else if (dataRows[i][0] == "Прочее" && $("#MBM1").attr("v16") == "1") {
-                        dataRows[i][0] = "Інше";
-                    }
-
-                    $("#CabinetTable").append('<tr class="ItemContainer"><td class="category2" ' + selected_tr + ' path="' + dataRows[i][1] + '" sid="' + dataRows[i][2] + '">' + dataRows[i][0] + '</td></tr>');
                 }
 
                 loadingHide();
@@ -2695,12 +2775,12 @@
 
                 var title_cat = data.d[0];
 
-                if (title_cat == "Все" && $("#MBM1").attr("v16") == "1") {
-                    title_cat = "Усе";
-                }
-                else if (title_cat == "Прочее" && $("#MBM1").attr("v16") == "1") {
-                    title_cat = "Інше";
-                }
+                //if (title_cat == "Все" && $("#MBM1").attr("v16") == "1") {
+                //    title_cat = "Усе";
+                //}
+                //else if (title_cat == "Прочее" && $("#MBM1").attr("v16") == "1") {
+                //    title_cat = "Інше";
+                //}
 
                 $("#TitleInfo").css("background-color", "#fff");
 
@@ -2990,9 +3070,9 @@
 
                     $.removeCookie("c_client", { path: '/', domain: '.' + document.domain });
                     $.removeCookie("c_client_phone", { path: '/', domain: '.' + document.domain });
-                    $.removeCookie("c_cart" + sid_v + "." +uid_v, { path: '/', domain: '.' + document.domain });
-                    $.removeCookie("c_comments" + sid_v + "." +uid_v, { path: '/', domain: '.' + document.domain });
-                    $.removeCookie("c_ctime" + sid_v + "." +uid_v, { path: '/', domain: '.' + document.domain });
+                    $.removeCookie("c_cart", { path: '/', domain: '.' + document.domain });
+                    $.removeCookie("c_comments", { path: '/', domain: '.' + document.domain });
+                    $.removeCookie("c_ctime", { path: '/', domain: '.' + document.domain });
                 }
             }
 
@@ -3046,6 +3126,11 @@
                 });
             }
             else if (getUrlParameter("id") != '' && getUrlParameter("id") != undefined) {
+
+                //if (extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1 && getUrlParameter("sid") != '' && getUrlParameter("sid") != undefined) {
+                //    uid_v = 48;
+                //    sid_v = getUrlParameter("sid");
+                //}
 
                 data_status = 0;
                 currentEvent = "search";
@@ -4656,18 +4741,18 @@
 
     var shop_addr;
 
-    $("#redirect").click(function () {
-        var minp = (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') ? ("&minp=" + getUrlParameter("minp")) : '';
-        var maxp = (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') ? ("&maxp=" + getUrlParameter("maxp")) : '';
-        var s = (getUrlParameter("s") != undefined && getUrlParameter("s") != '') ? ("&s=" + getUrlParameter("s")) : '';
-        var id = (getUrlParameter("id") != undefined && getUrlParameter("id") != '') ? ("&id=" + getUrlParameter("id")) : '';
-        var ids = (getUrlParameter("ids") != undefined && getUrlParameter("ids") != '') ? ("&ids=" + getUrlParameter("ids")) : '';
-        var cat = (getUrlParameter("cat") != undefined && getUrlParameter("cat") != '') ? ("&cat=" + getUrlParameter("cat").replace(/_/g, " ")) : '';
-        var ssid = (getUrlParameter("ssid") != undefined && getUrlParameter("ssid") != '') ? ("&ssid=" + getUrlParameter("ssid")) : '';
-        var sv = (getUrlParameter("sv") != undefined && getUrlParameter("sv") != '') ? ("&sv=" + getUrlParameter("sv")) : '';
+    //$("#redirect").click(function () {
+    //    var minp = (getUrlParameter("minp") != undefined && getUrlParameter("minp") != '') ? ("&minp=" + getUrlParameter("minp")) : '';
+    //    var maxp = (getUrlParameter("maxp") != undefined && getUrlParameter("maxp") != '') ? ("&maxp=" + getUrlParameter("maxp")) : '';
+    //    var s = (getUrlParameter("s") != undefined && getUrlParameter("s") != '') ? ("&s=" + getUrlParameter("s")) : '';
+    //    var id = (getUrlParameter("id") != undefined && getUrlParameter("id") != '') ? ("&id=" + getUrlParameter("id")) : '';
+    //    var ids = (getUrlParameter("ids") != undefined && getUrlParameter("ids") != '') ? ("&ids=" + getUrlParameter("ids")) : '';
+    //    var cat = (getUrlParameter("cat") != undefined && getUrlParameter("cat") != '') ? ("&cat=" + getUrlParameter("cat").replace(/_/g, " ")) : '';
+    //    var ssid = (getUrlParameter("ssid") != undefined && getUrlParameter("ssid") != '') ? ("&ssid=" + getUrlParameter("ssid")) : '';
+    //    var sv = (getUrlParameter("sv") != undefined && getUrlParameter("sv") != '') ? ("&sv=" + getUrlParameter("sv")) : '';
 
-        window.location.replace(shop_addr + "?uid=" +uid_v + "&sid=" + sid_v + s + id + ids + cat + sv + ssid + minp + maxp + "&refer=" + getUrlParameter("refer"));
-    })
+    //    window.location.replace(shop_addr + "?uid=" +uid_v + "&sid=" + sid_v + s + id + ids + cat + sv + ssid + minp + maxp + "&refer=" + getUrlParameter("refer"));
+    //})
 
     $(function () {
 
@@ -4680,12 +4765,12 @@
             return this;
         }
 
-        if (getUrlParameter("uid") != undefined && getUrlParameter("uid") != null && getUrlParameter("uid") != '') {
+        if (getUrlParameter("uid") != undefined && getUrlParameter("uid") != null && getUrlParameter("uid") != '' && extractHostname(window.location.origin).indexOf("monstro.com.ua") == -1) {
             uid_v = getUrlParameter("uid");
         }
 
 
-        if (getUrlParameter("sid") != undefined && getUrlParameter("sid") != null && getUrlParameter("sid") != '') {
+        if (getUrlParameter("sid") != undefined && getUrlParameter("sid") != null && getUrlParameter("sid") != '' && extractHostname(window.location.origin).indexOf("monstro.com.ua") == -1) {
             sid_v = getUrlParameter("sid");
         }
 
@@ -4722,7 +4807,10 @@
             $("#TargetStyleSheet").attr("st", data.d.target_style_sheet_st);
         }
 
-        
+        //if (extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1) {
+        //    uid_v = 48;
+        //    sid_v = 8071;
+        //}
 
         //$("#TargetStyleSheet").attr("href", "https://xpool.pro/web/source/style_blot/css/main.css");
         //$("#TargetStyleSheet").attr("st", "style_blot");
@@ -4971,6 +5059,10 @@
                 });
             }
             else if (getUrlParameter("id") != '' && getUrlParameter("id") != undefined) {
+                //if (extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1 && getUrlParameter("sid") != '' && getUrlParameter("sid") != undefined) {
+                //    uid_v = 48;
+                //    sid_v = getUrlParameter("sid");
+                //}
 
                 data_status = 0;
                 currentEvent = "search";
@@ -5991,6 +6083,12 @@
                     $("#CabinetTable").append('<tr id="d_tr14" class="ItemContainer"><td class="cheque"><input id="NameTextBox" type="text" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
                 }
                 else {
+                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Замовлення буде опрацьоване автоматично<br>дата відправки: роророро</td></tr>');
+                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD" uk="Додаткові послуги:">Дополнительные услуги:</td></tr>');
+                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Безкоштовна доставка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
+                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Контрольна перевірка товару на справність та відповідність<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
+                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Подарункова упаковка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
+                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Фіскальний чек<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
@@ -6711,16 +6809,16 @@
                 else
                     no_photo_url = '<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>';
 
-                var img_val = '<img index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)"></img>';
+                var img_val = '<div class="splashdiv"><div class="lds-ripple"><div></div><div></div></div></div><img style="display: none" index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)" onload="onLoad(this)"></img>';
                 
 
                 var rate_info = '<span class="AddRateSpan2">' + ($("#MBM1").attr("v16") == "1" ? "Залишити відгук" : "Оставить отзыв") + '</span>';
 
                 if (addicted_dataRows[i][10] > 0) {
 
-                    if (addicted_dataRows[i][10] == 1)
+                    if (addicted_dataRows[i][10] == 1 || addicted_dataRows[i][10] % 21 == 0)
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгук" : " отзыв") + "</span>";
-                    else if (addicted_dataRows[i][10] % 2 == 0 || addicted_dataRows[i][10] % 3 == 0 || addicted_dataRows[i][10] % 4 == 0) {
+                    else if (addicted_dataRows[i][10] % 22 == 0 || addicted_dataRows[i][10] % 23 == 0 || addicted_dataRows[i][10] % 24 == 0 || addicted_dataRows[i][10] == 2 || addicted_dataRows[i][10] == 3 || addicted_dataRows[i][10] == 4) {
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуки" : " отзыва") + "</span>";
                     }
                     else
@@ -6733,7 +6831,7 @@
 
                 rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
 
-                var sklep_info = "<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
+                var sklep_info = ""; //"<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
                 var deliver_ru = "отправка: ";
                 var deliver_uk = "відправка: ";
 
@@ -6749,7 +6847,7 @@
 
                 var day_w = new Date().getDay();
 
-                var cur_time = (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) ? delivery_time2[dataRows[i].ShopID][day_w] : delivery_time[dataRows[i].ShopID][day_w];
+                var cur_time = (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) ? delivery_time2[dataRows[i].ShopID][day_w] : delivery_time2[dataRows[i].ShopID][day_w];
 
                 if ((disable_trade == "1" || (dataRows[i].ShopID == 3692 && dataRows[i].Price > 1200)) && dataRows[i].Count == 1 && dataRows[i].Status == 0) {
 
@@ -6876,16 +6974,16 @@
                     no_photo_url = '<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>';
 
 
-                var img_val = '<img index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)"></img>';
+                var img_val = '<div class="splashdiv"><div class="lds-ripple"><div></div><div></div></div></div><img style="display: none" index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)" onload="onLoad(this)"></img>';
                 
 
                 var rate_info = '<span class="AddRateSpan2">' + ($("#MBM1").attr("v16") == "1" ? "Залишити відгук" : "Оставить отзыв") + '</span>';
 
                 if (addicted_dataRows[i][10] > 0) {
 
-                    if (addicted_dataRows[i][10] == 1)
+                    if (addicted_dataRows[i][10] == 1 || addicted_dataRows[i][10] % 21 == 0)
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгук" : " отзыв") + "</span>";
-                    else if (addicted_dataRows[i][10] % 2 == 0 || addicted_dataRows[i][10] % 3 == 0 || addicted_dataRows[i][10] % 4 == 0) {
+                    else if (addicted_dataRows[i][10] % 22 == 0 || addicted_dataRows[i][10] % 23 == 0 || addicted_dataRows[i][10] % 24 == 0 || addicted_dataRows[i][10] == 2 || addicted_dataRows[i][10] == 3 || addicted_dataRows[i][10] == 4) {
                         rate_info = "<span class='AddRateSpan'>" + addicted_dataRows[i][10] + ($("#MBM1").attr("v16") == "1" ? " відгуки" : " отзыва") + "</span>";
                     }
                     else
@@ -6898,7 +6996,7 @@
 
                 rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
            
-                var sklep_info = "<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
+                var sklep_info = "" //"<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
                 var deliver_ru = "отправка: ";
                 var deliver_uk = "відправка: ";
 
@@ -6914,7 +7012,7 @@
 
                 var day_w = new Date().getDay();
 
-                var cur_time = (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) ? delivery_time2[dataRows[i].ShopID][day_w] : delivery_time[dataRows[i].ShopID][day_w];
+                var cur_time = (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) ? delivery_time2[dataRows[i].ShopID][day_w] : delivery_time2[dataRows[i].ShopID][day_w];
 
                 if ((disable_trade == "1" || (dataRows[i].ShopID == 3692 && dataRows[i].Price > 1200)) && dataRows[i].Count == 1 && dataRows[i].Status == 0) {
 
@@ -7084,8 +7182,17 @@
     }
 
     function onErrorPhotoLoad(source) {
+        $(source).prev().remove();
+        $(source).show();
         $(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto.png');
         $('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
+    }
+
+    function onLoad(source) {
+        $(source).prev().remove();
+        $(source).show();
+        //$(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto.png');
+        //$('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
     }
 
     function bindCreateNewOrder(data) {
@@ -7936,9 +8043,7 @@
                     starSize: 15,
                     readOnly: true,
                 });
-            }
-            var $target = $('html,body');
-            $target.animate({ scrollTop: 0 }, 500);
+            }          
         }
 
         //startRecord = startRecord + data.d.length;
@@ -7949,6 +8054,9 @@
         loadingHide();
 
         $("#splash").hide();
+
+        var $target = $('html,body');
+        $target.animate({ scrollTop: 0 }, 500);
 
         loading2Hide();
     }
