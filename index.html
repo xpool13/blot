@@ -40,9 +40,9 @@
         .lds-ripple {
             display: block;
             position: relative;
-            left: 110px;
-            top: 62px;
-           
+            left: 50%;
+            top: 50%;
+            transform: translate(-30px, -40px);
             width: 80px;
             height: 80px;
         }
@@ -78,6 +78,47 @@
         }
 
 
+        .lds-ripple2 {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 100px;
+            transform: translate(-30px, -40px);
+            width: 80px;
+            height: 80px;
+        }
+
+            .lds-ripple2 div {
+                position: absolute;
+                border: 4px solid #fff;
+                opacity: 1;
+                border-radius: 50%;
+                animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+            }
+
+                .lds-ripple2 div:nth-child(2) {
+                    animation-delay: -0.5s;
+                }
+
+        @keyframes lds-ripple2 {
+            0% {
+                top: 36px;
+                left: 36px;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                top: 0px;
+                left: 0px;
+                width: 72px;
+                height: 72px;
+                opacity: 0;
+            }
+        }
+
+
         div.splashdiv {
             display: block;
             vertical-align: middle;
@@ -87,6 +128,16 @@
             z-index: 5;
             background-color: #fff;
             color: #8e8e8e;
+        }
+
+        div.splashdiv2 {
+            display: block;
+            vertical-align: middle;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            z-index: 99999999;
+            background-color: #fff;
         }
 
         span.Visa {
@@ -175,9 +226,9 @@
 
         .DescContent {
             text-align: center;
-            font: 14px/20px Arial;
+            font: 16px/24px Arial;
             background-color: #fff;
-            color: #333;
+            color: #000;
             text-align: left;
             padding: 8px;
         }
@@ -598,7 +649,7 @@
             display: block;
             left: 20px;
             top: 20px;
-            width: 40px;
+            width: 60px;
             height: 20px;
             color: white;
             text-align: center;
@@ -835,6 +886,7 @@
     <meta name="google-site-verification" content="5aXs_V1RAM8aIPgjrq5XWPOER1dyy3nRtn95doM2Mfo" />
 </head>
 <body>
+    <div id="MainLoading" class="lds-ripple2"><div></div><div></div></div>
     <input type="hidden" value="" id="c_view" />
     <input type="hidden" value="" id="c_cart" />
 
@@ -1111,7 +1163,8 @@
         <span class="leftscroll"></span>
 
         <div id="fullimg">
-            <img id="fullimage" src="https://xpool.pro/web/source/style_blot/img/loading.gif" />
+            <div class="splashdiv2"><div class="lds-ripple"><div></div><div></div></div></div>
+            <img style="display: none;" id="fullimage" src="" onerror="onErrorFullPhotoLoad(this)" onload="onFullLoad(this)" />
         </div>
         <span class="rightscroll"></span>
         <span class="closey"></span>
@@ -1140,6 +1193,34 @@
                         <div>
                             URL5:<br />
                             <textarea class="UrlArea" ind="5" id="TargetURL5" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL6:<br />
+                            <textarea class="UrlArea" ind="6" id="TargetURL6" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL7:<br />
+                            <textarea class="UrlArea" ind="7" id="TargetURL7" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL8:<br />
+                            <textarea class="UrlArea" ind="8" id="TargetURL8" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL9:<br />
+                            <textarea class="UrlArea" ind="9" id="TargetURL9" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL10:<br />
+                            <textarea class="UrlArea" ind="10" id="TargetURL10" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL11:<br />
+                            <textarea class="UrlArea" ind="11" id="TargetURL11" style="width: 138px;"></textarea>
+                        </div>
+                        <div>
+                            URL12:<br />
+                            <textarea class="UrlArea" ind="12" id="TargetURL12" style="width: 138px;"></textarea>
                         </div>
                     </div>
                 </td>
@@ -1367,7 +1448,7 @@
         <div class="mainheader" style="display: none; padding-top: 29px;">
             <div style="width: auto; margin: auto;">
                 <div style="width: 100%; overflow-y: hidden; overflow-x: no-display;">
-                  
+
                 </div>
                 <div style="height: 50px; padding-bottom: 8px;">
                     <div id="MenuDIV" style="width: 100%; overflow-y: hidden; overflow-x: no-display; position: absolute; display: block; background-color: #8e8e8e; z-index: 9990;">
@@ -2978,7 +3059,7 @@
         $("#vpo").attr("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
         $('.findPhoto2').remove();
 
-        $("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
+        //$("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
         $("#viewer").hide();
         $("#splash").hide();
         var $target = $('html,body');
@@ -3558,7 +3639,10 @@
         $('.findPhoto2').remove();
 
         var prev_img = undefined;
-        $("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
+       // $("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
+
+        $("#fullimage").hide();
+        $(".splashdiv2").show();
 
         window.setTimeout(function () {
 
@@ -3598,7 +3682,10 @@
 
         $('.findPhoto2').remove();
 
-        $("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
+        //$("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
+        $("#fullimage").hide();
+        $(".splashdiv2").show();
+       
 
         window.setTimeout(function () {
 
@@ -3735,121 +3822,197 @@
             success: bindInitEdit
         });
 
-        
-            if (window.innerWidth > 416) {
 
-                $(".leftscroll").show();
-                $(".rightscroll").show();
-            }
-            else {
-                $(".leftscroll").hide();
-                $(".rightscroll").hide();
-            }
-
-            $("#fullimg").css("width", ($(window).innerWidth()) + "px");
-            $("#fullimg").css("height", ($(window).innerHeight()) + "px");
-            $("#viewer span.desc").css("width", ($(window).innerWidth()) + "px");
-           
-
-            $("#fullimage").attr("src", "https://xpool.pro/web/source/img/loading.gif");
-            img_index = parseInt($(this).children('img').first().attr("index"));
-
-            var urls;
-
-
-
+        if (window.innerWidth > 416) {
 
             $(".leftscroll").show();
             $(".rightscroll").show();
-            $("#fullimg").find("#AltImgDiv").remove();
-            $("#fullimage").show();
-            $("#fullimage").attr("src", GetFullImage($(this).children('img').first().attr("src")));
-            urls = selected.find('img').first().attr("res").split("||");
+        }
+        else {
+            $(".leftscroll").hide();
+            $(".rightscroll").hide();
+        }
+
+        $("#fullimg").css("width", ($(window).innerWidth()) + "px");
+        $("#fullimg").css("height", ($(window).innerHeight()) + "px");
+        $("#viewer span.desc").css("width", ($(window).innerWidth()) + "px");
+
+
+        //$("#fullimage").attr("src", "https://xpool.pro/web/source/img/loading.gif");
+
+       
+        $("#fullimage").hide();
+        $(".splashdiv2").show();
+
+        img_index = parseInt($(this).children('img').first().attr("index"));
+
+        var urls;
+
+
+
+
+        $(".leftscroll").show();
+        $(".rightscroll").show();
+      
+        $("#fullimage").show();
+        $("#fullimage").attr("src", GetFullImage($(this).children('img').first().attr("src")));
+        urls = selected.find('img').first().attr("res").split("||");
 
 
 
 
 
-            $(".UrlArea").removeAttr("sel");
-            $(".UrlArea").css("background-color", "#FFF");
+        $(".UrlArea").removeAttr("sel");
+        $(".UrlArea").css("background-color", "#FFF");
 
-            $("#TargetURL1").val(GetFullImage(urls[0]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[0]) : "");
-            $("#TargetURL1").css("background-color", "#FFFF00");
-            $("#TargetURL1").attr("sel", "1");
+        $("#TargetURL1").val(GetFullImage(urls[0]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[0]) : "");
+        $("#TargetURL1").css("background-color", "#FFFF00");
+        $("#TargetURL1").attr("sel", "1");
 
-            var imgcount = 1;
+        var imgcount = 1;
 
-            if (urls.length > 1) {
-                $("#TargetURL2").val(GetFullImage(urls[1]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[1]) : "");
+        if (urls.length > 1) {
+            $("#TargetURL2").val(GetFullImage(urls[1]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[1]) : "");
 
-                if ($("#TargetURL2").val().indexOf("nophoto") == -1 && $("#TargetURL2").val() != '') {
-                    imgcount = 2;
-                }
+            if ($("#TargetURL2").val().indexOf("nophoto") == -1 && $("#TargetURL2").val() != '') {
+                imgcount = 2;
             }
-            else
-                $("#TargetURL2").val("");
+        }
+        else
+            $("#TargetURL2").val("");
 
-            if (urls.length > 2) {
-                $("#TargetURL3").val(GetFullImage(urls[2]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[2]) : "");
+        if (urls.length > 2) {
+            $("#TargetURL3").val(GetFullImage(urls[2]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[2]) : "");
 
-                if ($("#TargetURL3").val().indexOf("nophoto") == -1 && $("#TargetURL3").val() != '') {
-                    imgcount = 3;
-                }
+            if ($("#TargetURL3").val().indexOf("nophoto") == -1 && $("#TargetURL3").val() != '') {
+                imgcount = 3;
             }
-            else
-                $("#TargetURL3").val("");
+        }
+        else
+            $("#TargetURL3").val("");
 
-            if (urls.length > 3) {
-                $("#TargetURL4").val(GetFullImage(urls[3]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[3]) : "");
+        if (urls.length > 3) {
+            $("#TargetURL4").val(GetFullImage(urls[3]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[3]) : "");
 
-                if ($("#TargetURL4").val().indexOf("nophoto") == -1 && $("#TargetURL4").val() != '') {
-                    imgcount = 4;
-                }
+            if ($("#TargetURL4").val().indexOf("nophoto") == -1 && $("#TargetURL4").val() != '') {
+                imgcount = 4;
             }
-            else
-                $("#TargetURL4").val("");
+        }
+        else
+            $("#TargetURL4").val("");
 
-            if (urls.length > 4) {
-                $("#TargetURL5").val(GetFullImage(urls[4]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[4]) : "");
+        if (urls.length > 4) {
+            $("#TargetURL5").val(GetFullImage(urls[4]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[4]) : "");
 
-                if ($("#TargetURL5").val().indexOf("nophoto") == -1 && $("#TargetURL5").val() != '') {
-                    imgcount = 5;
-                }
+            if ($("#TargetURL5").val().indexOf("nophoto") == -1 && $("#TargetURL5").val() != '') {
+                imgcount = 5;
             }
-            else
-                $("#TargetURL5").val("");
+        }
+        else
+            $("#TargetURL5").val("");
 
-            $(".imgcount").html("1 / " + imgcount.toString());
+        if (urls.length > 5) {
+            $("#TargetURL6").val(GetFullImage(urls[5]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[5]) : "");
 
-            $("#DiscountValue").val(selected.attr("discount"));
-            $("#RatingValue").html(selected.attr("rating"));
-            $("#Price2Value").val(selected.attr("price2_inet"));
+            if ($("#TargetURL6").val().indexOf("nophoto") == -1 && $("#TargetURL6").val() != '') {
+                imgcount = 6;
+            }
+        }
+        else
+            $("#TargetURL6").val("");
 
-            $("#StatusValue").html(selected.attr("status2"));
+        if (urls.length > 6) {
+            $("#TargetURL7").val(GetFullImage(urls[6]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[6]) : "");
 
-            if (selected.attr("delivery") == 'null')
-                $("#DeliverySelect").val($("#DeliverySelect option[ru='По умолчанию']").text());
-            else if (selected.attr("delivery") == 'true')
-                $("#DeliverySelect").val($("#DeliverySelect option[ru='Бесплатная']").text());
-            else
-                $("#DeliverySelect").val($("#DeliverySelect option[ru='Платная']").text());
+            if ($("#TargetURL7").val().indexOf("nophoto") == -1 && $("#TargetURL7").val() != '') {
+                imgcount = 7;
+            }
+        }
+        else
+            $("#TargetURL7").val("");
 
-            if (selected.attr("time") != undefined && selected.attr("time") != "null" && selected.attr("time") != "")
-                $("#TimeSelect").val($("#TimeSelect option[v='" + selected.attr("time") + "']").text());
-            else
-                $("#TimeSelect").val($("#TimeSelect option[v='0']").text());
+        if (urls.length > 7) {
+            $("#TargetURL8").val(GetFullImage(urls[7]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[7]) : "");
+
+            if ($("#TargetURL8").val().indexOf("nophoto") == -1 && $("#TargetURL8").val() != '') {
+                imgcount = 8;
+            }
+        }
+        else
+            $("#TargetURL8").val("");
+
+        if (urls.length > 8) {
+            $("#TargetURL9").val(GetFullImage(urls[8]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[8]) : "");
+
+            if ($("#TargetURL9").val().indexOf("nophoto") == -1 && $("#TargetURL9").val() != '') {
+                imgcount = 9;
+            }
+        }
+        else
+            $("#TargetURL9").val("");
+
+        if (urls.length > 9) {
+            $("#TargetURL10").val(GetFullImage(urls[9]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[9]) : "");
+
+            if ($("#TargetURL10").val().indexOf("nophoto") == -1 && $("#TargetURL10").val() != '') {
+                imgcount = 10;
+            }
+        }
+        else
+            $("#TargetURL10").val("");
+
+        if (urls.length > 10) {
+            $("#TargetURL11").val(GetFullImage(urls[10]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[10]) : "");
+
+            if ($("#TargetURL11").val().indexOf("nophoto") == -1 && $("#TargetURL11").val() != '') {
+                imgcount = 11;
+            }
+        }
+        else
+            $("#TargetURL11").val("");
+
+        if (urls.length > 11) {
+            $("#TargetURL12").val(GetFullImage(urls[11]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[11]) : "");
+
+            if ($("#TargetURL12").val().indexOf("nophoto") == -1 && $("#TargetURL12").val() != '') {
+                imgcount = 12;
+            }
+        }
+        else
+            $("#TargetURL12").val("");
 
 
-            $("#fullimg").css("width", ($(window).innerWidth()) + "px");
-            $("#fullimg").css("height", ($(window).innerHeight()) + "px");
-            $("#viewer span.desc").css("width", ($(window).innerWidth()) + "px");
+        $(".imgcount").html("1 / " + imgcount.toString());
 
-            $("#viewer").show();
-            $("#splash").show();
+        $("#DiscountValue").val(selected.attr("discount"));
+        $("#RatingValue").html(selected.attr("rating"));
+        $("#Price2Value").val(selected.attr("price2_inet"));
 
-            evt.stopPropagation();
-            evt.preventDefault();
-        
+        $("#StatusValue").html(selected.attr("status2"));
+
+        if (selected.attr("delivery") == 'null')
+            $("#DeliverySelect").val($("#DeliverySelect option[ru='По умолчанию']").text());
+        else if (selected.attr("delivery") == 'true')
+            $("#DeliverySelect").val($("#DeliverySelect option[ru='Бесплатная']").text());
+        else
+            $("#DeliverySelect").val($("#DeliverySelect option[ru='Платная']").text());
+
+        if (selected.attr("time") != undefined && selected.attr("time") != "null" && selected.attr("time") != "")
+            $("#TimeSelect").val($("#TimeSelect option[v='" + selected.attr("time") + "']").text());
+        else
+            $("#TimeSelect").val($("#TimeSelect option[v='0']").text());
+
+
+        $("#fullimg").css("width", ($(window).innerWidth()) + "px");
+        $("#fullimg").css("height", ($(window).innerHeight()) + "px");
+        $("#viewer span.desc").css("width", ($(window).innerWidth()) + "px");
+
+        $("#viewer").show();
+        $("#splash").show();
+
+        evt.stopPropagation();
+        evt.preventDefault();
+
     });
 
     $("#ProductsListView").delegate('a.name', 'click', function (evt) {
@@ -3954,7 +4117,7 @@
         if ($("#TargetURL1").val().startsWith("<") == false) {
             $(".leftscroll").show();
             $(".rightscroll").show();
-            $("#fullimg").find("#AltImgDiv").remove();
+           
             $("#fullimage").show();
             $("#fullimage").attr("src", $("#TargetURL1").val());
         }
@@ -3962,8 +4125,7 @@
             $(".leftscroll").hide();
             $(".rightscroll").hide();
             $("#fullimage").hide();
-            $("#fullimg").find("#AltImgDiv").remove();
-            $("#fullimg").append("<div id='AltImgDiv'>" + $("#TargetURL1").val().replace("<[", "").replace("]>", "") + "</div>");
+            
         }
 
         evt.stopPropagation();
@@ -4054,7 +4216,7 @@
         if ($("#TargetURL1").val().startsWith("<") == false) {
             $(".leftscroll").show();
             $(".rightscroll").show();
-            $("#fullimg").find("#AltImgDiv").remove();
+           
             $("#fullimage").show();
             $("#fullimage").attr("src", $("#TargetURL1").val());
         }
@@ -4062,8 +4224,7 @@
             $(".leftscroll").hide();
             $(".rightscroll").hide();
             $("#fullimage").hide();
-            $("#fullimg").find("#AltImgDiv").remove();
-            $("#fullimg").append("<div id='AltImgDiv'>" + $("#TargetURL1").val().replace("<[", "").replace("]>", "") + "</div>");
+            
         }
 
 
@@ -4800,7 +4961,7 @@
         $("#MBM1").attr("v17", data.d.mbm[16]), $("#MBM1").attr("v18", data.d.mbm[17]), $("#MBM1").attr("v19", "0"), $("#MBM1").attr("v20", data.d.mbm[19]);
         $("#MBM1").attr("v21", data.d.mbm[20]), $("#MBM1").attr("v22", data.d.mbm[21]);
 
-
+        $("#MainLoading").hide();
         
         if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") == -1) {
             $("#TargetStyleSheet").attr("href", data.d.target_style_sheet_href);
@@ -7195,6 +7356,20 @@
         //$('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
     }
 
+    function onErrorFullPhotoLoad(source) {
+        $(source).prev().hide();
+        $(source).show();
+        $(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto2.png');
+        $('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
+    }
+
+    function onFullLoad(source) {
+        $(source).prev().hide();
+        $(source).show();
+        //$(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto.png');
+        //$('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
+    }
+
     function bindCreateNewOrder(data) {
         $("#PayOrder").children().remove();
         $("#PayOrder").hide();
@@ -7961,6 +8136,8 @@
         $("#RatesDiv").children().remove();
 
         $("#RatesDiv").append("<div id='HideRate' style='margin-top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
+
+
 
         $("#RatesDiv").append("<div class='DescContent'>" + data.d[1] + "</br/><br/>" + data.d[0] + "</div>");
 
