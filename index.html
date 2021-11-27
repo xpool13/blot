@@ -165,15 +165,16 @@
         }
 
         #HideRate {
+            position: fixed;
             text-align: center;
             font: 20px/40px Arial;
             background-color: #3cf8ff;
             color: #000;
             cursor: pointer;
-            margin-bottom: 5px;
         }
 
         #AddRate {
+            position: fixed;
             text-align: center;
             font: 20px/40px Arial;
             background-color: #084a05;
@@ -231,6 +232,7 @@
             color: #000;
             text-align: left;
             padding: 8px;
+            margin-top: 40px;
         }
 
         input.Def {
@@ -3062,6 +3064,9 @@
         //$("#fullimage").attr("src", "https://xpool.pro/web/source/style_blot/img/loading.gif");
         $("#viewer").hide();
         $("#splash").hide();
+        $("#EditImage1").hide();
+        $("#EditImage2").hide();
+
         var $target = $('html,body');
         $target.animate({ scrollTop: selected.offset().top + $("#ProductsListView").offset().top + selected.outerHeight() / 2 - 120 - $(window).height() / 2 }, 0);
         selected.css({ "border": "solid 2px #FF0000" }).animate({ borderColor: "#000000" }, 1000);
@@ -3726,9 +3731,8 @@
         
         if ($("#fullimage").attr("src").indexOf("nophoto2.png") != -1 || $(".EditImageClass").css("display") != "none")
             $('<span class="findPhoto2">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($("#fullimage"));
-       
 
-        if (data.d.edit > 0) {
+        if (data.d.edit > 0 && (selected.attr("shopid") == 638 || selected.attr("shopid") == 647 || selected.attr("shopid") == 3692 )) {
             $("#EditImage1").show();
             $("#EditImage2").show();
 
@@ -7352,19 +7356,21 @@
     function onLoad(source) {
         $(source).prev().remove();
         $(source).show();
-        //$(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto.png');
-        //$('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
+        if ($(source).attr('src') == "" || $(source).attr('src').indexOf("nophoto") != -1) {
+            $(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto.png');
+            $('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
+        }
     }
 
     function onErrorFullPhotoLoad(source) {
-        $(source).prev().hide();
+        $(".splashdiv2").hide();
         $(source).show();
         $(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto2.png');
         $('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
     }
 
     function onFullLoad(source) {
-        $(source).prev().hide();
+        $(".splashdiv2").hide();
         $(source).show();
         //$(source).attr('src', 'https://xpool.pro/web/source/' + $('#TargetStyleSheet').attr('st') + '/img/nophoto.png');
         //$('<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>').insertBefore($(source));
@@ -8135,7 +8141,7 @@
 
         $("#RatesDiv").children().remove();
 
-        $("#RatesDiv").append("<div id='HideRate' style='margin-top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
+        $("#RatesDiv").append("<div id='HideRate' style='z-index: 999999; margin-top: 0px; width: 100%; left: 0px; top: 0px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
 
 
 
@@ -8196,8 +8202,10 @@
 
         $("#RatesDiv").children().remove();
 
-        $("#RatesDiv").append("<div id='HideRate' style='margin-top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
-        $("#RatesDiv").append("<div id='AddRate'>" + ($("#MBM1").attr("v16") == "1" ? "Додати відгук" : "Добавить отзыв") + "</div>")
+        $("#RatesDiv").append("<div id='HideRate' style='z-index: 999999; width: 100%; left: 0px; top: 0px'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
+        $("#RatesDiv").append("<div id='AddRate' style='z-index: 999999; width: 100%; left: 0px; top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Додати відгук" : "Добавить отзыв") + "</div>")
+
+        $("#RatesDiv").append("<div id='RatesContent' style='margin-top: 80px'></div>");
 
         for (var i = 0; i < data.d.length; i++) {
 
@@ -8209,7 +8217,7 @@
             if ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3 >= 1)
                 rate = "<div id='rate" + data.d[i].ID + "' v='" + ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3) + "'></div>";
 
-            $("#RatesDiv").append("<div><div class='RateTitle'>" + (data.d[i].Name == null ? "" : data.d[i].Name) + " " + formatDate(d) + " </div><div class='RateContent'>" + rate + (data.d[i].Comment == null ? "" : data.d[i].Comment) + "</div></div>");
+            $("#RatesContent").append("<div><div class='RateTitle'>" + (data.d[i].Name == null ? "" : data.d[i].Name) + " " + formatDate(d) + " </div><div class='RateContent'>" + rate + (data.d[i].Comment == null ? "" : data.d[i].Comment) + "</div></div>");
 
             if ((data.d[i].Rate1 + data.d[i].Rate2 + data.d[i].Rate3) / 3 >= 1) {
                 $('#rate' + data.d[i].ID).starRating({
