@@ -37,7 +37,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style type="text/css">
 
-        .lds-ripple {
+
+
+        .lds-facebook {
             display: block;
             position: relative;
             left: 50%;
@@ -47,38 +49,45 @@
             height: 80px;
         }
 
-        .lds-ripple div {
-            position: absolute;
-            border: 4px solid #000;
-            opacity: 1;
-            border-radius: 50%;
-            animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-        }
+            .lds-facebook div {
+                display: inline-block;
+                position: absolute;
+                left: 8px;
+                width: 16px;
+                background: #666;
+                animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+            }
 
-        .lds-ripple div:nth-child(2) {
-            animation-delay: -0.5s;
-        }
+                .lds-facebook div:nth-child(1) {
+                    left: 8px;
+                    animation-delay: -0.24s;
+                }
 
-        @keyframes lds-ripple {
+                .lds-facebook div:nth-child(2) {
+                    left: 32px;
+                    animation-delay: -0.12s;
+                }
+
+                .lds-facebook div:nth-child(3) {
+                    left: 56px;
+                    animation-delay: 0;
+                }
+
+        @keyframes lds-facebook {
             0% {
-                top: 36px;
-                left: 36px;
-                width: 0;
-                height: 0;
-                opacity: 1;
+                top: 8px;
+                height: 64px;
             }
 
-            100% {
-                top: 0px;
-                left: 0px;
-                width: 72px;
-                height: 72px;
-                opacity: 0;
+            50%, 100% {
+                top: 24px;
+                height: 32px;
             }
         }
 
 
-        .lds-ripple2 {
+
+        .lds-facebook2 {
             display: block;
             position: relative;
             left: 50%;
@@ -88,33 +97,39 @@
             height: 80px;
         }
 
-            .lds-ripple2 div {
+            .lds-facebook2 div {
+                display: inline-block;
                 position: absolute;
-                border: 4px solid #fff;
-                opacity: 1;
-                border-radius: 50%;
-                animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+                left: 8px;
+                width: 16px;
+                background: #000;
+                animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
             }
 
-                .lds-ripple2 div:nth-child(2) {
-                    animation-delay: -0.5s;
+                .lds-facebook2 div:nth-child(1) {
+                    left: 8px;
+                    animation-delay: -0.24s;
                 }
 
-        @keyframes lds-ripple2 {
+                .lds-facebook2 div:nth-child(2) {
+                    left: 32px;
+                    animation-delay: -0.12s;
+                }
+
+                .lds-facebook2 div:nth-child(3) {
+                    left: 56px;
+                    animation-delay: 0;
+                }
+
+        @keyframes lds-facebook2 {
             0% {
-                top: 36px;
-                left: 36px;
-                width: 0;
-                height: 0;
-                opacity: 1;
+                top: 8px;
+                height: 64px;
             }
 
-            100% {
-                top: 0px;
-                left: 0px;
-                width: 72px;
-                height: 72px;
-                opacity: 0;
+            50%, 100% {
+                top: 24px;
+                height: 32px;
             }
         }
 
@@ -167,16 +182,21 @@
         #HideRate {
             position: fixed;
             text-align: center;
-            font: 20px/40px Arial;
-            background-color: #3cf8ff;
-            color: #000;
+            font: 24px/50px Arial;
+            background-color: #333333;
+            color: #fff;
             cursor: pointer;
+        }
+
+        #HideRate:hover {
+            background-color: #000;
+            color: #ffffcc;
         }
 
         #AddRate {
             position: fixed;
             text-align: center;
-            font: 20px/40px Arial;
+            font: 24px/50px Arial;
             background-color: #084a05;
             color: #fff;
             cursor: pointer;
@@ -232,7 +252,7 @@
             color: #000;
             text-align: left;
             padding: 8px;
-            margin-top: 40px;
+            margin-top: 50px;
         }
 
         input.Def {
@@ -854,6 +874,22 @@
                 background-color: #FFFF00;
             }
 
+        td.order5 {
+            height: 42px;
+            position: relative;
+            font-size: large;
+            font-family: Arial;
+            text-align: left;
+            padding: 5px;
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+        }
+
+            td.order5:hover {
+                background-color: #FFFF00;
+            }
+
         span.QR {
             cursor: pointer;
             position: absolute;
@@ -888,7 +924,7 @@
     <meta name="google-site-verification" content="5aXs_V1RAM8aIPgjrq5XWPOER1dyy3nRtn95doM2Mfo" />
 </head>
 <body>
-    <div id="MainLoading" class="lds-ripple2"><div></div><div></div></div>
+    <div id="MainLoading" class="lds-facebook2"><div></div><div></div><div></div></div>
     <input type="hidden" value="" id="c_view" />
     <input type="hidden" value="" id="c_cart" />
 
@@ -898,7 +934,7 @@
     <img id="preview" runat="server" class="previmg" redir="0" style="display: none" src="https://xpool.pro/web/source/style_blot/img/blot_preview.png" />
 
     <div id="DetailsDIV" style="z-index: 99999; width: 294px; display: none; position: absolute; overflow-y:scroll; overflow-x: no-display;">
-        <table id="DetailsTable" style="position: absolute; table-layout: fixed; margin: 0px; border-collapse: collapse; font-family: Arial; font-size: 11px; color: #333333;"></table>
+        <table id="DetailsTable" style="width: 100%; position: absolute; table-layout: fixed; margin: 0px; border-collapse: collapse; font-family: Arial; font-size: 11px; color: #333333;"></table>
     </div>
     <div id="QRCode" style="display: none; position: absolute; position: fixed; left: 50%; top: 10px; margin-left: -110px; z-index: 999999999999; width: 220px; background-color: white;">
         <div id="QRCodeView" style="display: block; margin: 10px;"></div>
@@ -1165,7 +1201,7 @@
         <span class="leftscroll"></span>
 
         <div id="fullimg">
-            <div class="splashdiv2"><div class="lds-ripple"><div></div><div></div></div></div>
+            <div class="splashdiv2"><div class="lds-facebook"><div></div><div></div><div></div></div></div>
             <img style="display: none;" id="fullimage" src="" onerror="onErrorFullPhotoLoad(this)" onload="onFullLoad(this)" />
         </div>
         <span class="rightscroll"></span>
@@ -1747,6 +1783,8 @@
         $("#col3").children().remove();
         $("#CabinetTable").children().remove();
 
+        $("#DetailsDIV").hide();
+
         startRecord = 0;
         sort = 0;
 
@@ -1763,6 +1801,60 @@
             dataType: "json",
             success: bindGetData
         });
+    });
+
+    $("#search").delegate('input.searchtext', 'keyup input', function () {
+        if ($('#search input.searchtext').val().length > 1) {
+            
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "https://xpool.pro/web/webform.aspx/HelpSearch",
+                data: "{ \"text\":'" + $('#search input.searchtext').val() + "' }",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetHelpSearch
+            });
+        }
+    });
+
+    function bindGetHelpSearch(data) {
+        if (data.d.length > 0) {
+            $("#DetailsTable").children().remove();
+
+            for (var i = 0; i < data.d.length; i++) {
+                $("#DetailsTable").append('<tr><td class="order5" width="100%">' + data.d[i] + '</td></tr>');
+            }
+
+            var left_drop = 0;
+            var top_drop = 0;
+
+            if (typeof InstallTrigger !== 'undefined') {
+                top_drop = 0;
+            }
+            else {
+                left_drop = 0;
+            }
+
+            $("#DetailsDIV").css("position", "fixed");
+            $("#DetailsDIV").css("width", $("#search input.searchtext").outerWidth());
+            $("#DetailsDIV").css({ top: $("#search input.searchtext").offset().top + top_drop + $("#search input.searchtext").outerHeight() + 'px' });
+
+            $("#DetailsDIV").css({ left: $("#search input.searchtext").offset().left + $("#search input.searchtext").outerWidth() - $("#DetailsDIV").outerWidth() + left_drop + 'px' });
+
+            if (data.d.length < 4) {
+                $("#DetailsDIV").css("height", $("#DetailsTable").innerHeight() + "px");
+            }
+            else
+                $("#DetailsDIV").css("height", "200px");
+
+            $("#DetailsDIV").show();
+        }
+    }
+
+    $("#DetailsDIV").delegate('.order5', 'click', function () {
+        $("#search input.searchtext").val($(this).html());
+        $("#DetailsDIV").hide();
     });
 
     function bindGetData(data) {
@@ -1802,6 +1894,7 @@
     $("#search input.searchtext").keyup(function (e) {
         if (e.keyCode == 13) {
             $("#search").hide();
+            $("#DetailsDIV").hide();
             $("#splash").hide();
             loading2Show();
             $("#EmptyDiv").hide();
@@ -2978,6 +3071,7 @@
     ////});
 
     $("#search span.close").click(function () {
+        $("#DetailsDIV").hide();
         $("#search").hide();
         $("#splash").hide();
     });
@@ -4953,7 +5047,7 @@
 
 
     var uid_v = 48;//edit
-    var sid_v = 638;//edit
+    var sid_v = 3692;//edit
 
     var init_status = 1;
 
@@ -6974,7 +7068,7 @@
                 else
                     no_photo_url = '<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>';
 
-                var img_val = '<div class="splashdiv"><div class="lds-ripple"><div></div><div></div></div></div><img style="display: none" index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)" onload="onLoad(this)"></img>';
+                var img_val = '<div class="splashdiv"><div class="lds-facebook"><div></div><div></div><div></div></div></div><img style="display: none" index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)" onload="onLoad(this)"></img>';
                 
 
                 var rate_info = '<span class="AddRateSpan2">' + ($("#MBM1").attr("v16") == "1" ? "Залишити відгук" : "Оставить отзыв") + '</span>';
@@ -7139,7 +7233,7 @@
                     no_photo_url = '<span class="findPhoto">' + ($("#MBM1").attr("v16") == "1" ? 'Подивитись фото товару в Google' : 'Поcмотреть фото товара в Google') + '</span>';
 
 
-                var img_val = '<div class="splashdiv"><div class="lds-ripple"><div></div><div></div></div></div><img style="display: none" index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)" onload="onLoad(this)"></img>';
+                var img_val = '<div class="splashdiv"><div class="lds-facebook"><div></div><div></div><div></div></div></div><img style="display: none" index="' + index2.toString() + '" res="' + addicted_dataRows[i][3] + '" src="' + GetNormalImage(addicted_dataRows[i][3], addicted_dataRows[i][3]) + '" onerror="onErrorPhotoLoad(this)" onload="onLoad(this)"></img>';
                 
 
                 var rate_info = '<span class="AddRateSpan2">' + ($("#MBM1").attr("v16") == "1" ? "Залишити відгук" : "Оставить отзыв") + '</span>';
@@ -8141,7 +8235,7 @@
 
         $("#RatesDiv").children().remove();
 
-        $("#RatesDiv").append("<div id='HideRate' style='z-index: 999999; margin-top: 0px; width: 100%; left: 0px; top: 0px;'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
+        $("#RatesDiv").append("<div id='HideRate' style='z-index: 999999; margin-top: 0px; width: 100%; left: 0px; top: 0px;'><img src='https://static.liqpay.ua/buttons/logo-small.png' name='btn_text' style='margin-right: 7px !important; vertical-align: middle !important; -webkit-transform: scaleX(-1); transform: scaleX(-1);'/>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
 
 
 
@@ -8202,10 +8296,10 @@
 
         $("#RatesDiv").children().remove();
 
-        $("#RatesDiv").append("<div id='HideRate' style='z-index: 999999; width: 100%; left: 0px; top: 0px'>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
-        $("#RatesDiv").append("<div id='AddRate' style='z-index: 999999; width: 100%; left: 0px; top: 40px;'>" + ($("#MBM1").attr("v16") == "1" ? "Додати відгук" : "Добавить отзыв") + "</div>")
+        $("#RatesDiv").append("<div id='HideRate' style='z-index: 999999; width: 100%; left: 0px; top: 0px'><img src='https://static.liqpay.ua/buttons/logo-small.png' name='btn_text' style='margin-right: 7px !important; vertical-align: middle !important; -webkit-transform: scaleX(-1); transform: scaleX(-1);'/>" + ($("#MBM1").attr("v16") == "1" ? "Повернутися назад" : "Вернуться назад") + "</div>")
+        $("#RatesDiv").append("<div id='AddRate' style='z-index: 999999; width: 100%; left: 0px; top: 50px;'>" + ($("#MBM1").attr("v16") == "1" ? "Додати відгук" : "Добавить отзыв") + "</div>")
 
-        $("#RatesDiv").append("<div id='RatesContent' style='margin-top: 80px'></div>");
+        $("#RatesDiv").append("<div id='RatesContent' style='margin-top: 100px'></div>");
 
         for (var i = 0; i < data.d.length; i++) {
 
