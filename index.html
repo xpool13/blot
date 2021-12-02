@@ -38,6 +38,52 @@
     <style type="text/css">
 
 
+        .lds-ring {
+            display: inline-block;
+            position: relative;
+            width: 30px;
+            height: 30px;
+        }
+
+            .lds-ring div {
+                box-sizing: border-box;
+                display: block;
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                margin: 8px;
+                border: 4px solid #fff;
+                border-radius: 50%;
+                animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+                border-color: #fff transparent transparent transparent;
+            }
+
+                .lds-ring div:nth-child(1) {
+                    animation-delay: -0.45s;
+                }
+
+                .lds-ring div:nth-child(2) {
+                    animation-delay: -0.3s;
+                }
+
+                .lds-ring div:nth-child(3) {
+                    animation-delay: -0.15s;
+                }
+
+        @keyframes lds-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+
+
+
 
         .lds-facebook {
             display: block;
@@ -750,21 +796,109 @@
             padding-left: 5px;
         }
 
+
+
         #loading2 {
             position: fixed;
-            left: 50%;
-            margin-left: -80px;
             z-index: 999999999999;
-            width: 140px;
-            padding: 10px;
-            font: normal 18px arial;
-            text-align: center;
-            vertical-align: middle;
-            background-color: white;
             display: none;
+            width: 80px;
+            height: 80px;
             bottom: 2px;
-            border: 1px solid #000000;
+            border: none;
+            left: 50%;
+            margin-left: -40px;
         }
+
+            #loading2 div {
+                position: absolute;
+                left: 8px;
+                width: 16px;
+                background-color: #333;
+                animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+            }
+
+                #loading2 div:nth-child(1) {
+                    background-color: #fff;
+                    left: 8px;
+                    animation-delay: -0.24s;
+                }
+
+                #loading2 div:nth-child(2) {
+                    background-color: #fff;
+                    left: 32px;
+                    animation-delay: -0.12s;
+                }
+
+                #loading2 div:nth-child(3) {
+                    background-color: #fff;
+                    left: 56px;
+                    animation-delay: 0;
+                }
+
+        @keyframes loading2 {
+            0% {
+                top: 8px;
+                height: 64px;
+            }
+
+            50%, 100% {
+                top: 24px;
+                height: 32px;
+            }
+        }
+
+
+        #loading {
+            position: fixed;
+            z-index: 999999999999;
+            display: none;
+            width: 80px;
+            height: 80px;
+            top: 2px;
+            border: none;
+            left: 50%;
+            margin-left: -40px;
+        }
+
+        #loading div {
+            position: absolute;
+            left: 8px;
+            width: 16px;
+            background-color: #333;
+            animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+        }
+
+            #loading div:nth-child(1) {
+                background-color: #fff;
+                left: 8px;
+                animation-delay: -0.24s;
+            }
+
+            #loading div:nth-child(2) {
+                background-color: #fff;
+                left: 32px;
+                animation-delay: -0.12s;
+            }
+
+            #loading div:nth-child(3) {
+                background-color: #fff;
+                left: 56px;
+                animation-delay: 0;
+            }
+
+        @keyframes loading {
+            0% {
+                top: 8px;
+                height: 64px;
+            }
+
+            50%, 100% {
+                top: 24px;
+                height: 32px;
+            }
+        }
+
 
         td.cheque {
             height: 42px;
@@ -953,8 +1087,8 @@
     <div id="splash2"></div>
     <div id="splash3"></div>
     <div id="splash4"></div>
-    <div id="loading" uk="Завантаження" style="display: none;">Загрузка</div>
-    <div id="loading2" uk="Завантаження" style="display: none;">Загрузка</div>
+    <div id="loading"><div></div><div></div><div></div></div>
+    <div id="loading2"><div></div><div></div><div></div></div>
     <div id="AddictedView" style="text-align: center; z-index: 9999999999; display: none; position: absolute; width: 400px; left: 50%; background-color: none; overflow-y: hidden; overflow-x: no-display;">
         <table id="AddictedTable" width="100%" style="table-layout: fixed; margin: 0px; border-collapse: collapse; font-family: Arial; font-size: 11px; color: #333333; background-color: #333333;" align="center"></table>
     </div>
@@ -1556,6 +1690,7 @@
             <div id="EmptyDiv" uk="Порожньо" style="display: none; text-align: center; padding: 10px">Пусто</div>
         </div>
     </div>
+    <div style="height: 80px"></div>
 </body>
 </html>
 <script type="text/javascript">
@@ -1838,7 +1973,7 @@
 
             $("#DetailsDIV").css("position", "fixed");
             $("#DetailsDIV").css("width", $("#search input.searchtext").outerWidth());
-            $("#DetailsDIV").css({ top: $("#search input.searchtext").offset().top + top_drop + $("#search input.searchtext").outerHeight() + 'px' });
+            $("#DetailsDIV").css({ top: $("#search input.searchtext").offset().top - $(window).scrollTop() + top_drop + $("#search input.searchtext").outerHeight() + 'px' });
 
             $("#DetailsDIV").css({ left: $("#search input.searchtext").offset().left + $("#search input.searchtext").outerWidth() - $("#DetailsDIV").outerWidth() + left_drop + 'px' });
 
@@ -2146,87 +2281,23 @@
         $("#ContentDIV").animate({ scrollLeft: 0 }, 500);
     }
 
-    var loop_index = 0;
-    var loop_index2 = 0;
-    var timer = null;
-    var timer2 = null;
+  
 
     function loadingShow() {
         $("#loading").show();
-        timer = setInterval("loopLoading()", 100);
     }
 
     function loadingHide() {
         $("#loading").hide();
-        if (timer != null) {
-            clearInterval(timer);
-        }
     }
 
     function loading2Show() {
-        $("#loading2").show();
-        timer2 = setInterval("loopLoading2()", 100);
+        $("#loading2").show();   
     }
 
     function loading2Hide() {
         $("#loading2").hide();
-        if (timer2 != null) {
-            clearInterval(timer2);
-        }
     }
-
-    function loopLoading() {
-      
-        if ($("#loading").text() == "Загрузка") {
-            $("#loading").html(replaceAt("Загрузка", loop_index, "<span style='color: #666'>" + ("Загрузка")[loop_index] + "</span>"));
-
-            if (loop_index == 6)
-                loop_index = 0;
-            else
-                loop_index++;
-        }
-        else
-        {
-            //$("#loading").html($("#loading").text().replace(("Завантаження")[loop_index], "<span style='color: #666'>" + ("Завантаження")[loop_index] + "</span>"));
-
-            $("#loading").html(replaceAt("Завантаження", loop_index, "<span style='color: #666'>" + ("Завантаження")[loop_index] + "</span>"));
-
-            if (loop_index == 11)
-                loop_index = 0;
-            else
-                loop_index++;
-        }
-    }
-
-    function loopLoading2() {
-
-        if ($("#loading2").text() == "Загрузка") {
-            $("#loading2").html(replaceAt("Загрузка", loop_index2, "<span style='color: #666'>" + ("Загрузка")[loop_index2] + "</span>"));
-
-            if (loop_index2 == 6)
-                loop_index2 = 0;
-            else
-                loop_index2++;
-        }
-        else {
-            $("#loading2").html(replaceAt("Завантаження", loop_index2, "<span style='color: #666'>" + ("Завантаження")[loop_index2] + "</span>"));
-
-            if (loop_index2 == 11)
-                loop_index2 = 0;
-            else
-                loop_index2++;
-        }
-    }
-
-    function replaceAt(s, n, t) {
-        return s.substring(0, n) + t + s.substring(n + 1);
-    }
-
-    //function loopPayButton(pay_button) {
-    //    pay_button.css({ "background-color": "#000000" }).animate({ "background-color": "#333333" }, 1000, 'linear', function () {
-    //        loopPayButton(pay_button);
-    //    });
-    //}
 
     $("#CabinetTable").delegate('.PayCard', 'click', function () {
 
@@ -6351,13 +6422,15 @@
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr10" class="ItemContainer"><td class="cheque"><input id="PhoneTextBox" type="tel" style="font: 20px/20px Arial; text-align: center;" /></td></tr>');
 
+                   /* $("#CabinetTable").append('<tr id="d_tr1" class="ItemContainer"><td class="cheque" uk="Область:">Область:</td></tr>');*/
+
                     $("#CabinetTable").append('<tr id="d_tr1" class="ItemContainer"><td class="cheque" uk="Місто:">Город:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr2" class="ItemContainer"><td class="cheque"><textarea id="CurrentCityTextBox" maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr3" class="ItemContainer"><td class="cheque" uk="Доставка:">Доставка:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr4" class="ItemContainer"><td class="cheque"><select id="DeliveryTypeSelect" style="font: 20px/20px Arial; text-align: center; width: 284px"><option value="1" uk="До відділення">До отделения</option><option value="2" uk="Адресна">Адресная</option></select></td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr5" class="ItemContainer" v="1"><td class="cheque" uk="Відділення:">Отделение:</td></tr>');
 
-                    $("#CabinetTable").append('<tr id="d_tr6" class="ItemContainer" v="1"><td class="cheque"><textarea id="CurrentWarehouseTextBox" readonly maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr6" class="ItemContainer" v="1"><td class="cheque" style="height: 74px;"><textarea id="CurrentWarehouseTextBox" maxlength="500" rows="2" cols="30" style="width: 284px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
 
                     $("#CabinetTable").append('<tr id="d_tr7" class="ItemContainer" v="2" style="display: none"><td class="cheque" id="AddressTD" uk="Вулиця:">Улица:</td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr8" class="ItemContainer" v="2" style="display: none"><td class="cheque"><textarea id="AddressTextBox" maxlength="500" rows="3" cols="30" style="width: 294px; padding: 5px; font: normal 18px arial; display: block;"></textarea></td></tr>');
@@ -6640,29 +6713,44 @@
         $('#NameTextBox').val(data.d.Name);
     }
 
+    var satl_finding = 0;
+
     function FindSettlements(request)
     {
-        $.ajax({
-            async: true,
-            type: "POST",
-            crossDomain: true,
-            url: "https://api.novaposhta.ua/v2.0/json/Address/searchSettlements/",
-            data: '{\r\n\"apiKey": "046c315053c52ce46f14cd32d7be106e",\r\n\ "modelName": "Address",\r\n\ "calledMethod": "searchSettlements",\r\n\ "methodProperties": {\r\n\ "CityName":"' + request + '",\r\n\ "Limit":5\r\n\}\r\n}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: bindGetFindSettlements
-        });
+        if (satl_finding == 0) {        
+            if (request.indexOf("(") == -1) {
+                satl_finding = 1;
+
+                $("body").append('<div id="WHLoading" class="lds-ring" style="position: absolute; height: 10px; width: 10px"><div></div><div></div><div></div><div></div></div>');
+                $("#WHLoading").css("top", $("#CurrentCityTextBox").offset().top + 6 + "px");
+                $("#WHLoading").css("left", $("#CurrentCityTextBox").offset().left - 40 + "px");
+                $("#WHLoading").css("z-index", "10");
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    crossDomain: true,
+                    url: "https://api.novaposhta.ua/v2.0/json/Address/searchSettlements/",
+                    data: '{\r\n\"apiKey": "046c315053c52ce46f14cd32d7be106e",\r\n\ "modelName": "Address",\r\n\ "calledMethod": "searchSettlements",\r\n\ "methodProperties": {\r\n\ "CityName":"' + request + '",\r\n\ "Limit":5\r\n\}\r\n}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: bindGetFindSettlements
+                });
+            }
+        }
     };
 
     function bindGetFindSettlements(data) {
         //alert(data.data[0].Addresses[0].Present);
-
-        if (data.data[0].Addresses.length > 0) {
+        if ((data.data[0] != undefined) && (data.data[0].Addresses.length > 0)) {
             $("#DetailsTable").children().remove();
-
+           
             for (var i = 0; i < data.data[0].Addresses.length; i++) {
-                $("#DetailsTable").append('<tr><td class="order" width="100%" colspan="2" city_id="' + data.data[0].Addresses[i].Ref + '">' + data.data[0].Addresses[i].MainDescription + '</td></tr>');
+                $("#DetailsTable").append('<tr><td class="order" width="100%" colspan="2" city_id="' + data.data[0].Addresses[i].Ref + '">' + data.data[0].Addresses[i].MainDescription + " (" + data.data[0].Addresses[i].Area + ' обл.)</td></tr>');
             }
+
+            $("#CurrentCityTextBox").css("position", "relative");
+            $("#CurrentCityTextBox").css("z-index", "9999999999");
 
             var left_drop = 0;
             var top_drop = 0;
@@ -6687,10 +6775,21 @@
                 $("#DetailsDIV").css("height", "200px");
 
             $("#DetailsDIV").show();
-            $("#splash").hide();
-            $("#splash2").hide();
+            $("#splash").show();         
         }
+        
+        satl_finding = 0;
+        $("#WHLoading").remove();
     }
+
+    $("#CabinetTable").delegate('#CurrentCityTextBox', 'click', function () {
+        $("#CurrentCityTextBox").val('');
+        $("#CurrentCityTextBox").removeAttr("city_id");
+        $("#AddressTextBox").val('');
+        $("#AddressTextBox").removeAttr("address_id");
+        $("#CurrentWarehouseTextBox").val('');
+        $("#CurrentWarehouseTextBox").removeAttr("warehouse_id");
+    });
 
     $("#CabinetTable").delegate('#CurrentCityTextBox', 'keyup input', function () {
         if ($(this).val().length > 1) {
@@ -6704,17 +6803,28 @@
         }
     });
 
+    var addr_finding = 0;
+
     function FindAddress() {
-        $.ajax({
-            async: true,
-            type: "POST",
-            crossDomain: true,
-            url: "https://api.novaposhta.ua/v2.0/json/",
-            data: '{\r\n\"apiKey": "046c315053c52ce46f14cd32d7be106e",\r\n\ "modelName": "Address",\r\n\ "calledMethod": "searchSettlementStreets",\r\n\ "methodProperties": {\r\n\"StreetName": "' + $("#AddressTextBox").val() + '",\r\n\ "SettlementRef": "' + $("#CurrentCityTextBox").attr("city_id") + '",\r\n\ "Limit": 5\r\n\}\r\n\}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: bindGetAddress
-        });
+        if (addr_finding == 0) {
+            addr_finding = 1;
+
+            $("body").append('<div id="WHLoading" class="lds-ring" style="position: absolute; height: 10px; width: 10px"><div></div><div></div><div></div><div></div></div>');
+            $("#WHLoading").css("top", $("#AddressTextBox").offset().top + 6 + "px");
+            $("#WHLoading").css("left", $("#AddressTextBox").offset().left - 40 + "px");
+            $("#WHLoading").css("z-index", "10");
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                crossDomain: true,
+                url: "https://api.novaposhta.ua/v2.0/json/",
+                data: '{\r\n\"apiKey": "046c315053c52ce46f14cd32d7be106e",\r\n\ "modelName": "Address",\r\n\ "calledMethod": "searchSettlementStreets",\r\n\ "methodProperties": {\r\n\"StreetName": "' + $("#AddressTextBox").val() + '",\r\n\ "SettlementRef": "' + $("#CurrentCityTextBox").attr("city_id") + '",\r\n\ "Limit": 5\r\n\}\r\n\}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: bindGetAddress
+            });
+        }
     };
 
     JSON.stringify = JSON.stringify || function (obj) {
@@ -6738,12 +6848,15 @@
     };
 
     function bindGetAddress(data) {
-        if (data.data[0].Addresses.length > 0) {
+        if ((data.data[0] != undefined) && (data.data[0].Addresses.length > 0)) {
             $("#DetailsTable").children().remove();
 
             for (var i = 0; i < data.data[0].Addresses.length; i++) {
                 $("#DetailsTable").append('<tr><td class="order3" width="100%" colspan="2" address_id="' + data.data[0].Addresses[i].SettlementStreetRef + '">' + data.data[0].Addresses[i].Present + '</td></tr>');
             }
+
+            $("#AddressTextBox").css("position", "relative");
+            $("#AddressTextBox").css("z-index", "9999999999");
 
             var left_drop = 0;
             var top_drop = 0;
@@ -6768,10 +6881,16 @@
                 $("#DetailsDIV").css("height", "200px");
 
             $("#DetailsDIV").show();
-            $("#splash").hide();
-            $("#splash2").hide();
+            $("#splash").show();        
         }
+        addr_finding = 0;
+        $('#WHLoading').remove();
     }
+
+    $("#CabinetTable").delegate('#AddressTextBox', 'click', function () {    
+        $("#AddressTextBox").val('');
+        $("#AddressTextBox").removeAttr("address_id");
+    });
 
     $("#DetailsTable").delegate('td.order3', 'click', function () {
         $("#AddressTextBox").val($(this).html());
@@ -6780,6 +6899,11 @@
         $("#CurrentWarehouseTextBox").removeAttr("warehouse_id");
         $("#DetailsDIV").hide();
         $("#DetailsTable").children().remove();
+
+        $("#AddressTextBox").css("position", "relative");
+        $("#AddressTextBox").css("z-index", "1");
+        $("#splash").hide();
+        $("#AddressTextBox").blur();
     });
 
     $("#CabinetTable").delegate('#DeliveryTypeSelect', 'change', function () {
@@ -6816,6 +6940,11 @@
 
         if ($("DeliveryTypeSelect").val() == "1")
             GetWarehouses(city_id);
+
+        $("#CurrentCityTextBox").css("position", "relative");
+        $("#CurrentCityTextBox").css("z-index", "1");
+        $("#splash").hide();
+        $("#CurrentCityTextBox").blur();
     });
 
     $("#DetailsTable").delegate('td.order2', 'click', function () {
@@ -6827,13 +6956,38 @@
         $("#HouseTextBox").val("");
         $("#DetailsDIV").hide();
         $("#DetailsTable").children().remove();
+        $("#CurrentWarehouseTextBox").css("position", "relative");
+        $("#CurrentWarehouseTextBox").css("z-index", "1");
+        $("#splash").hide();
+        $("#CurrentWarehouseTextBox").blur();
     });
 
     $("#CabinetTable").delegate('#CurrentWarehouseTextBox', 'click', function () {
-
+        
+        $("#CurrentWarehouseTextBox").val("");
+        $("#CurrentWarehouseTextBox").removeAttr("warehouse_id");
+       
         if (city_id != undefined) {
+
+            $("body").append('<div id="WHLoading" class="lds-ring" style="position: absolute; height: 10px; width: 10px"><div></div><div></div><div></div><div></div></div>');
+            $("#WHLoading").css("top", $("#CurrentWarehouseTextBox").offset().top + 6 + "px");
+            $("#WHLoading").css("left", $("#CurrentWarehouseTextBox").offset().left - 40 + "px");
+            $("#WHLoading").css("z-index", "10");
+
             $("#DetailsDIV").hide();
             $("#DetailsTable").children().remove();
+
+            GetWarehouses(city_id);
+        }
+    });
+
+    $("#CabinetTable").delegate('#CurrentWarehouseTextBox', 'keyup input', function () {
+        if ($(this).val().length > 1) {
+
+            $("body").append('<div id="WHLoading" class="lds-ring" style="position: absolute; height: 10px; width: 10px"><div></div><div></div><div></div><div></div></div>');
+            $("#WHLoading").css("top", $("#CurrentWarehouseTextBox").offset().top + 6 + "px");
+            $("#WHLoading").css("left", $("#CurrentWarehouseTextBox").offset().left - 40 + "px");
+            $("#WHLoading").css("z-index", "10");
 
             GetWarehouses(city_id);
         }
@@ -6845,16 +6999,17 @@
             type: "POST",
             crossDomain: true,
             url: "https://api.novaposhta.ua/v2.0/json/AddressGeneral/getWarehouses",
-            data: '{\r\n\"apiKey": "046c315053c52ce46f14cd32d7be106e",\r\n\ "modelName": "AddressGeneral",\r\n\ "calledMethod": "getWarehouses",\r\n\ "methodProperties": {\r\n\ "SettlementRef": "' + city_id + '"\r\n\}\r\n\}',
+            data: '{\r\n\"apiKey": "046c315053c52ce46f14cd32d7be106e",\r\n\ "modelName": "AddressGeneral",\r\n\ "calledMethod": "getWarehouses",\r\n\ "methodProperties": {\r\n\ "SettlementRef": "' + city_id + '",\r\n\ "FindByString": "' + $("#CurrentWarehouseTextBox").val() + '"\r\n\}\r\n\}',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: bindGetWarehouses
         });
     }
 
-    function bindGetWarehouses(data) {
+    function bindGetWarehouses(data) {     
+        $("#splash").show();
         //alert(data.data[0].Addresses[0].Present);
-        if (data.data.length > 0) {
+        if ((data.data[0] != undefined) && (data.data.length > 0)) {
             $("#DetailsTable").children().remove();
 
 
@@ -6872,6 +7027,9 @@
                 left_drop = 0;
             }
 
+            $("#CurrentWarehouseTextBox").css("position", "relative");
+            $("#CurrentWarehouseTextBox").css("z-index", "99999999999");
+         
             $("#DetailsDIV").css({ top: $("#CurrentWarehouseTextBox").offset().top + top_drop + $("#CurrentWarehouseTextBox").outerHeight() + 'px' });
 
             $("#DetailsDIV").css({ left: $("#CurrentWarehouseTextBox").offset().left + $("#CurrentWarehouseTextBox").outerWidth() - $("#DetailsDIV").outerWidth() + left_drop + 'px' });
@@ -6882,9 +7040,9 @@
                 $("#DetailsDIV").css("height", "200px");
 
             $("#DetailsDIV").show();
-            $("#splash").hide();
-            $("#splash2").hide();
         }
+
+        $('#WHLoading').remove();
     }
 
 
@@ -7090,7 +7248,7 @@
 
                 rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
 
-                var sklep_info = ""; //"<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
+                var sklep_info = "<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
                 var deliver_ru = "отправка: ";
                 var deliver_uk = "відправка: ";
 
@@ -7101,7 +7259,7 @@
                     deliver_uk = "доставка: ";
 
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "товар у магазині" : "товар в магазине") + "</div>";
-                    sklep_info = "";
+                   
                 }
 
                 var day_w = new Date().getDay();
@@ -7255,7 +7413,7 @@
 
                 rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
            
-                var sklep_info = "" //"<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
+                var sklep_info = "<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
                 var deliver_ru = "отправка: ";
                 var deliver_uk = "відправка: ";
 
@@ -7266,7 +7424,7 @@
                     deliver_uk = "доставка: ";
 
                     delivery_status = "<div class='dready'>" + ($("#MBM1").attr("v16") == "1" ? "товар у магазині" : "товар в магазине") + "</div>";
-                    sklep_info = "";
+                   
                 }
 
                 var day_w = new Date().getDay();
