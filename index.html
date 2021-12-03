@@ -1699,18 +1699,18 @@
     var old_width = window.innerWidth;
 
     var delivery_time = {
-        638: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10", ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10"]],
+        638: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10", 0],
         3692: ["0-10", "0-14", "0-14", "0-14", "0-14", "0-14", "0-10", 0],
         5409: ["<10", "<10", "<10", "<10", "<10", "<10", "<10", 0],
         8547: ["1", "1", "1", "1", "1", "1", "1", 0],
-        8079: ["5", "4", "3", "2", "8", "7", "6", ["5", "4", "3", "2", "8", "7", "6"]],
-        9170: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["6", "5", "4", "3", "2", "8", "7"]],
+        8079: ["5", "4", "3", "2", "8", "7", "6", 0],
+        9170: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", 0],
        
-        8071: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["2", "4", "3", "2", "5", "4", "3"]],
+        8071: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", 0],
         8539: ["<14", "<14", "<14", "<14", "<14", "<14", "<14", 0],
-        9178: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["5", "4", "3", "9", "8", "7", "6"]],
-        9162: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", ["2", "4", "3", "2", "5", "4", "3"]],
-        8555: ["1", "1", "1", "1", "1", "1", "1"]
+        9178: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", 0],
+        9162: ["1", "0-12", "0-12", "0-12", "0-12", "0-12", "2", 0],
+        8555: ["1", "1", "1", "1", "1", "1", "1", 0]
     };
 
     var delivery_time2 = {
@@ -3720,7 +3720,7 @@
 
                 for (var i = 0; i < data.d[4].length; i++) {
 
-                    _c_favors = _c_cart.replace(":" + data.d[4] + ":", "");
+                    _c_favors = _c_favors.replace(":" + data.d[4] + ":", "");
 
                 }
 
@@ -5104,11 +5104,17 @@
             sid_v = getUrlParameter("sid");
         }
 
+        var cr_v = 0;
+
+        if (getUrlParameter("cr") != undefined && getUrlParameter("cr") != null && getUrlParameter("cr") != '' && extractHostname(window.location.origin).indexOf("monstro.com.ua") == -1) {
+            cr_v = getUrlParameter("cr");
+        }
+
         $.ajax({
             async: true,
             type: "POST",
             url: "https://xpool.pro/web/webform.aspx/InitPage",
-            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + sid_v + " }",
+            data: "{ \"uid_v\":" + uid_v + ", \"sid_v\":" + sid_v + ", \"cr_v\":" + cr_v + " }",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: bindInit
@@ -6365,30 +6371,34 @@
                     $("#PayOrder").children().remove();
 
 
-                    //if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
-                    $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
-                    //}
-                    //else {
+                    if (extractHostname(window.location.origin).indexOf("xn--80atad5a1f.in.ua") != -1) {
+                        $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
+                    }
+                    else {
 
-                    //    var _sum = parseFloat($(".cartsum").html());
-                    //    var prepay_sum = 100;
+                        var _sum = parseFloat($(".cartsum").html());
+                        var prepay_sum = 0;
 
-                    //    if (_sum > 10000) {
-                    //        prepay_sum = 500;
-                    //    }
-                    //    else if (_sum > 5000)
-                    //        prepay_sum == 250;
-                    //    else if (_sum > 2000)
-                    //        prepay_sum == 200;
+                        if (_sum > 10000) {
+                            prepay_sum = 500;
+                        }
+                        else if (_sum > 5000)
+                            prepay_sum == 250;
+                        else if (_sum > 2000)
+                            prepay_sum == 200;
 
-                    //    if (_sum > 100)
-                    //        $("#PayOrder").append('<tr><td id="PayOnline2" class="GoPrepay" width="100%" style="width: ' + $("#CreateNewOrder").innerWidth() + 'px"">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити передплату" : "Оплатить предоплату") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/><br/><span id="PrepaySum" style="font: normal 18px arial;">' + prepay_sum + ' грн</span></td></tr>');
+                        if (prepay_sum > 0) {
+                            $("#PayOrder").append('<tr><td id="PayOnline2" class="GoPrepay" width="100%" style="width: ' + $("#CreateNewOrder").innerWidth() + 'px"">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити передплату" : "Оплатить предоплату") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/><br/><span id="PrepaySum" style="font: normal 18px arial;">' + prepay_sum + ' грн</span></td></tr>');
+                        }
+                        else {
+                            $("#PayOrder").append('<tr><td id="GoToCabinet2" class="GoCabinet" width="100%;">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити при отриманні" : "Оплатить при получении") + '</td></tr>');
+                        }
 
-                    //    $("#PayOrder").append('<tr><td id="PayOnline" class="GoPay" width="100%" style="margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/></td></tr>');
+                        $("#PayOrder").append('<tr><td id="PayOnline" class="GoPay" width="100%" style="margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px">' + ($("#MBM1").attr("v16") == "1" ? "Сплатити онлайн" : "Оплатить онлайн") + ' <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text" style="margin-right: 7px !important; vertical-align: middle !important;"/></td></tr>');
 
-                    //    $("#PayOrder").append('<tr><td class="PayInfo" width="100%"><div style="text-align: center; padding: 10px; margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px""><span class= "Visa"></span><span class="MasterCard"></span><br/>ФОП Краснікова О.С. РНОКПП: 2374202227</div></td></tr>');
+                        $("#PayOrder").append('<tr><td class="PayInfo" width="100%"><div style="text-align: center; padding: 10px; margin-top: 2px; width: ' + $("#CreateNewOrder").innerWidth() + 'px""><span class= "Visa"></span><span class="MasterCard"></span><br/>ФОП Краснікова О.С. РНОКПП: 2374202227</div></td></tr>');
 
-                    //}
+                    }
 
                     $("#PayOrder").show();
                     $("#CreateOrder").hide();
@@ -6414,8 +6424,7 @@
                 }
                 else {
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Замовлення буде опрацьоване автоматично<br>дата відправки: роророро</td></tr>');
-                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD" uk="Додаткові послуги:">Дополнительные услуги:</td></tr>');
-                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Безкоштовна доставка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr30" class="ItemContainer"><td class="cheque">Безкоштовна доставка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Контрольна перевірка товару на справність та відповідність<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Подарункова упаковка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Фіскальний чек<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
@@ -7249,6 +7258,11 @@
                 rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
 
                 var sklep_info = "<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
+
+                if (extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1) {
+                    sklep_info = "";
+                }
+
                 var deliver_ru = "отправка: ";
                 var deliver_uk = "відправка: ";
 
@@ -7414,6 +7428,11 @@
                 rate_info = "<div class='RateDiv' style='padding: 5px; text-align: left' v='" + dataRows[i].ID + "'>" + rate_info + "</div>";
            
                 var sklep_info = "<div class='sklep'>" + sklep[dataRows[i].ShopID] + "</div>";
+
+                if (extractHostname(window.location.origin).indexOf("monstro.com.ua") != -1) {
+                    sklep_info = "";
+                }
+
                 var deliver_ru = "отправка: ";
                 var deliver_uk = "відправка: ";
 
@@ -7575,16 +7594,16 @@
             $("#MenuDIV").animate({ scrollLeft: $('li span.new').position().left - window.innerWidth / 2 + 25 }, 500);
         }
         else if (currentEvent == "cart") {
-            if (senders.length > 1) {
-                $("#PayOrder").children().remove();
-                var drop = "відправлення";
+            //if (senders.length > 1) {
+            //    $("#PayOrder").children().remove();
+            //    var drop = "відправлення";
 
-                if (senders.length > 4)
-                    drop = "відправлень";
+            //    if (senders.length > 4)
+            //        drop = "відправлень";
              
-                $("#PayOrder").append("<tr><td style='background-color: #FFF; text-align: center; font: 12px/30px Arial;'>За вашим замовленням буде створено " + senders.length + " " + drop + "</td></tr>");
-                $("#PayOrder").show();
-            }
+            //    $("#PayOrder").append("<tr><td style='background-color: #FFF; text-align: center; font: 12px/30px Arial;'>За вашим замовленням буде створено " + senders.length + " " + drop + "</td></tr>");
+            //    $("#PayOrder").show();
+            //}
             $("#MenuDIV").animate({ scrollLeft: $('.mcart').position().left - window.innerWidth / 2 + 25 }, 500);
             var n = $(document).height();
             $('html, body').animate({ scrollTop: n }, 0);
@@ -7944,27 +7963,27 @@
     });
 
     $("#SubmitAlert").click(function () {
-        if ($("#AlertFormClose").attr("class") == "alertformclose") {
-            $("#AlertFormClose").attr("class", "loadingalert");
+        loadingShow();
+        $("#AlertFormClose").hide();
 
-            $.ajax({
-                async: true,
-                type: "POST",
-                url: "https://xpool.pro/web/webform.aspx/SaveAlert",
-                data: "{ \"uid\":" +uid_v + ", \"sid\":" + sid_v + ", \"status\":'" + $("#AlertSelect option:selected").attr("ru") + "', \"comment\":'" + $("#AlertInfo").val() + "', \"alert_date\":'" + $("#DateCount").html() + "', \"client_key\":'" + $("#KeyCode").val() + "' }",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: bindGetSubmitAlert
-            });
-        }
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "https://xpool.pro/web/webform.aspx/SaveAlert",
+            data: "{ \"uid\":" + uid_v + ", \"sid\":" + sid_v + ", \"status\":'" + $("#AlertSelect option:selected").attr("ru") + "', \"comment\":'" + $("#AlertInfo").val() + "', \"alert_date\":'" + $("#DateCount").html() + "', \"client_key\":'" + $("#KeyCode").val() + "' }",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: bindGetSubmitAlert
+        });
     });
 
     function bindGetSubmitAlert(data) {
         window.setTimeout(function () {
-            $("#AlertFormClose").attr("class", "alertformclose");
+            $("#AlertFormClose").show();
             $("#alertform").hide();
             $("#alertaccepted").center();
             $("#alertaccepted").show();
+            loadingHide();
         }, 1000);
     }
 
