@@ -1612,6 +1612,7 @@
                 <div class="phonetitle">ТЕЛЕФОН:</div>
                 <div class="phonedesc"></div>
             </div>
+            <div style="text-align: center; font: 14px/20px Arial; padding-top: 10px"><span id="AlertSpan" style="color: #c10000; cursor: pointer;">Поскаржитись на обслуговання</span></div>
         </div>
         <br />
     </div>
@@ -5267,15 +5268,6 @@
             }
 
            
-
-            if ($("#MBM1").attr("v15") == "0" || ($("#MoneyBoxLi").css("display") != "none" && $("#MBM1").attr("v15") == "1")) {
-                $(".Alert").show();
-            }
-            else {
-                $(".Alert").hide();
-            }
-
-           
             if ($("#MBM1").attr("v16") == "1") {
                 var items = $("body").find("[uk]");
 
@@ -6424,8 +6416,8 @@
                 }
                 else {
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Замовлення буде опрацьоване автоматично<br>дата відправки: роророро</td></tr>');
-                    $("#CabinetTable").append('<tr id="d_tr30" class="ItemContainer"><td class="cheque">Безкоштовна доставка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
-                    //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Контрольна перевірка товару на справність та відповідність<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr30" class="ItemContainer"><td class="cheque">Безкоштовна доставка: <span id="NoFreeDelivery">Ні</span> <span id="FreeDelivery">Так</span></td></tr>');
+                    $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Контрольна перевірка товару на справність та відповідність<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Подарункова упаковка<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     //$("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Фіскальний чек<br/><span class="NoSelectYN" uk="Так">Да</span> <span class="NoSelectYN" uk="Ні">Нет</span></td></tr>');
                     $("#CabinetTable").append('<tr id="d_tr9" class="ItemContainer"><td class="cheque" id="PhoneTD">Телефон:</td></tr>');
@@ -7943,7 +7935,9 @@
 
     var cur_date;
 
-    $(".AlertSpan").click(function () {
+    $("#AlertSpan").click(function () {
+        $("#about").hide();
+
         cur_date = new Date();
 
         var month = cur_date.getMonth() + 1;
