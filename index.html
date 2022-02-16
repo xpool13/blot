@@ -7716,10 +7716,15 @@
     }
 
     function bindCreateNewOrder(data) {
+
+        console.log("test1");
+
         $("#PayOrder").children().remove();
         $("#PayOrder").hide();
 
         var client_id = $("#MainBalance").attr("client_id");
+
+        console.log("test2");
 
         var date = new Date();
         var minutes = 60;
@@ -7728,6 +7733,8 @@
         date.setTime(date.getTime() + (days * hours * minutes * 60 * 1000));
 
         if (client_id == undefined || client_id == '') {
+
+            console.log("test3");
             if (data.d[1] != null) {
 
                 if (data.d[1].paramPhone == null) {
@@ -7766,6 +7773,8 @@
                 }
             }
         }
+
+        console.log("test4");
 
         $.cookie("c_cart", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
         $.cookie("c_comments", "", { expires: date, path: '/', domain: '.' + extractHostname(window.location.origin) });
