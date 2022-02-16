@@ -6771,29 +6771,29 @@
     });
 
     function bindGetLastOrderInfo(data) {
-       
-        if (data.d.City != null) {
-            $('#CurrentCityTextBox').val(data.d.City);
-            $('#CurrentCityTextBox').attr(data.d.CityRef);
-        }
+        if (data != null && data.d != null) {
+            if (data.d.City != null) {
+                $('#CurrentCityTextBox').val(data.d.City);
+                $('#CurrentCityTextBox').attr(data.d.CityRef);
+            }
 
-        if (data.d.Address != null && data.d.Address != '') {
-            $("#DeliveryTypeSelect").val("2");
-            $("#CabinetTable").find('[v="1"]').hide();
-            $("#CabinetTable").find('[v="2"]').show();
-            
-            $('#AddressTextBox').val(data.d.Address);
-            $('#AddressTextBox').attr(data.d.AddressRef);
-        }
-        else
-        {
-            $('#CurrentWarehouseTextBox').val(data.d.Warehouse);
-            $('#CurrentWarehouseTextBox').attr(data.d.WarehouseRef);
-        }
+            if (data.d.Address != null && data.d.Address != '') {
+                $("#DeliveryTypeSelect").val("2");
+                $("#CabinetTable").find('[v="1"]').hide();
+                $("#CabinetTable").find('[v="2"]').show();
 
-        $('#SecondNameTextBox').val(data.d.SecondName);
-        $('#PatronymicTextBox').val(data.d.Patronymic);
-        $('#NameTextBox').val(data.d.Name);
+                $('#AddressTextBox').val(data.d.Address);
+                $('#AddressTextBox').attr(data.d.AddressRef);
+            }
+            else {
+                $('#CurrentWarehouseTextBox').val(data.d.Warehouse);
+                $('#CurrentWarehouseTextBox').attr(data.d.WarehouseRef);
+            }
+
+            $('#SecondNameTextBox').val(data.d.SecondName);
+            $('#PatronymicTextBox').val(data.d.Patronymic);
+            $('#NameTextBox').val(data.d.Name);
+        }
     }
 
     var satl_finding = 0;
