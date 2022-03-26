@@ -4032,10 +4032,13 @@
         $(".rightscroll").show();
       
         $("#fullimage").show();
-        $("#fullimage").attr("src", GetFullImage($(this).children('img').first().attr("src")));
+        
         urls = selected.find('img').first().attr("res").split("||");
+        if (urls.length > 1 && urls[0].indexOf("pool") != -1) {
+            urls = urls.slice(1, -1);
+        }
 
-
+        $("#fullimage").attr("src", GetFullImage(urls[0]));
 
 
 
@@ -5785,7 +5788,10 @@
         var res;
 
         if (img != null && img != undefined && img != '' && img.split("||")[0].indexOf('/img/nophoto2.png') == -1) {
-            res = "https://xpool.pro/imagefeeder.ashx?s=" + source.split("||")[0] + "&c=1";
+            if (source.split("||")[0].indexOf("pool") == -1)
+                res = "https://xpool.pro/imagefeeder.ashx?s=" + source.split("||")[0] + "&c=1";
+            else
+                res = source.split("||")[0];
         }
         else {
             res = 'https://xpool.pro/web/source/' + $("#TargetStyleSheet").attr("st") + '/img/nophoto.png';
