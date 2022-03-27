@@ -4034,7 +4034,7 @@
         $("#fullimage").show();
         
         urls = selected.find('img').first().attr("res").split("||");
-        if (urls.length > 1 && urls[0].indexOf("pool") != -1) {
+        if (urls.length > 2 && urls[0].indexOf("pool") != -1) {
             urls = urls.slice(1, -1);
         }
 
@@ -6573,7 +6573,7 @@
     });
 
     $("#PayOrder").delegate("#PayOnline2", "click", function () {
-
+      
         loadingShow();
         $("#splash").show();
 
@@ -6602,7 +6602,7 @@
         });
 
         for (var i = 0; i < arr.length; i++) {
-            if (i == (arr.length - 1)) {
+            if (i < (arr.length - 1)) {
                 $.ajax({
                     async: false,
                     type: "POST",
@@ -6697,10 +6697,12 @@
 
     $("#PayOrder").delegate("#GoToCabinet2", "click", function () {
 
-        loadingShow();
+        window.setTimeout(function () {
+            loadingShow();
 
-        $("#splash").show();
-        $(window).scrollTop(0);
+            $("#splash").show();
+            $(window).scrollTop(0);
+        }, 100 };
 
         var client_id = $("#MainBalance").attr("client_id");
 
