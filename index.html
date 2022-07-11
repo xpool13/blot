@@ -1743,7 +1743,7 @@
         9170: "склад dendi",
 
         8071: "склад dreamtoys",
-        8539: "склад metr+",
+        8539: "склад kiddisvit",
         9178: "склад mix",
         9162: "склад multi",
         8555: "склад tilly"
@@ -3877,6 +3877,7 @@
                 $(".UrlArea[ind='" + p_next + "']").attr("sel", "1");
                 $(".UrlArea[ind='" + p_next + "']").css("background-color", "#FFFF00");
 
+
                 $("#fullimage").attr("src", GetFullImage($(".UrlArea[ind='" + p_next + "']").val()));
 
                 $(".imgcount").html(p_next + " / " + $(".imgcount").html().split(" / ")[1]);
@@ -4045,14 +4046,14 @@
         $(".UrlArea").removeAttr("sel");
         $(".UrlArea").css("background-color", "#FFF");
 
-        $("#TargetURL1").val(GetFullImage(urls[0]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[0]) : "");
+        $("#TargetURL1").val(urls[0].indexOf("nophoto2.png") == -1 ? urls[0] : "");
         $("#TargetURL1").css("background-color", "#FFFF00");
         $("#TargetURL1").attr("sel", "1");
 
         var imgcount = 1;
 
         if (urls.length > 1) {
-            $("#TargetURL2").val(GetFullImage(urls[1]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[1]) : "");
+            $("#TargetURL2").val(urls[1].indexOf("nophoto2.png") == -1 ? urls[1] : "");
 
             if ($("#TargetURL2").val().indexOf("nophoto") == -1 && $("#TargetURL2").val() != '') {
                 imgcount = 2;
@@ -4062,7 +4063,7 @@
             $("#TargetURL2").val("");
 
         if (urls.length > 2) {
-            $("#TargetURL3").val(GetFullImage(urls[2]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[2]) : "");
+            $("#TargetURL3").val(urls[2].indexOf("nophoto2.png") == -1 ? urls[2] : "");
 
             if ($("#TargetURL3").val().indexOf("nophoto") == -1 && $("#TargetURL3").val() != '') {
                 imgcount = 3;
@@ -4072,7 +4073,7 @@
             $("#TargetURL3").val("");
 
         if (urls.length > 3) {
-            $("#TargetURL4").val(GetFullImage(urls[3]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[3]) : "");
+            $("#TargetURL4").val(urls[3].indexOf("nophoto2.png") == -1 ? urls[3] : "");
 
             if ($("#TargetURL4").val().indexOf("nophoto") == -1 && $("#TargetURL4").val() != '') {
                 imgcount = 4;
@@ -4082,7 +4083,7 @@
             $("#TargetURL4").val("");
 
         if (urls.length > 4) {
-            $("#TargetURL5").val(GetFullImage(urls[4]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[4]) : "");
+            $("#TargetURL5").val(urls[4].indexOf("nophoto2.png") == -1 ? urls[4] : "");
 
             if ($("#TargetURL5").val().indexOf("nophoto") == -1 && $("#TargetURL5").val() != '') {
                 imgcount = 5;
@@ -4092,7 +4093,7 @@
             $("#TargetURL5").val("");
 
         if (urls.length > 5) {
-            $("#TargetURL6").val(GetFullImage(urls[5]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[5]) : "");
+            $("#TargetURL6").val(urls[5].indexOf("nophoto2.png") == -1 ? urls[5] : "");
 
             if ($("#TargetURL6").val().indexOf("nophoto") == -1 && $("#TargetURL6").val() != '') {
                 imgcount = 6;
@@ -4102,7 +4103,7 @@
             $("#TargetURL6").val("");
 
         if (urls.length > 6) {
-            $("#TargetURL7").val(GetFullImage(urls[6]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[6]) : "");
+            $("#TargetURL7").val(urls[6].indexOf("nophoto2.png") == -1 ? urls[6] : "");
 
             if ($("#TargetURL7").val().indexOf("nophoto") == -1 && $("#TargetURL7").val() != '') {
                 imgcount = 7;
@@ -4112,7 +4113,7 @@
             $("#TargetURL7").val("");
 
         if (urls.length > 7) {
-            $("#TargetURL8").val(GetFullImage(urls[7]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[7]) : "");
+            $("#TargetURL8").val(urls[7].indexOf("nophoto2.png") == -1 ? urls[7] : "");
 
             if ($("#TargetURL8").val().indexOf("nophoto") == -1 && $("#TargetURL8").val() != '') {
                 imgcount = 8;
@@ -4122,7 +4123,7 @@
             $("#TargetURL8").val("");
 
         if (urls.length > 8) {
-            $("#TargetURL9").val(GetFullImage(urls[8]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[8]) : "");
+            $("#TargetURL9").val(urls[8].indexOf("nophoto2.png") == -1 ? urls[8] : "");
 
             if ($("#TargetURL9").val().indexOf("nophoto") == -1 && $("#TargetURL9").val() != '') {
                 imgcount = 9;
@@ -4132,7 +4133,7 @@
             $("#TargetURL9").val("");
 
         if (urls.length > 9) {
-            $("#TargetURL10").val(GetFullImage(urls[9]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[9]) : "");
+            $("#TargetURL10").val(urls[9].indexOf("nophoto2.png") == -1 ? urls[9] : "");
 
             if ($("#TargetURL10").val().indexOf("nophoto") == -1 && $("#TargetURL10").val() != '') {
                 imgcount = 10;
@@ -4142,7 +4143,7 @@
             $("#TargetURL10").val("");
 
         if (urls.length > 10) {
-            $("#TargetURL11").val(GetFullImage(urls[10]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[10]) : "");
+            $("#TargetURL11").val(urls[10].indexOf("nophoto2.png") == -1 ? urls[10] : "");
 
             if ($("#TargetURL11").val().indexOf("nophoto") == -1 && $("#TargetURL11").val() != '') {
                 imgcount = 11;
@@ -4152,7 +4153,7 @@
             $("#TargetURL11").val("");
 
         if (urls.length > 11) {
-            $("#TargetURL12").val(GetFullImage(urls[11]).indexOf("nophoto2.png") == -1 ? GetFullImage(urls[11]) : "");
+            $("#TargetURL12").val(urls[11].indexOf("nophoto2.png") == -1 ? urls[11] : "");
 
             if ($("#TargetURL12").val().indexOf("nophoto") == -1 && $("#TargetURL12").val() != '') {
                 imgcount = 12;
@@ -4182,7 +4183,7 @@
         else
             $("#TimeSelect").val($("#TimeSelect option[v='0']").text());
 
-
+        
         $("#fullimg").css("width", ($(window).innerWidth()) + "px");
         $("#fullimg").css("height", ($(window).innerHeight()) + "px");
         $("#viewer span.desc").css("width", ($(window).innerWidth()) + "px");
@@ -4214,9 +4215,11 @@
                 res = "https://xpool.pro/web/source/" + $("#TargetStyleSheet").attr("st") + "/img/nophoto2.png";
             }
             else {
-
                 if (img.indexOf("imagefeeder.ashx") != -1)
                     res = img.split("?s=")[1].replace("&c=1", "");
+                else if (img.indexOf("http://") != -1) {
+                    res = "https://xpool.pro/imagefeeder.ashx?s=" + img;
+                }
                 else
                     res = img;
             }
